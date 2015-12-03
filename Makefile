@@ -1,9 +1,15 @@
-all:main.o
-	g++ $^
+TARGET=think
+
+all:${TARGET}
+
+${TARGET}:robject.o main.o 
+	g++ $^ -o $@
 
 main.o:main.cc
-	g++ -c $^
+	g++ -c $<
 	
+robject.o:robject.cc robject.h
+	g++ -c $<
 
 clean:
-	rm -rf *.o a.out
+	rm -rf *.o ${TARGET}
