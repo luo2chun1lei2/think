@@ -1,15 +1,18 @@
 TARGET=think
+CC=g++
+CFLAGS= --std=c++11
+LDFLAGS=
 
 all:${TARGET}
 
 ${TARGET}:robject.o main.o 
-	g++ $^ -o $@
+	${CC} ${LDFLAGS} $^ -o $@
 
 main.o:main.cc
-	g++ -c $<
+	${CC} ${CFLAGS} -c $<
 	
 robject.o:robject.cc robject.h
-	g++ -c $<
+	${CC} ${CFLAGS} -c $<
 
 clean:
 	rm -rf *.o ${TARGET}
