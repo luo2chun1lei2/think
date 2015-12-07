@@ -19,13 +19,10 @@ public:
 	virtual void on_notify(void *pdata) = 0;
 };
 
-/////////////////////////////
-
 /**
- * 最基本的对象类。
  * 当对象发生变化后，需要让另外的一个对象发生变化。
  */
-class RObject {
+class RSubject {
 
 private:
 
@@ -38,8 +35,8 @@ protected:
 	bool raise_changed(void * pdata);
 
 public:
-	RObject();
-	virtual ~RObject();
+	RSubject();
+	virtual ~RSubject();
 	
 	/**
 	 * 寻找监视器是否已经注册。
@@ -55,6 +52,20 @@ public:
 	 * 删除毁掉事件。
 	 */
 	bool unregister_observer(IObserver * observer);
+};
+
+/////////////////////////////
+
+/**
+ * 最基本的对象类。
+ * 当对象发生变化后，需要让另外的一个对象发生变化。
+ */
+class RObject {
+private:
+protected:
+public:
+	RObject();
+	virtual ~RObject();
 };
 
 /////////////////////////////

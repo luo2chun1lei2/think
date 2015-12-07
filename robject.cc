@@ -1,14 +1,14 @@
 #include "robject.h"
 
-RObject::RObject()
+RSubject::RSubject()
 {
 }
 
-RObject::~RObject()
+RSubject::~RSubject()
 {
 }
 
-bool RObject::find_observer(IObserver * observer)
+bool RSubject::find_observer(IObserver * observer)
 {
 	list<IObserver *>::iterator iter;
 	for(iter = observers.begin(); iter != observers.end(); iter ++) {
@@ -19,7 +19,7 @@ bool RObject::find_observer(IObserver * observer)
 	return false;
 }
 
-bool RObject::register_observer(IObserver * observer)
+bool RSubject::register_observer(IObserver * observer)
 {
 	if( find_observer(observer) ) {
 		// 已经添加，就不再需要加入。
@@ -31,7 +31,7 @@ bool RObject::register_observer(IObserver * observer)
 	return true;
 }
 
-bool RObject::unregister_observer(IObserver * observer)
+bool RSubject::unregister_observer(IObserver * observer)
 {
 	if( ! find_observer(observer) ) {
 		// 没有加入，就不用删除。
@@ -46,7 +46,7 @@ bool RObject::unregister_observer(IObserver * observer)
 	return true;
 }
 
-bool RObject::raise_changed(void * pdata)
+bool RSubject::raise_changed(void * pdata)
 {
 	list<IObserver *>::iterator iter;
 	for(iter = observers.begin(); iter != observers.end(); iter ++) {
@@ -55,3 +55,12 @@ bool RObject::raise_changed(void * pdata)
 	return true;
 }
 
+////////////////////////////////////////
+
+RObject::RObject()
+{
+}
+
+RObject::~RObject()
+{
+}
