@@ -6,8 +6,60 @@
 
 using namespace std;
 
+class ObjNum: public RObject 
+{
+private:
+protected:
+	int value;
+public:
+	ObjNum() {value = 0;}
+	
+	void set_value(int v) {
+		value = v;
+	}
+	
+	int get_value() {
+		return value;
+	}
+};
 
-//-----------------------------
+class RelEqual: public RRelation
+{
+private:
+protected:
+	// obj1 = obj2
+	RObject & obj1;
+	const RObject & obj2;
+public:
+	RelEqual(RObject & o1, const RObject & o2): obj1(o1), obj2(o2) {
+	}
+};
+
+class RelAdd: public RRelation
+{
+private:
+protected:
+	ObjNum & num1;
+	ObjNum & num2;
+public:
+	RelAdd(ObjNum & n1, ObjNum & n2): num1(n1), num2(n2) {
+	}
+};
+
+int main(int argc, char * argv[]) {
+	// 首先实现基本的公式测试。
+	// c <= a + b
+	ObjNum a, b, c;
+	RelEqual(c, RelAdd(a, b)); // c是a与b的和。
+	
+	a.set_value(1);
+	b.set_value(2);
+	printf("result = %d\n", c.get_value());
+	return 0;
+}
+
+///////////////////////////////////////////////////////////
+
 class Student: public RObject {
 private:
 protected:
@@ -31,11 +83,10 @@ public:
 		pStudent = s;
 	}
 	
-	virtual ~Teach() {
-	}
+	virtual ~Teach() {}
 };
 
-int main(int argc, char * argv[]) {
+int main1(int argc, char * argv[]) {
 	RGlobal global;
 
 	// 建立对象
@@ -50,8 +101,10 @@ int main(int argc, char * argv[]) {
 	global.add(teach1);
 	
 	// 找到所有的对象
+	global.info_objects();
 	
 	// 找到所有的关系
+	global.info_relations();
 	
 	// 可以根据其中一个对象和关系，找到相关的对象。
 	// -可以根据老师找到教导的学生。

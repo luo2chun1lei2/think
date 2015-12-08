@@ -2,7 +2,6 @@
 #define __SUBJECT_OBSERVER_H__
 
 #include <list>
-#include <string>
 
 using namespace std;
 
@@ -16,7 +15,6 @@ private:
 protected:
 public:
 	// 子类必须实现。
-	// TODO:可能会监视很多的对象，用这一个方法是无法区分的。
 	virtual void on_notify(void *pdata) = 0;
 };
 

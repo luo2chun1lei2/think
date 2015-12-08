@@ -43,10 +43,19 @@ public:
 };
 
 /////////////////////////////
-class RRelation {
+/**
+ * 关系也算是一个对象，所以在关系上也可以加入关系。
+ * 建立对象上的关系，在对象上就是加入了一个属性，
+ * 而关系则是独立的。
+ */
+class RRelation : public RObject
+{
 private:
 protected:
 public:
+	// TODO 初始化需要加入几个对象？无法确定吗？在子类完成？
+	// 一元关系存在吗？
+	// 一定是二元关系吗？其他多元关系都用二元关系组成？
 	RRelation() {}
 	virtual ~RRelation() {}
 };
@@ -76,6 +85,14 @@ public:
 	
 	virtual void del(RRelation * rel) {
 		relations.remove(rel);
+	}
+	
+	virtual void info_objects() {
+		// 打印所有的对象的信息。
+	}
+	
+	virtual void info_relations() {
+		// 打印所有的关系的信息。
 	}
 	
 	virtual ~RGlobal() {}
