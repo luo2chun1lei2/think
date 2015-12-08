@@ -4,58 +4,9 @@
 #include <list>
 #include <string>
 
+#include "subject_observer.h"
+
 using namespace std;
-
-/////////////////////////////
-
-/**
- * 接口：当发生变化后，通知实现这个接口的对象。
- */
-class IObserver {
-private:
-protected:
-public:
-	// 子类必须实现。
-	// TODO:可能会监视很多的对象，用这一个方法是无法区分的。
-	virtual void on_notify(void *pdata) = 0;
-};
-
-/**
- * 当对象发生变化后，需要让另外的一个对象发生变化。
- */
-class RSubject {
-
-private:
-
-protected:
-	list<IObserver *> observers;
-	
-	/**
-	 * 当发生了变化后，可以调用这个函数，通知所有的监视者。
-	 */
-	bool raise_changed(void * pdata);
-
-public:
-	RSubject();
-	virtual ~RSubject();
-	
-	/**
-	 * 寻找监视器是否已经注册。
-	 */
-	bool find_observer(IObserver * observer);
-	
-	/**
-	 * 注册回调事件，当发生了变化后，就调用。
-	 */
-	bool register_observer(IObserver * observer);
-	
-	/**
-	 * 删除毁掉事件。
-	 */
-	bool unregister_observer(IObserver * observer);
-};
-
-/////////////////////////////
 
 /**
  * 每个对象具有的属性。

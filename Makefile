@@ -1,18 +1,10 @@
-TARGET=think
-CC=g++
-CFLAGS= --std=c++11
-LDFLAGS=
+.PHONY: all clean
 
-all:${TARGET}
-
-${TARGET}:robject.o main.o 
-	${CC} ${LDFLAGS} $^ -o $@
-
-main.o:main.cc
-	${CC} ${CFLAGS} -c $<
-	
-robject.o:robject.cc robject.h
-	${CC} ${CFLAGS} -c $<
+all:
+	make -C src
 
 clean:
-	rm -rf *.o ${TARGET}
+	make clean -C src
+
+run:
+	make run -C src
