@@ -1,16 +1,19 @@
 #ifndef __SUBJECT_OBSERVER_H__
 #define __SUBJECT_OBSERVER_H__
 
+/**
+ * 实现了提交者-观察者模式。
+ * 和目前的其他实现都是独立的，可以用在其他地方。
+ */
+
 #include <list>
 
 using namespace std;
 
-/////////////////////////////
-
 /**
  * 接口：当发生变化后，通知实现这个接口的对象。
  */
-class IObserver {
+class RObserver {
 private:
 protected:
 public:
@@ -26,7 +29,7 @@ class RSubject {
 private:
 
 protected:
-	list<IObserver *> observers;
+	list<RObserver *> observers;
 	
 	/**
 	 * 当发生了变化后，可以调用这个函数，通知所有的监视者。
@@ -40,17 +43,17 @@ public:
 	/**
 	 * 寻找监视器是否已经注册。
 	 */
-	bool find_observer(IObserver * observer);
+	bool find_observer(RObserver * observer);
 	
 	/**
 	 * 注册回调事件，当发生了变化后，就调用。
 	 */
-	bool register_observer(IObserver * observer);
+	bool register_observer(RObserver * observer);
 	
 	/**
 	 * 删除毁掉事件。
 	 */
-	bool unregister_observer(IObserver * observer);
+	bool unregister_observer(RObserver * observer);
 };
 
 #endif // __SUBJECT_OBSERVER_H__

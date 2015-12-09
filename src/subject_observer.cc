@@ -8,9 +8,9 @@ RSubject::~RSubject()
 {
 }
 
-bool RSubject::find_observer(IObserver * observer)
+bool RSubject::find_observer(RObserver * observer)
 {
-	list<IObserver *>::iterator iter;
+	list<RObserver *>::iterator iter;
 	for(iter = observers.begin(); iter != observers.end(); iter ++) {
 		if( *iter == observer) {
 			return true;
@@ -19,7 +19,7 @@ bool RSubject::find_observer(IObserver * observer)
 	return false;
 }
 
-bool RSubject::register_observer(IObserver * observer)
+bool RSubject::register_observer(RObserver * observer)
 {
 	if( find_observer(observer) ) {
 		// 已经添加，就不再需要加入。
@@ -31,7 +31,7 @@ bool RSubject::register_observer(IObserver * observer)
 	return true;
 }
 
-bool RSubject::unregister_observer(IObserver * observer)
+bool RSubject::unregister_observer(RObserver * observer)
 {
 	if( ! find_observer(observer) ) {
 		// 没有加入，就不用删除。
@@ -39,7 +39,7 @@ bool RSubject::unregister_observer(IObserver * observer)
 	}
 	
 	observers.remove_if(
-		[observer](IObserver * & o) -> bool
+		[observer](RObserver * & o) -> bool
 			{return o == observer;}
 	);
 	
@@ -48,7 +48,7 @@ bool RSubject::unregister_observer(IObserver * observer)
 
 bool RSubject::raise_changed(void * pdata)
 {
-	list<IObserver *>::iterator iter;
+	list<RObserver *>::iterator iter;
 	for(iter = observers.begin(); iter != observers.end(); iter ++) {
 		(*iter)->on_notify(pdata);
 	}

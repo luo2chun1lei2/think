@@ -1,5 +1,9 @@
-#ifndef __CONTAINER_H__
-#define __CONTAINER_H__
+#ifndef __ROBJECT_H__
+#define __ROBJECT_H__
+
+/**
+ * 建立基本模型。
+ */
 
 #include <list>
 #include <string>
@@ -98,5 +102,4 @@ public:
 	virtual ~RGlobal() {}
 };
 
-#endif //__CONTAINER_H__
-
+#endif //__ROBJECT_H__
