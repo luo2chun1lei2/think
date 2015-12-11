@@ -6,13 +6,18 @@
 
 using namespace std;
 
-class ObjNum: public RObject 
+/**
+ * 数字类型，是基本的类型。
+ * 只有想扩展到任意数字：从算法上，需要区分整数和浮点数。
+ * 还需要支持大数计算。
+ */
+class RInteger: public RObject
 {
 private:
 protected:
 	int value;
 public:
-	ObjNum() {value = 0;}
+	RInteger() {value = 0;}
 	
 	void set_value(int v) {
 		value = v;
@@ -39,17 +44,17 @@ class RelAdd: public RRelation
 {
 private:
 protected:
-	ObjNum & num1;
-	ObjNum & num2;
+	RInteger & num1;
+	RInteger & num2;
 public:
-	RelAdd(ObjNum & n1, ObjNum & n2): num1(n1), num2(n2) {
+	RelAdd(RInteger & n1, RInteger & n2): num1(n1), num2(n2) {
 	}
 };
 
 int main(int argc, char * argv[]) {
 	// 首先实现基本的公式测试。
 	// c <= a + b
-	ObjNum a, b, c;
+	RInteger a, b, c;
 	RelEqual(c, RelAdd(a, b)); // c是a与b的和。
 	
 	a.set_value(1);
@@ -59,6 +64,8 @@ int main(int argc, char * argv[]) {
 }
 
 ///////////////////////////////////////////////////////////
+
+#if 0
 
 class Student: public RObject {
 private:
@@ -118,3 +125,4 @@ int main1(int argc, char * argv[]) {
 	return 0;
 }
 
+#endif
