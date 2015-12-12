@@ -1,7 +1,7 @@
 TARGET=think
 CC=g++
-CFLAGS= --std=c++11
-LDFLAGS=
+CFLAGS= --std=c++11 -g
+LDFLAGS= -g
 
 all:${TARGET}
 

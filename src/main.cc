@@ -6,24 +6,30 @@
 
 using namespace std;
 
-/**
- * 数字类型，是基本的类型。
- * 只有想扩展到任意数字：从算法上，需要区分整数和浮点数。
- * 还需要支持大数计算。
- */
-class RInteger: public RObject
+class RStub : public RObject
 {
 private:
 protected:
-	int value;
 public:
-	RInteger() {value = 0;}
+};
+
+class RFloat : public RObject
+{
+private:
+protected:
+	float value;
+public:
+	RFloat() {value = 0;}
 	
-	void set_value(int v) {
+	// TODO 应该尽量将设定变成通用的方法，而不是针对特定类型的。
+	void set_value(float v) {
 		value = v;
+		
+		// send changed signal.
+		raise_changed( &value );
 	}
 	
-	int get_value() {
+	float get_value() {
 		return value;
 	}
 };
@@ -32,34 +38,64 @@ class RelEqual: public RRelation
 {
 private:
 protected:
-	// obj1 = obj2
-	RObject & obj1;
-	const RObject & obj2;
+	RObject* pvalue;
 public:
-	RelEqual(RObject & o1, const RObject & o2): obj1(o1), obj2(o2) {
+	RelEqual(RObject* po) {
+		pvalue = po;
+		
+		pvalue.register_observer(this);
 	}
 };
 
-class RelAdd: public RRelation
+class RelMul: public RRelation
 {
 private:
 protected:
-	RInteger & num1;
-	RInteger & num2;
+	RObject* pvalue1;
+	RObject* pvalue2;
 public:
-	RelAdd(RInteger & n1, RInteger & n2): num1(n1), num2(n2) {
+	RelMul(RObject* po1, RObject* po2) {
+		pvalue1 = po1;
+		pvalue2 = po2;
+		
+		pvalue1.register_observer(this);
+		pvalue2.register_observer(this);
 	}
 };
 
+/*
+class RelPower: public RRelation
+{
+private:
+protected:
+	RObject * pvalue1;
+	RObject * pvalue2;
+public:
+	RelPower(RObject* po1, RObject* po2): pvalue1(po1), pvalue2(po2) {
+	}
+};
+*/
+
 int main(int argc, char * argv[]) {
 	// 首先实现基本的公式测试。
-	// c <= a + b
-	RInteger a, b, c;
-	RelEqual(c, RelAdd(a, b)); // c是a与b的和。
+	// E = mc^2;
+	RFloat e, m, c;
+	RStub v1, v2;
 	
-	a.set_value(1);
-	b.set_value(2);
-	printf("result = %d\n", c.get_value());
+	RelMul * power = new RelMul(&c, &c); // v1 = c * c
+	power->set_outer(&v1);
+	
+	
+	RelMul * mul = new RelMul(&m, &v1); // v2 = m * v1
+	mul->set_outer(&v2);
+	
+	RelEqual * equal = new RelEqual(&v2); // e = v2
+	equal->set_outer(&e);
+	
+	c.set_value(2);
+	m.set_value(3);
+	
+	printf("result = %f\n", e.get_value());
 	return 0;
 }
 

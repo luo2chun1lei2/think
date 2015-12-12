@@ -12,8 +12,13 @@
 
 using namespace std;
 
+/*
 class RObject : public RSubject {
+private:
+protected:
+public:
 };
+*/
 
 /**
  * 每个对象具有的属性。
@@ -40,14 +45,14 @@ class RObject : public RSubject
 private:
 protected:
 	// 每个对象的属性列表。
-	list<RProperty *> properties;
+	//list<RProperty *> properties;
 	
 public:
 	RObject();
 	virtual ~RObject();
 	
-	virtual bool find_property(const string name);
-	virtual bool add_property(RProperty * pproperty);
+	//virtual bool find_property(const string name);
+	//virtual bool add_property(RProperty * pproperty);
 };
 
 /////////////////////////////
@@ -60,16 +65,22 @@ class RRelation : public RObject
 {
 private:
 protected:
+	RObject * poutput;
+
 public:
 	// TODO 初始化需要加入几个对象？无法确定吗？在子类完成？
 	// 一元关系存在吗？
 	// 一定是二元关系吗？其他多元关系都用二元关系组成？
 	RRelation() {}
 	virtual ~RRelation() {}
+	
+	virtual void set_outer(RObject * outer) {
+		this->poutput = outer;
+	}
 };
 
 /////////////////////////////
-
+/*
 class RGlobal {
 private:
 protected:
@@ -105,5 +116,5 @@ public:
 	
 	virtual ~RGlobal() {}
 };
-
+*/
 #endif //__ROBJECT_H__

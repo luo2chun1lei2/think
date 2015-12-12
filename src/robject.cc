@@ -8,6 +8,7 @@ RObject::~RObject()
 {
 }
 
+/*
 bool RObject::find_property(const string name)
 {
 	return false;
@@ -24,3 +25,4 @@ bool RObject::add_property(RProperty * pproperty)
 	
 	return true;
 }
+*/
