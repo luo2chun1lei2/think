@@ -12,6 +12,9 @@
 
 using namespace std;
 
+class RObject : public RSubject {
+};
+
 /**
  * 每个对象具有的属性。
  * 当属性发生了改变后，就发出通知。
@@ -32,7 +35,8 @@ public:
  * 最基本的对象类。
  * 当对象发生变化后，需要让另外的一个对象发生变化。
  */
-class RObject {
+class RObject : public RSubject
+{
 private:
 protected:
 	// 每个对象的属性列表。
