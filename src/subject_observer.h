@@ -11,7 +11,8 @@
 using namespace std;
 
 /**
- * 接口：当发生变化后，通知实现这个接口的对象。
+ * [接口]监视者
+ * 监视其他对象发生变化的对象。
  */
 class RObserver {
 private:
@@ -22,13 +23,17 @@ public:
 };
 
 /**
- * 当对象发生变化后，需要让另外的一个对象发生变化。
+ * 被监视的对象。
+ * 当发生了变化后，通知监视它的所有对象。
  */
 class RSubject {
 
 private:
 
 protected:
+	/**
+	 * 监视这个对象的所有监视者。
+	 */
 	list<RObserver *> observers;
 	
 	/**
@@ -51,7 +56,7 @@ public:
 	bool register_observer(RObserver * observer);
 	
 	/**
-	 * 删除毁掉事件。
+	 * 删除监视函数。
 	 */
 	bool unregister_observer(RObserver * observer);
 };

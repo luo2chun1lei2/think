@@ -43,8 +43,9 @@ public:
 	RelEqual(RObject* po) {
 		pvalue = po;
 		
-		pvalue.register_observer(this);
+		pvalue->register_observer(this);
 	}
+
 };
 
 class RelMul: public RRelation
@@ -58,8 +59,8 @@ public:
 		pvalue1 = po1;
 		pvalue2 = po2;
 		
-		pvalue1.register_observer(this);
-		pvalue2.register_observer(this);
+		pvalue1->register_observer(this);
+		pvalue2->register_observer(this);
 	}
 };
 

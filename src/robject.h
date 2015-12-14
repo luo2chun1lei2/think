@@ -2,7 +2,7 @@
 #define __ROBJECT_H__
 
 /**
- * 建立基本模型。
+ * Relation的基本模型。
  */
 
 #include <list>
@@ -61,7 +61,7 @@ public:
  * 建立对象上的关系，在对象上就是加入了一个属性，
  * 而关系则是独立的。
  */
-class RRelation : public RObject
+class RRelation : public RObject, public RObserver
 {
 private:
 protected:
@@ -76,6 +76,10 @@ public:
 	
 	virtual void set_outer(RObject * outer) {
 		this->poutput = outer;
+	}
+	
+	virtual void on_notify(void *pdata) {
+		//TODO: 怎么处理？数据在不同对象之间如何传递？
 	}
 };
 
