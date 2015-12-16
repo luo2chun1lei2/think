@@ -8,6 +8,8 @@
 #include <list>
 #include <string>
 
+#include <cstdio>
+
 #include "subject_observer.h"
 
 using namespace std;
@@ -20,6 +22,7 @@ public:
 };
 */
 
+#if 0
 /**
  * 每个对象具有的属性。
  * 当属性发生了改变后，就发出通知。
@@ -35,6 +38,7 @@ public:
 	
 	string get_name() { return name; }
 };
+#endif
 
 /**
  * 最基本的对象类。
@@ -50,6 +54,10 @@ protected:
 public:
 	RObject();
 	virtual ~RObject();
+	
+	virtual void set_value(float v) {}
+	
+	virtual float get_value() { return 0; }
 	
 	//virtual bool find_property(const string name);
 	//virtual bool add_property(RProperty * pproperty);
@@ -80,6 +88,7 @@ public:
 	
 	virtual void on_notify(void *pdata) {
 		//TODO: 怎么处理？数据在不同对象之间如何传递？
+		printf("get message.\n");
 	}
 };
 

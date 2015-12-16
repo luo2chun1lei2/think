@@ -10,7 +10,17 @@ class RStub : public RObject
 {
 private:
 protected:
+	float value;
 public:
+	virtual void set_value(float v) {
+		value = v;
+		
+		raise_changed( &value );
+	}
+	
+	virtual float get_value() { 
+		return value;
+	}
 };
 
 class RFloat : public RObject
@@ -22,14 +32,14 @@ public:
 	RFloat() {value = 0;}
 	
 	// TODO 应该尽量将设定变成通用的方法，而不是针对特定类型的。
-	void set_value(float v) {
+	virtual void set_value(float v) {
 		value = v;
 		
 		// send changed signal.
 		raise_changed( &value );
 	}
 	
-	float get_value() {
+	virtual float get_value() {
 		return value;
 	}
 };
@@ -45,7 +55,10 @@ public:
 		
 		pvalue->register_observer(this);
 	}
-
+	
+	virtual void on_notify(void *pdata) {
+		poutput->set_value( *(float *)pdata);
+	}
 };
 
 class RelMul: public RRelation
@@ -61,6 +74,13 @@ public:
 		
 		pvalue1->register_observer(this);
 		pvalue2->register_observer(this);
+	}
+	
+	virtual void on_notify(void *pdata) {
+		// TODO 谁的数据被修改了？
+		float v = pvalue1->get_value() * pvalue2->get_value();
+		
+		poutput->set_value( v );
 	}
 };
 

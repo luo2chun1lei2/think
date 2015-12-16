@@ -1,3 +1,5 @@
+#include <cstdio>
+
 #include "subject_observer.h"
 
 RSubject::RSubject()
@@ -26,6 +28,7 @@ bool RSubject::register_observer(RObserver * observer)
 		return true;
 	}
 	
+	printf("register message.\n");
 	observers.push_back(observer);
 	
 	return true;
@@ -50,6 +53,7 @@ bool RSubject::raise_changed(void * pdata)
 {
 	list<RObserver *>::iterator iter;
 	for(iter = observers.begin(); iter != observers.end(); iter ++) {
+		printf("send message.\n");
 		(*iter)->on_notify(pdata);
 	}
 	return true;
