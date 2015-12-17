@@ -2,6 +2,8 @@
 
 #include "subject_observer.h"
 
+/////////////////////////////////////////////////
+
 RSubject::RSubject()
 {
 }
@@ -49,12 +51,12 @@ bool RSubject::unregister_observer(RObserver * observer)
 	return true;
 }
 
-bool RSubject::raise_changed(void * pdata)
+bool RSubject::raise_changed()
 {
 	list<RObserver *>::iterator iter;
 	for(iter = observers.begin(); iter != observers.end(); iter ++) {
 		printf("send message.\n");
-		(*iter)->on_notify(pdata);
+		(*iter)->on_notify(this);
 	}
 	return true;
 }

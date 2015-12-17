@@ -41,23 +41,99 @@ public:
 #endif
 
 /**
- * 最基本的对象类。
- * 当对象发生变化后，需要让另外的一个对象发生变化。
+ * 最基本的数据对象。
+ * TODO 都用字符串？还是采用万能数据类型？或者相互之间可以转换？
  */
-class RObject : public RSubject
+class RData
+{
+private:
+protected:
+	int iv;
+	float fv;
+	string sv;
+	
+public:
+	enum Type {
+		Integer = 0,
+		Float = 1,
+		String = 2,
+		//TODO 只有这些类型吗？
+	};
+	
+protected:
+	Type type;
+	
+public:
+	
+	RData(int v) {
+		type = Integer;
+		iv = v;
+	}
+	
+	RData(float v) {
+		type = Float;
+		fv = v;
+	}
+	
+	RData(string v) {
+		type = String;
+		sv = v;
+	}
+	
+	virtual ~RData() {
+		// 释放什么？
+	}
+	
+	Type get_type() {
+		return type;
+	}
+	
+	string get_string() {
+		return sv;
+	}
+	
+	int get_int() {
+		return iv;
+	}
+	
+	float get_float() {
+		return fv;
+	}
+	
+	void set_float(float v) {
+		type = Float;
+		fv = v;
+	}
+};
+
+/**
+ * 最基本的对象类。
+ */
+class RObject : public RSubject, public RObserver
 {
 private:
 protected:
 	// 每个对象的属性列表。
 	//list<RProperty *> properties;
 	
+	RData * pdata;
+	
 public:
 	RObject();
 	virtual ~RObject();
 	
-	virtual void set_value(float v) {}
+	virtual void set_value(RData * pdata) {
+		this->pdata = pdata;
+		raise_changed();
+	}
 	
-	virtual float get_value() { return 0; }
+	virtual RData * get_value() { 
+		return pdata; 
+	}
+	
+	virtual void on_notify(RSubject * subject) {
+		printf("get message.\n");
+	}
 	
 	//virtual bool find_property(const string name);
 	//virtual bool add_property(RProperty * pproperty);
@@ -69,7 +145,7 @@ public:
  * 建立对象上的关系，在对象上就是加入了一个属性，
  * 而关系则是独立的。
  */
-class RRelation : public RObject, public RObserver
+class RRelation : public RObject
 {
 private:
 protected:
@@ -84,11 +160,6 @@ public:
 	
 	virtual void set_outer(RObject * outer) {
 		this->poutput = outer;
-	}
-	
-	virtual void on_notify(void *pdata) {
-		//TODO: 怎么处理？数据在不同对象之间如何传递？
-		printf("get message.\n");
 	}
 };
 

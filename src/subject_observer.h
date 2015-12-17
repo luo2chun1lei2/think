@@ -10,6 +10,8 @@
 
 using namespace std;
 
+class RSubject;
+
 /**
  * [接口]监视者
  * 监视其他对象发生变化的对象。
@@ -18,9 +20,23 @@ class RObserver {
 private:
 protected:
 public:
-	// 子类必须实现。
-	virtual void on_notify(void *pdata) = 0;
+	RObserver() {}
+	
+	/**
+	 * TODO
+	 * 在此方法中，需要将自己从Subject中反注册，不过这些Subject都有哪些，
+	 * 根据每个实现的不同而不同，无法用一个通用的集合管理。
+	 */
+	virtual ~RObserver() {}
+
+	/**
+	 * [子类实现]
+	 * 当观察的对象发生变化后，这个方法就会被调用，然后此对象对此做出对应的处理。
+	 */
+	virtual void on_notify(RSubject * subject) = 0;
 };
+
+/////////////////////////////////////////////////
 
 /**
  * 被监视的对象。
@@ -39,10 +55,17 @@ protected:
 	/**
 	 * 当发生了变化后，可以调用这个函数，通知所有的监视者。
 	 */
-	bool raise_changed(void * pdata);
+	bool raise_changed();
 
 public:
+	/**
+	 * 构造方法。
+	 */
 	RSubject();
+	
+	/**
+	 *
+	 */
 	virtual ~RSubject();
 	
 	/**

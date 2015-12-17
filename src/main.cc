@@ -10,8 +10,9 @@ class RStub : public RObject
 {
 private:
 protected:
-	float value;
+	//float value;
 public:
+/*
 	virtual void set_value(float v) {
 		value = v;
 		
@@ -20,29 +21,16 @@ public:
 	
 	virtual float get_value() { 
 		return value;
-	}
+	} */
 };
 
 class RFloat : public RObject
 {
 private:
 protected:
-	float value;
 public:
-	RFloat() {value = 0;}
-	
-	// TODO 应该尽量将设定变成通用的方法，而不是针对特定类型的。
-	virtual void set_value(float v) {
-		value = v;
-		
-		// send changed signal.
-		raise_changed( &value );
-	}
-	
-	virtual float get_value() {
-		return value;
-	}
 };
+
 
 class RelEqual: public RRelation
 {
@@ -56,8 +44,9 @@ public:
 		pvalue->register_observer(this);
 	}
 	
-	virtual void on_notify(void *pdata) {
-		poutput->set_value( *(float *)pdata);
+	virtual void on_notify(RSubject * subject) {
+		RObject * po = (RObject *)subject;
+		poutput->set_value( po->get_value() );
 	}
 };
 
@@ -78,9 +67,9 @@ public:
 	
 	virtual void on_notify(void *pdata) {
 		// TODO 谁的数据被修改了？
-		float v = pvalue1->get_value() * pvalue2->get_value();
+		float v = pvalue1->get_value()->get_float() * pvalue2->get_value()->get_float();
 		
-		poutput->set_value( v );
+		poutput->get_value()->set_float(v);
 	}
 };
 
