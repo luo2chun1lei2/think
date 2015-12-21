@@ -6,31 +6,51 @@
 
 using namespace std;
 
+/**
+ * 桩对象。
+ * 模仿临时的、不存在的对象。
+ */
 class RStub : public RObject
 {
 private:
 protected:
-	//float value;
 public:
-/*
-	virtual void set_value(float v) {
-		value = v;
-		
-		raise_changed( &value );
+	virtual void set_value(RData * pdata) {
+		printf("RStub set_value\n");
+		RObject::set_value(pdata);
 	}
 	
-	virtual float get_value() { 
-		return value;
-	} */
+	virtual RData * get_value() {
+		printf("RStub get_value\n");
+		return RObject::get_value();
+	}
 };
 
+/**
+ * 浮点数数据。
+ * TODO 以后可以制作成通用的数据类型。
+ */
 class RFloat : public RObject
 {
 private:
 protected:
 public:
-};
+	RFloat() {
+		RData * pd = new RData(0);
+		set_value(pd);
+	}
 
+	RFloat(float f) {
+		RData * pd = new RData(f);
+		set_value(pd);
+	}
+	
+	virtual ~RFloat() {
+		//RData * pd = get_value();
+		//delete(pd);
+		printf("~RFloat %p\n", this);
+	}
+};
 
 class RelEqual: public RRelation
 {
@@ -46,7 +66,9 @@ public:
 	
 	virtual void on_notify(RSubject * subject) {
 		RObject * po = (RObject *)subject;
-		poutput->set_value( po->get_value() );
+		poutput->set_value( new RData( po->get_value()->get_float() ) );
+		
+		printf("equal's output is %f\n", poutput->get_value()->get_float());
 	}
 };
 
@@ -65,11 +87,25 @@ public:
 		pvalue2->register_observer(this);
 	}
 	
-	virtual void on_notify(void *pdata) {
-		// TODO 谁的数据被修改了？
-		float v = pvalue1->get_value()->get_float() * pvalue2->get_value()->get_float();
+	virtual void on_notify(RSubject * subject) {
+		if( !poutput ) {
+			printf("Observer is NOT existed.\n");
+			return;
+		}
+	
+		// 需要判断是哪个subject发生了变化。
+		float v;
+		if(subject == pvalue1) {
+			v = pvalue1->get_value()->get_float() * pvalue2->get_value()->get_float();
+		} else if(subject == pvalue2) {
+			v = pvalue1->get_value()->get_float() * pvalue2->get_value()->get_float();
+		} else {
+			printf("Changed subject is NOT observered by me.\n");
+			return;
+		}
 		
-		poutput->get_value()->set_float(v);
+		printf("multiple result is %f * %f => %f\n", pvalue1->get_value()->get_float(), pvalue2->get_value()->get_float(), v);
+		poutput->set_value( new RData(v) );
 	}
 };
 
@@ -90,22 +126,28 @@ int main(int argc, char * argv[]) {
 	// 首先实现基本的公式测试。
 	// E = mc^2;
 	RFloat e, m, c;
-	RStub v1, v2;
 	
+	RStub v1, v2;
+
+	RData data1(2.0f), data2(3.0f);
+
 	RelMul * power = new RelMul(&c, &c); // v1 = c * c
 	power->set_outer(&v1);
-	
-	
+
 	RelMul * mul = new RelMul(&m, &v1); // v2 = m * v1
 	mul->set_outer(&v2);
-	
+
 	RelEqual * equal = new RelEqual(&v2); // e = v2
 	equal->set_outer(&e);
+
+	c.set_value(&data1);	// 临时对象放入，恐怕无法保留
+	printf("c is %f\n", c.get_value()->get_float());
 	
-	c.set_value(2);
-	m.set_value(3);
+	m.set_value(&data2);
+	printf("m is %f\n", m.get_value()->get_float());
 	
-	printf("result = %f\n", e.get_value());
+	printf("e is %f\n", e.get_value()->get_float());
+	
 	return 0;
 }
 

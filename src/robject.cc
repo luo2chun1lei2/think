@@ -6,6 +6,7 @@ RObject::RObject()
 
 RObject::~RObject()
 {
+	printf("~RObject %p\n", this);
 }
 
 /*

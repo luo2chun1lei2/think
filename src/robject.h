@@ -11,6 +11,7 @@
 #include <cstdio>
 
 #include "subject_observer.h"
+#include "rdata.h"
 
 using namespace std;
 
@@ -41,73 +42,8 @@ public:
 #endif
 
 /**
- * 最基本的数据对象。
- * TODO 都用字符串？还是采用万能数据类型？或者相互之间可以转换？
- */
-class RData
-{
-private:
-protected:
-	int iv;
-	float fv;
-	string sv;
-	
-public:
-	enum Type {
-		Integer = 0,
-		Float = 1,
-		String = 2,
-		//TODO 只有这些类型吗？
-	};
-	
-protected:
-	Type type;
-	
-public:
-	
-	RData(int v) {
-		type = Integer;
-		iv = v;
-	}
-	
-	RData(float v) {
-		type = Float;
-		fv = v;
-	}
-	
-	RData(string v) {
-		type = String;
-		sv = v;
-	}
-	
-	virtual ~RData() {
-		// 释放什么？
-	}
-	
-	Type get_type() {
-		return type;
-	}
-	
-	string get_string() {
-		return sv;
-	}
-	
-	int get_int() {
-		return iv;
-	}
-	
-	float get_float() {
-		return fv;
-	}
-	
-	void set_float(float v) {
-		type = Float;
-		fv = v;
-	}
-};
-
-/**
  * 最基本的对象类。
+ * set_value/get_value利用RData进行数据传递（应该是数据备份）
  */
 class RObject : public RSubject, public RObserver
 {
@@ -122,12 +58,13 @@ public:
 	RObject();
 	virtual ~RObject();
 	
+	// TODO 参数传递是否不应该用指针传递，而用赋值传递，这样避免数据被其他地方修改，用“右值移动”？
 	virtual void set_value(RData * pdata) {
 		this->pdata = pdata;
 		raise_changed();
 	}
 	
-	virtual RData * get_value() { 
+	virtual RData * get_value() {
 		return pdata; 
 	}
 	
@@ -156,7 +93,9 @@ public:
 	// 一元关系存在吗？
 	// 一定是二元关系吗？其他多元关系都用二元关系组成？
 	RRelation() {}
-	virtual ~RRelation() {}
+	virtual ~RRelation() {
+		printf("~RRelation %p\n", this);
+	}
 	
 	virtual void set_outer(RObject * outer) {
 		this->poutput = outer;

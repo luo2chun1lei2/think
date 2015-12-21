@@ -27,7 +27,9 @@ public:
 	 * 在此方法中，需要将自己从Subject中反注册，不过这些Subject都有哪些，
 	 * 根据每个实现的不同而不同，无法用一个通用的集合管理。
 	 */
-	virtual ~RObserver() {}
+	virtual ~RObserver() {
+		printf("~RObserver %p\n", this);
+	}
 
 	/**
 	 * [子类实现]

@@ -5,7 +5,7 @@ LDFLAGS= -g
 
 all:${TARGET}
 
-${TARGET}:subject_observer.o robject.o main.o 
+${TARGET}:subject_observer.o rdata.o robject.o main.o 
 	${CC} ${LDFLAGS} $^ -o $@
 
 main.o:main.cc
@@ -15,6 +15,9 @@ robject.o:robject.cc robject.h
 	${CC} ${CFLAGS} -c $<
 
 subject_observer.o:subject_observer.cc subject_observer.h
+	${CC} ${CFLAGS} -c $<
+
+rdata.o:rdata.cc rdata.h
 	${CC} ${CFLAGS} -c $<
 
 clean:

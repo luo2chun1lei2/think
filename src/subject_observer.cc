@@ -10,6 +10,7 @@ RSubject::RSubject()
 
 RSubject::~RSubject()
 {
+	printf("~RSubject %p\n", this);
 }
 
 bool RSubject::find_observer(RObserver * observer)
