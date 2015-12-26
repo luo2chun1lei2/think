@@ -119,6 +119,9 @@ protected:
 public:
 	RelPower(RObject* po1, RObject* po2): pvalue1(po1), pvalue2(po2) {
 	}
+	
+	// 需要分清楚是哪个对象发生了变化。
+	virtual void on_notify(RSubject * subject) {
 };
 */
 
