@@ -52,19 +52,19 @@ protected:
 	// 每个对象的属性列表。
 	//list<RProperty *> properties;
 	
-	RData * pdata;
+	BData * pdata;
 	
 public:
 	RObject();
 	virtual ~RObject();
 	
 	// TODO 参数传递是否不应该用指针传递，而用赋值传递，这样避免数据被其他地方修改，用“右值移动”？
-	virtual void set_value(RData * pdata) {
+	virtual void set_value(BData * pdata) {
 		this->pdata = pdata;
 		raise_changed();
 	}
 	
-	virtual RData * get_value() {
+	virtual BData * get_value() {
 		return pdata; 
 	}
 	

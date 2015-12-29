@@ -15,40 +15,39 @@ class RStub : public RObject
 private:
 protected:
 public:
-	virtual void set_value(RData * pdata) {
+	virtual void set_value(BData * pdata) {
 		printf("RStub set_value\n");
 		RObject::set_value(pdata);
 	}
 	
-	virtual RData * get_value() {
+	virtual BData * get_value() {
 		printf("RStub get_value\n");
 		return RObject::get_value();
 	}
 };
 
 /**
- * 浮点数数据。
- * TODO 以后可以制作成通用的数据类型。
+ * 数据对象。
  */
-class RFloat : public RObject
+class RValue : public RObject
 {
 private:
 protected:
 public:
-	RFloat() {
-		RData * pd = new RData(0);
+	RValue() {
+		BData * pd = new BData(0);
 		set_value(pd);
 	}
 
-	RFloat(float f) {
-		RData * pd = new RData(f);
+	RValue(float f) {
+		BData * pd = new BData(f);
 		set_value(pd);
 	}
 	
-	virtual ~RFloat() {
-		//RData * pd = get_value();
+	virtual ~RValue() {
+		//BData * pd = get_value();
 		//delete(pd);
-		printf("~RFloat %p\n", this);
+		printf("~RValue %p\n", this);
 	}
 };
 
@@ -66,7 +65,7 @@ public:
 	
 	virtual void on_notify(RSubject * subject) {
 		RObject * po = (RObject *)subject;
-		poutput->set_value( new RData( po->get_value()->get_float() ) );
+		poutput->set_value( new BData( po->get_value()->get_float() ) );
 		
 		printf("equal's output is %f\n", poutput->get_value()->get_float());
 	}
@@ -105,7 +104,7 @@ public:
 		}
 		
 		printf("multiple result is %f * %f => %f\n", pvalue1->get_value()->get_float(), pvalue2->get_value()->get_float(), v);
-		poutput->set_value( new RData(v) );
+		poutput->set_value( new BData(v) );
 	}
 };
 
@@ -128,11 +127,11 @@ public:
 int main(int argc, char * argv[]) {
 	// 首先实现基本的公式测试。
 	// E = mc^2;
-	RFloat e, m, c;
+	RValue e, m, c;
 	
 	RStub v1, v2;
 
-	RData data1(2.0f), data2(3.0f);
+	BData data1(2.0f), data2(3.0f);
 
 	RelMul * power = new RelMul(&c, &c); // v1 = c * c
 	power->set_outer(&v1);

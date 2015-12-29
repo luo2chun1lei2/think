@@ -9,11 +9,10 @@
 using namespace std;
 
 /**
- * 通用数据。
- * 用于对象之间的数据交换。
+ * 基础数据，仅仅用于对象之间的数据交换。
  * 其本身并不是对象，无法被监视。
  */
-class RData
+class BData
 {
 private:
 protected:
@@ -35,24 +34,24 @@ protected:
 	
 public:
 	
-	RData(int v) {
+	BData(int v) {
 		type = Integer;
 		iv = v;
 	}
 	
-	RData(float v) {
+	BData(float v) {
 		type = Float;
 		fv = v;
 	}
 	
-	RData(string v) {
+	BData(string v) {
 		type = String;
 		sv = v;
 	}
 	
-	virtual ~RData() {
+	virtual ~BData() {
 		// 释放什么？
-		printf("~RData %p\n", this);
+		printf("~BData %p\n", this);
 	}
 	
 	Type get_type() {
