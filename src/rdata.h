@@ -1,8 +1,10 @@
 #ifndef __RDATA_H__
 #define __RDATA_H__
 
+#include <math.h>
 #include <list>
 #include <string>
+#include <sstream>
 
 using namespace std;
 
@@ -21,9 +23,10 @@ protected:
 	
 public:
 	enum Type {
-		Integer = 0,
-		Float = 1,
-		String = 2,
+		None = 0,
+		Integer = 1,
+		Float = 2,
+		String = 3,
 		//TODO 只有这些类型吗？
 	};
 	
@@ -57,15 +60,59 @@ public:
 	}
 	
 	string get_string() {
-		return sv;
+		if(type == Integer) {
+			stringstream ss;
+			ss << iv;
+			return ss.str();
+		} else if(type == Float) {
+			stringstream ss;
+			ss << fv;
+			return ss.str();
+		} else if(type == String) {
+			return sv;
+		} else { //None
+			return string("");
+		}
 	}
 	
 	int get_int() {
-		return iv;
+		if(type == Integer) {
+			return iv;
+		} else if(type == Float) {
+			return lrint(fv);
+		} else if(type == String) {
+			int v;
+			stringstream ss;
+			ss << sv;
+			ss >> v;
+			if( ss.good() ) {
+				return v;	
+			} else {
+				return 0;
+			}
+		} else { //None
+			return 0;
+		}
 	}
 	
 	float get_float() {
-		return fv;
+		if(type == Integer) {
+			return iv;
+		} else if(type == Float) {
+			return fv;
+		} else if(type == String) {
+			float v;
+			stringstream ss;
+			ss << sv;
+			ss >> v;
+			if( ss.good() ) {
+				return v;
+			} else {
+				return 0;
+			}
+		} else { //None
+			return 0;
+		}
 	}
 	
 	void set_float(float v) {
