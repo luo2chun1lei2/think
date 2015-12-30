@@ -69,22 +69,6 @@ public:
 
 /////////////////////////////
 
-// 临时的共通功能，之后还需要论证这个类是否是通用的。
-class TmpRelation
-{
-private:
-protected:
-	RObject * pTo;
-public:
-	virtual void setTo(RObject * obj) {
-		this->pTo = obj;
-	}
-	
-	virtual RObject * getTo() {
-		return this->pTo;
-	}
-};
-
 /**
  * 维持对象与对象（可以有多个，多方关系）之间关系的类。
  * 目前的实现是：当其中对象发生了变化后，关系类就维持对象之间的关系。
@@ -103,6 +87,25 @@ public:
 	
 	virtual ~RRelation() {
 		printf("~RRelation %p\n", this);
+	}
+};
+
+/**
+ * 只有一个影响目标的关系。
+ */
+class RelOne : public RRelation
+{
+private:
+protected:
+	RObject * pTo;
+	
+public:
+	virtual void setTo(RObject * obj) {
+		this->pTo = obj;
+	}
+	
+	virtual RObject * getTo() {
+		return this->pTo;
 	}
 };
 

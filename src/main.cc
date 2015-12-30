@@ -22,7 +22,7 @@ public:
 /**
  * 关系：单向相等。
  */
-class RelEqual: public RRelation, public TmpRelation
+class RelEqual: public RelOne
 {
 private:
 
@@ -58,7 +58,7 @@ public:
 	}
 };
 
-class RelMul: public RRelation, public TmpRelation
+class RelMul: public RelOne
 {
 private:
 
@@ -88,7 +88,7 @@ public:
 		v = pfrom1->getValue().getFloat() * pfrom2->getValue().getFloat();
 		getTo()->setValue( BData(v) );
 		
-		printf("multiple is %f * %f => %f\n", pfrom1->getValue().getFloat(), pfrom2->getValue().getFloat(), v);
+		//printf("multiple is %f * %f => %f\n", pfrom1->getValue().getFloat(), pfrom2->getValue().getFloat(), v);
 	}
 };
 
@@ -129,6 +129,11 @@ int main(int argc, char * argv[]) {
 	printf("E(%f) = (%f).\n", e.getValue().getFloat(), v2.getValue().getFloat());
 	
 	m.setValue(data2);
+	printf("c^2(%f) = c(%f) * c(%f)).\n", v1.getValue().getFloat(), c.getValue().getFloat(), c.getValue().getFloat());
+	printf("%f = m(%f) * c^2(%f)).\n", v2.getValue().getFloat(), m.getValue().getFloat(), v1.getValue().getFloat());
+	printf("E(%f) = (%f).\n", e.getValue().getFloat(), v2.getValue().getFloat());
+	
+	c.setValue(BData(1.1f));
 	printf("c^2(%f) = c(%f) * c(%f)).\n", v1.getValue().getFloat(), c.getValue().getFloat(), c.getValue().getFloat());
 	printf("%f = m(%f) * c^2(%f)).\n", v2.getValue().getFloat(), m.getValue().getFloat(), v1.getValue().getFloat());
 	printf("E(%f) = (%f).\n", e.getValue().getFloat(), v2.getValue().getFloat());
