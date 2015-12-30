@@ -35,7 +35,7 @@ public:
 	 * [子类实现]
 	 * 当观察的对象发生变化后，这个方法就会被调用，然后此对象对此做出对应的处理。
 	 */
-	virtual void on_notify(RSubject * subject) = 0;
+	virtual void onNotify(RSubject * subject) = 0;
 };
 
 /////////////////////////////////////////////////
@@ -57,7 +57,7 @@ protected:
 	/**
 	 * 当发生了变化后，可以调用这个函数，通知所有的监视者。
 	 */
-	bool raise_changed();
+	bool raiseChanged();
 
 public:
 	/**
@@ -73,17 +73,17 @@ public:
 	/**
 	 * 寻找监视器是否已经注册。
 	 */
-	bool find_observer(RObserver * observer);
+	bool findObserver(RObserver * observer);
 	
 	/**
 	 * 注册回调事件，当发生了变化后，就调用。
 	 */
-	bool register_observer(RObserver * observer);
+	bool registerObserver(RObserver * observer);
 	
 	/**
 	 * 删除监视函数。
 	 */
-	bool unregister_observer(RObserver * observer);
+	bool unregisterObserver(RObserver * observer);
 };
 
 #endif // __SUBJECT_OBSERVER_H__

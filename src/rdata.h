@@ -33,6 +33,9 @@ protected:
 	Type type;
 	
 public:
+	BData() {
+		type = None;
+	}
 	
 	BData(int v) {
 		type = Integer;
@@ -51,14 +54,19 @@ public:
 	
 	virtual ~BData() {
 		// 释放什么？
-		printf("~BData %p\n", this);
+		//printf("~BData %p\n", this);
 	}
 	
-	Type get_type() {
+	Type getType() {
 		return type;
 	}
 	
-	string get_string() {
+	void setStr(string v) {
+		type = String;
+		sv = v;
+	}
+	
+	string getStr() {
 		if(type == Integer) {
 			stringstream ss;
 			ss << iv;
@@ -74,7 +82,12 @@ public:
 		}
 	}
 	
-	int get_int() {
+	void setInt(int v) {
+		type = Integer;
+		iv = v;
+	}
+	
+	int getInt() {
 		if(type == Integer) {
 			return iv;
 		} else if(type == Float) {
@@ -94,7 +107,12 @@ public:
 		}
 	}
 	
-	float get_float() {
+	void setFloat(float v) {
+		type = Float;
+		fv = v;
+	}
+	
+	float getFloat() {
 		if(type == Integer) {
 			return iv;
 		} else if(type == Float) {
@@ -114,19 +132,24 @@ public:
 		}
 	}
 	
-	void set_float(float v) {
-		type = Float;
-		fv = v;
+};
+
+/**
+ * 具有设定一个Data值的类。
+ */
+class BValue {
+private:
+protected:
+	BData value;
+	
+public:
+	virtual void setValue(BData data) {
+		value = data;
 	}
 	
-	void set_int(int v) {
-		type = Integer;
-		iv = v;
-	}
-	
-	void set_str(string v) {
-		type = String;
-		sv = v;
+	// TODO 性能是否可以优化？
+	virtual BData getValue() {
+		return value;
 	}
 };
 

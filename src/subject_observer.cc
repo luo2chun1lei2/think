@@ -13,7 +13,7 @@ RSubject::~RSubject()
 	printf("~RSubject %p\n", this);
 }
 
-bool RSubject::find_observer(RObserver * observer)
+bool RSubject::findObserver(RObserver * observer)
 {
 	list<RObserver *>::iterator iter;
 	for(iter = observers.begin(); iter != observers.end(); iter ++) {
@@ -24,9 +24,9 @@ bool RSubject::find_observer(RObserver * observer)
 	return false;
 }
 
-bool RSubject::register_observer(RObserver * observer)
+bool RSubject::registerObserver(RObserver * observer)
 {
-	if( find_observer(observer) ) {
+	if( findObserver(observer) ) {
 		// 已经添加，就不再需要加入。
 		return true;
 	}
@@ -37,9 +37,9 @@ bool RSubject::register_observer(RObserver * observer)
 	return true;
 }
 
-bool RSubject::unregister_observer(RObserver * observer)
+bool RSubject::unregisterObserver(RObserver * observer)
 {
-	if( ! find_observer(observer) ) {
+	if( ! findObserver(observer) ) {
 		// 没有加入，就不用删除。
 		return true;
 	}
@@ -52,12 +52,12 @@ bool RSubject::unregister_observer(RObserver * observer)
 	return true;
 }
 
-bool RSubject::raise_changed()
+bool RSubject::raiseChanged()
 {
 	list<RObserver *>::iterator iter;
 	for(iter = observers.begin(); iter != observers.end(); iter ++) {
 		printf("send message.\n");
-		(*iter)->on_notify(this);
+		(*iter)->onNotify(this);
 	}
 	return true;
 }

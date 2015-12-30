@@ -2,10 +2,11 @@
 #define __ROBJECT_H__
 
 /**
- * Relation的基本模型。
+ * 关系的基本元素。
  */
 
 #include <list>
+#include <map>
 #include <string>
 
 #include <cstdio>
@@ -15,95 +16,98 @@
 
 using namespace std;
 
-/*
-class RObject : public RSubject {
-private:
-protected:
-public:
-};
-*/
+// Relation Class.
+class RRelation;
 
-#if 0
 /**
- * 每个对象具有的属性。
- * 当属性发生了改变后，就发出通知。
+ * 所有对象的基类。
+ * 拥有的接口：
+ * Subject: 可以被监听
+ * Value: 可以调用setValue/getValue函数：因为
  */
-class RProperty : public RSubject
+class RObject : public RSubject, public BValue
 {
 private:
 protected:
-	string name;
-public:
-	RProperty(const string name) { this->name = name;}
-	virtual ~RProperty() {}
+	typedef map<string, RRelation *> Relations;
 	
-	string get_name() { return name; }
-};
-#endif
-
-/**
- * 最基本的对象类。
- * set_value/get_value利用RData进行数据传递（应该是数据备份）
- */
-class RObject : public RSubject, public RObserver
-{
-private:
-protected:
-	// 每个对象的属性列表。
-	//list<RProperty *> properties;
-	
-	BData * pdata;
+	/** 
+	 * 具有的所有关系
+	 * 名字是放在Relation中，还是放在外面？ 
+	 * Relation会被多方使用，会具有不同的名字，所以必须放在外面。但是可以具有自己缺省的名字。
+	 */ 
+	Relations relations;
 	
 public:
 	RObject();
 	virtual ~RObject();
-	
-	// TODO 参数传递是否不应该用指针传递，而用赋值传递，这样避免数据被其他地方修改，用“右值移动”？
-	virtual void set_value(BData * pdata) {
-		this->pdata = pdata;
-		raise_changed();
+
+	virtual void setValue(BData data) {
+		BValue::setValue(data);
+		raiseChanged();
 	}
 	
-	virtual BData * get_value() {
-		return pdata; 
-	}
+	/**
+	 * 根据指定的名字，找到对应的Relation。
+	 * \return NULL:没有找到，其他：RRelation*
+	 */
+	virtual RRelation * findRelation(const string name);
 	
-	virtual void on_notify(RSubject * subject) {
-		printf("get message.\n");
-	}
+	/**
+	 * 加入Relation。
+	 * \return true:加入，false:失败。
+	 */
+	virtual bool addRelation(const string name, RRelation * rel);
 	
-	//virtual bool find_property(const string name);
-	//virtual bool add_property(RProperty * pproperty);
+	/**
+	 * \brief 删除指定名字的关系。
+	 * \return NULL:没有找到，其他，被删除的Relation。
+	 */
+	virtual RRelation * delRelation(const string name);
+	
 };
 
 /////////////////////////////
-/**
- * 关系也算是一个对象，所以在关系上也可以加入关系。
- * 建立对象上的关系，在对象上就是加入了一个属性，
- * 而关系则是独立的。
- */
-class RRelation : public RObject
+
+// 临时的共通功能，之后还需要论证这个类是否是通用的。
+class TmpRelation
 {
 private:
 protected:
-	RObject * poutput;
-
+	RObject * pTo;
 public:
-	// TODO 初始化需要加入几个对象？无法确定吗？在子类完成？
-	// 一元关系存在吗？
-	// 一定是二元关系吗？其他多元关系都用二元关系组成？
-	RRelation() {}
-	virtual ~RRelation() {
-		printf("~RRelation %p\n", this);
+	virtual void setTo(RObject * obj) {
+		this->pTo = obj;
 	}
 	
-	virtual void set_outer(RObject * outer) {
-		this->poutput = outer;
+	virtual RObject * getTo() {
+		return this->pTo;
+	}
+};
+
+/**
+ * 维持对象与对象（可以有多个，多方关系）之间关系的类。
+ * 目前的实现是：当其中对象发生了变化后，关系类就维持对象之间的关系。
+ * 另外，关系本身也是一个对象，它也可以被监视，和维持与其他对象之间的关系。
+ * TODO :目前没有找到关系的共通接口。
+ */
+class RRelation : public RObject, public RObserver
+{
+private:
+
+protected:
+
+public:
+	//TODO 子类通过不同的构造方法，构建自己的关系网。
+	RRelation() {}
+	
+	virtual ~RRelation() {
+		printf("~RRelation %p\n", this);
 	}
 };
 
 /////////////////////////////
-/*
+/* TODO 这个还要吗？
 class RGlobal {
 private:
 protected:

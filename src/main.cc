@@ -7,26 +7,6 @@
 using namespace std;
 
 /**
- * 桩对象。
- * 模仿临时的、不存在的对象。
- */
-class RStub : public RObject
-{
-private:
-protected:
-public:
-	virtual void set_value(BData * pdata) {
-		printf("RStub set_value\n");
-		RObject::set_value(pdata);
-	}
-	
-	virtual BData * get_value() {
-		printf("RStub get_value\n");
-		return RObject::get_value();
-	}
-};
-
-/**
  * 数据对象。
  */
 class RValue : public RObject
@@ -35,76 +15,80 @@ private:
 protected:
 public:
 	RValue() {
-		BData * pd = new BData(0);
-		set_value(pd);
-	}
-
-	RValue(float f) {
-		BData * pd = new BData(f);
-		set_value(pd);
-	}
-	
-	virtual ~RValue() {
-		//BData * pd = get_value();
-		//delete(pd);
-		printf("~RValue %p\n", this);
+		setValue(BData(0));
 	}
 };
 
-class RelEqual: public RRelation
+/**
+ * 关系：单向相等。
+ */
+class RelEqual: public RRelation, public TmpRelation
 {
 private:
+
 protected:
-	RObject* pvalue;
+	RObject* pfrom;
+	
 public:
-	RelEqual(RObject* po) {
-		pvalue = po;
+	RelEqual() {}
+	virtual ~RelEqual() {
+		// TODO 需要对于监视对象进行反注册。
+	}
+
+	RelEqual(RObject *to, RObject *from)
+	{
+		pfrom = from;
+		setTo(to);
 		
-		pvalue->register_observer(this);
+		pfrom->registerObserver(this);
 	}
 	
-	virtual void on_notify(RSubject * subject) {
+	virtual void onNotify(RSubject * subject) 
+	{
 		RObject * po = (RObject *)subject;
-		poutput->set_value( new BData( po->get_value()->get_float() ) );
+		if(po != pfrom) {
+			// 不是从from发出的变化信息，那么出错。
+			printf("Error: subject is not from.\n");
+			return;
+		}
 		
-		printf("equal's output is %f\n", poutput->get_value()->get_float());
+		getTo()->setValue( pfrom->getValue() );
+		
+		//printf("equal's output is %f\n", poutput->get_value()->get_float());
 	}
 };
 
-class RelMul: public RRelation
+class RelMul: public RRelation, public TmpRelation
 {
 private:
+
 protected:
-	RObject* pvalue1;
-	RObject* pvalue2;
+	RObject* pfrom1;
+	RObject* pfrom2;
+	
 public:
-	RelMul(RObject* po1, RObject* po2) {
-		pvalue1 = po1;
-		pvalue2 = po2;
+	RelMul(RObject * to, RObject* from1, RObject* from2) {
+		setTo(to);
+		pfrom1 = from1;
+		pfrom2 = from2;
 		
-		pvalue1->register_observer(this);
-		pvalue2->register_observer(this);
+		pfrom1->registerObserver(this);
+		pfrom2->registerObserver(this);
 	}
 	
-	virtual void on_notify(RSubject * subject) {
-		if( !poutput ) {
-			printf("Observer is NOT existed.\n");
+	virtual void onNotify(RSubject * subject) {
+		
+		if(subject != pfrom1 && subject != pfrom2) {
+			printf("Error: suject is not from 1 and 2.\n");
 			return;
 		}
 	
-		// 需要判断是哪个subject发生了变化。
+		// 不需要区分是哪个对象发出的。
 		float v;
-		if(subject == pvalue1) {
-			v = pvalue1->get_value()->get_float() * pvalue2->get_value()->get_float();
-		} else if(subject == pvalue2) {
-			v = pvalue1->get_value()->get_float() * pvalue2->get_value()->get_float();
-		} else {
-			printf("Changed subject is NOT observered by me.\n");
-			return;
-		}
+		v = pfrom1->getValue().getFloat() * pfrom2->getValue().getFloat();
+		getTo()->setValue( BData(v) );
 		
-		printf("multiple result is %f * %f => %f\n", pvalue1->get_value()->get_float(), pvalue2->get_value()->get_float(), v);
-		poutput->set_value( new BData(v) );
+		printf("multiple is %f * %f => %f\n", pfrom1->getValue().getFloat(), pfrom2->getValue().getFloat(), v);
 	}
 };
 
@@ -129,26 +113,25 @@ int main(int argc, char * argv[]) {
 	// E = mc^2;
 	RValue e, m, c;
 	
-	RStub v1, v2;
+	RValue v1, v2;
 
 	BData data1(2.0f), data2(3.0f);
 
-	RelMul * power = new RelMul(&c, &c); // v1 = c * c
-	power->set_outer(&v1);
+	RelMul power(&v1, &c, &c); // v1 = c * c
 
-	RelMul * mul = new RelMul(&m, &v1); // v2 = m * v1
-	mul->set_outer(&v2);
+	RelMul mul(&v2, &m, &v1); // v2 = m * v1
 
-	RelEqual * equal = new RelEqual(&v2); // e = v2
-	equal->set_outer(&e);
+	RelEqual equal(&e, &v2); // e = v2
 
-	c.set_value(&data1);	// 临时对象放入，恐怕无法保留
-	printf("c is %f\n", c.get_value()->get_float());
+	c.setValue(data1);	// 临时对象放入，恐怕无法保留
+	printf("c^2(%f) = c(%f) * c(%f)).\n", v1.getValue().getFloat(), c.getValue().getFloat(), c.getValue().getFloat());
+	printf("%f = m(%f) * c^2(%f)).\n", v2.getValue().getFloat(), m.getValue().getFloat(), v1.getValue().getFloat());
+	printf("E(%f) = (%f).\n", e.getValue().getFloat(), v2.getValue().getFloat());
 	
-	m.set_value(&data2);
-	printf("m is %f\n", m.get_value()->get_float());
-	
-	printf("e is %f\n", e.get_value()->get_float());
+	m.setValue(data2);
+	printf("c^2(%f) = c(%f) * c(%f)).\n", v1.getValue().getFloat(), c.getValue().getFloat(), c.getValue().getFloat());
+	printf("%f = m(%f) * c^2(%f)).\n", v2.getValue().getFloat(), m.getValue().getFloat(), v1.getValue().getFloat());
+	printf("E(%f) = (%f).\n", e.getValue().getFloat(), v2.getValue().getFloat());
 	
 	return 0;
 }
