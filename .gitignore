@@ -34,3 +34,6 @@ GRTAGS
 GSYMS
 GTAGS
 
+.exvim.think/
+think.exvim
+
