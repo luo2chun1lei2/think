@@ -23,7 +23,7 @@ class RRelation;
  * 所有对象的基类。
  * 拥有的接口：
  * Subject: 可以被监听
- * Value: 可以调用setValue/getValue函数，问题是，一般对象或者关系的getValue返回什么？又设定什么？
+ * Value: 可以调用setValue/getValue函数：因为
  */
 class RObject : public RSubject, public BValue
 {
@@ -92,9 +92,8 @@ public:
 
 /**
  * 只有一个影响目标的关系。
- * 对于Equal来说，必须有一个输出，不然无法实现相等关系，
- * 但是，对于相加等，完全可以做成一个被监视对象。
- * 像“相加”之类的如果能够做成可以设定一个输出对象，也许可以简化一些组合，不过，这样不如目前的方法更容易实现。
+ * TODO 此对象也可以伪装成一个有值的对象，比如加法，但是也可能就是有对应的影响对象，而不是本身就是影响对象，
+ *   以上的思路还需要再思考。
  */
 class RelOne : public RRelation
 {

@@ -8,7 +8,6 @@ using namespace std;
 
 /**
  * 数据对象。
- * 其实具体功能都在RObject实现了，这里什么都没有做，还有必要保留这样的一个类型吗？
  */
 class RValue : public RObject
 {
@@ -59,7 +58,7 @@ public:
 	}
 };
 
-class RelMul: public RRelation
+class RelMul: public RelOne
 {
 private:
 
@@ -68,7 +67,8 @@ protected:
 	RObject* pfrom2;
 	
 public:
-	RelMul(RObject* from1, RObject* from2) {
+	RelMul(RObject * to, RObject* from1, RObject* from2) {
+		setTo(to);
 		pfrom1 = from1;
 		pfrom2 = from2;
 		
@@ -86,11 +86,9 @@ public:
 		// 不需要区分是哪个对象发出的。
 		float v;
 		v = pfrom1->getValue().getFloat() * pfrom2->getValue().getFloat();
-		value.setFloat(v);
+		getTo()->setValue( BData(v) );
 		
 		//printf("multiple is %f * %f => %f\n", pfrom1->getValue().getFloat(), pfrom2->getValue().getFloat(), v);
-        // 通知监视的模块，我已经改变了。
-        raiseChanged();
 	}
 };
 
@@ -114,29 +112,31 @@ int main(int argc, char * argv[]) {
 	// 首先实现基本的公式测试。
 	// E = mc^2;
 	RValue e, m, c;
+	
+	RValue v1, v2;
 
 	BData data1(2.0f), data2(3.0f);
 
-	RelMul power(&c, &c); // v1 = c * c
+	RelMul power(&v1, &c, &c); // v1 = c * c
 
-	RelMul mul(&m, &power); // v2 = m * v1
+	RelMul mul(&v2, &m, &v1); // v2 = m * v1
 
-	RelEqual equal(&e, &mul); // e = v2
+	RelEqual equal(&e, &v2); // e = v2
 
 	c.setValue(data1);	// 临时对象放入，恐怕无法保留
-	printf("c^2(%f) = c(%f) * c(%f)).\n", power.getValue().getFloat(), c.getValue().getFloat(), c.getValue().getFloat());
-	printf("%f = m(%f) * c^2(%f)).\n", mul.getValue().getFloat(), m.getValue().getFloat(), power.getValue().getFloat());
-	printf("E(%f) = (%f).\n", e.getValue().getFloat(), mul.getValue().getFloat());
+	printf("c^2(%f) = c(%f) * c(%f)).\n", v1.getValue().getFloat(), c.getValue().getFloat(), c.getValue().getFloat());
+	printf("%f = m(%f) * c^2(%f)).\n", v2.getValue().getFloat(), m.getValue().getFloat(), v1.getValue().getFloat());
+	printf("E(%f) = (%f).\n", e.getValue().getFloat(), v2.getValue().getFloat());
 	
 	m.setValue(data2);
-	printf("c^2(%f) = c(%f) * c(%f)).\n", power.getValue().getFloat(), c.getValue().getFloat(), c.getValue().getFloat());
-	printf("%f = m(%f) * c^2(%f)).\n", mul.getValue().getFloat(), m.getValue().getFloat(), power.getValue().getFloat());
-	printf("E(%f) = (%f).\n", e.getValue().getFloat(), mul.getValue().getFloat());
+	printf("c^2(%f) = c(%f) * c(%f)).\n", v1.getValue().getFloat(), c.getValue().getFloat(), c.getValue().getFloat());
+	printf("%f = m(%f) * c^2(%f)).\n", v2.getValue().getFloat(), m.getValue().getFloat(), v1.getValue().getFloat());
+	printf("E(%f) = (%f).\n", e.getValue().getFloat(), v2.getValue().getFloat());
 	
 	c.setValue(BData(1.1f));
-	printf("c^2(%f) = c(%f) * c(%f)).\n", power.getValue().getFloat(), c.getValue().getFloat(), c.getValue().getFloat());
-	printf("%f = m(%f) * c^2(%f)).\n", mul.getValue().getFloat(), m.getValue().getFloat(), power.getValue().getFloat());
-	printf("E(%f) = (%f).\n", e.getValue().getFloat(), mul.getValue().getFloat());
+	printf("c^2(%f) = c(%f) * c(%f)).\n", v1.getValue().getFloat(), c.getValue().getFloat(), c.getValue().getFloat());
+	printf("%f = m(%f) * c^2(%f)).\n", v2.getValue().getFloat(), m.getValue().getFloat(), v1.getValue().getFloat());
+	printf("E(%f) = (%f).\n", e.getValue().getFloat(), v2.getValue().getFloat());
 	
 	return 0;
 }
