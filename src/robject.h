@@ -29,12 +29,14 @@ class RObject : public RSubject, public BValue
 {
 private:
 protected:
+    /**
+	 * 名字是放在Relation中，还是放在外面？ 
+	 * Relation会被多方使用，会具有不同的名字，所以必须放在外面。但是可以具有自己缺省的名字。
+     */
 	typedef map<string, RRelation *> Relations;
 	
 	/** 
 	 * 具有的所有关系
-	 * 名字是放在Relation中，还是放在外面？ 
-	 * Relation会被多方使用，会具有不同的名字，所以必须放在外面。但是可以具有自己缺省的名字。
 	 */ 
 	Relations relations;
 	
