@@ -10,18 +10,21 @@
 
 using namespace std;
 
+// 学生
 class Student: public RObject {
 private:
 protected:
 public:
 };
 
+// 老师
 class Teacher: public RObject {
 private:
 protected:
 public:
 };
 
+// 班级信息。
 class Class: public RObject {
 private:
 protected:
@@ -52,14 +55,42 @@ public:
     }
 };
 
+class RGroup: public RRelation 
+{
+private:
+protected:
+public:
+    RGroup() {
+    }
+    virtual ~RGroup() {}
+
+    virtual void onNotify(RSubject * subject) {
+    }
+};
+
 int test_2() {
 
 	Student * zhangSan = new Student();
+	Student * liSi = new Student();
+
+    Class * c14 = new Class();
 	
-	Teacher * liSi = new Teacher();
+	Teacher * wang = new Teacher();
 	
-	ROwn * teach1 = new ROwn(zhangSan);
-    liSi->addRelation("teach", teach1);
+    // 加入了所属关系
+	ROwn * own1 = new ROwn(zhangSan);
+	ROwn * own2 = new ROwn(liSi);
+
+    // 用一个组关系，管理上面的关系。
+    RGroup * group1 = new RGroup();
+
+    group1->addRelation("include", own1);
+    group1->addRelation("include", own2);
+
+    c14->addRelation("has", group1);
+
+    ROwn * own3 = new ROwn(c14);
+    wang->addRelation("teach", own3);
 
 	return 0;
 }

@@ -8,7 +8,7 @@ void test_2();
 int main(int argc, char * argv[]) {
 
     printf("--------- Begin Test for fomula.\n");
-    test_1();
+    //test_1();
     printf("--------- Finish test.\n");
 
     printf("--------- Begin Test for Student/Teacher/Class.\n");
