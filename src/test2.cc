@@ -5,6 +5,7 @@
 #include <stdio.h>
 
 #include <list>
+#include <string>
 
 #include "robject.h"
 
@@ -40,11 +41,17 @@ public:
 class ROwn: public RRelation {
 private:
 protected:
+    // owner拥有owned。
+    RObject * owner;
     RObject * owned;
 
 public:
-	ROwn(RObject * owned) {
+	ROwn(string ownerName, RObject * owner, string ownedName, RObject * owned) {
+        this->owner = owner;
+        owner->addRelation(ownerName, this);
+
         this->owned = owned;
+        owned->addRelation(ownedName, this);
 	}
 
 	virtual ~ROwn() {}
@@ -59,8 +66,11 @@ class RGroup: public RRelation
 {
 private:
 protected:
+    RObject * owner;
 public:
-    RGroup() {
+    RGroup(string name, RObject * owner) {
+        this->owner = owner;
+        owner->addRelation(name, this);
     }
     virtual ~RGroup() {}
 
@@ -70,6 +80,7 @@ public:
 
 int test_2() {
 
+    // 先定义了一堆对象。
 	Student * zhangSan = new Student();
 	Student * liSi = new Student();
 
@@ -77,28 +88,30 @@ int test_2() {
 	
 	Teacher * wang = new Teacher();
 	
-    // 加入了所属关系
-	ROwn * own1 = new ROwn(zhangSan);
-	ROwn * own2 = new ROwn(liSi);
+    // 开始建立关系。
+	ROwn * own1 = new ROwn("has", c14, "re-has", zhangSan);
+	ROwn * own2 = new ROwn("has", c14, "re-has", liSi);
 
     // 用一个组关系，管理上面的关系。
-    RGroup * group1 = new RGroup();
+    RGroup * group1 = new RGroup("has", c14);
 
-    group1->addRelation("include", own1);
+    // 都加入到同一个“include”关系组中。
+    group1->addRelation("include", own1);   // 这里的include 有用吗？
     group1->addRelation("include", own2);
 
-    c14->addRelation("has", group1);
+    //c14->addRelation("has", group1);
 
-    ROwn * own3 = new ROwn(c14);
-    wang->addRelation("teach", own3);
+    ROwn * own3 = new ROwn("teach", wang, "re-teachre", c14);
 
 	return 0;
 }
 
 /**
  * TODO
- * 1. student需要一个链接到teach关系吗？不然student无法找到教他的老师。
- * 1. 老师需要教一个班级，而班级拥有学生。
- * 1. 班级如何拥有多个学生？
+ * 1. 关系添加到对象中时，需要在两边都有名字，供查询。
+ * 1. group关系是包含多个关系的关系，所以被它包含的对象也需要一个名字。
+ *      这样是不是容易造成名字出现重复，因为被包含的关系本身最好是不要知道自己被包含了，
+ *      但是实际上，还是需要知道，需要双方相互之间引用。
+ * 1. 关系如何组成成新的关系？表面上应该是一个关系。
  */
 
