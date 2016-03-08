@@ -2,6 +2,7 @@
 
 all:
 	make -C src
+	make -C view
 
 clean:
 	make clean -C src
