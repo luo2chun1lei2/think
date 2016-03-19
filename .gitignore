@@ -26,3 +26,14 @@
 *.exe
 *.out
 *.app
+think
+
+# Global files
+GPATH
+GRTAGS
+GSYMS
+GTAGS
+
+.exvim.think/
+think.exvim
+
