@@ -8,14 +8,11 @@ TObject::~TObject()
 {	
 }
 
-void TObject::set_property(const string key, const string value)
+void TObject::set_rel(TRelation * rel)
 {
 }
 
-void TObject::set_property(const string key, const int value)
+TRelation * TObject::get_rel(TRelation * rel)
 {
-}
-
-void TObject::set_property(const string key, const TRelation *rel)
-{
+	return NULL;
 }
