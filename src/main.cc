@@ -79,6 +79,36 @@
   
   不仅仅限于"from"和"to"的关系怎么办？
   */
+/**
+ 总结之前的想法，对象和对象之间用关系联系，而关系也是对象。
+ 比如：老师教学生。老师是一个对象，学生是一个对象，而“教”则是关系，连接上面两个对象。
+ 老师具有的信息，比如姓名、年龄等，可以描述为：老师具有年龄。
+ 
+ Teacher has name, age.
+ 
+ obj1.type = Teacher
+ obj1.name = "zhang"
+ obj1.age = 45
+
+ Student has name, age.
+ 
+ obj2.type = Student 
+ obj2.name = "li"
+ obj2.age = 11
+ 不要把类型和具体对象混淆，类型“老师具有年龄这个对象”，而类型的具体实例则是“张老师的年龄是45”。
+ 
+ Teach has from, to.
+ t1.type = Teach
+ t1.from = obj1
+ t1.to = obj2
+ 
+ t1.teach.to is obj2.
+ 
+ 1. 如果教多个对象怎么办？
+ 2. 关系如何组合？以及对象如何组合？
+ 3. 关系如何维护？
+ 4. 动作又如何运转？
+ */
 void test_1()
 {
 	TObject obj1;
