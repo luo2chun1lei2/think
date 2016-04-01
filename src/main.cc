@@ -146,13 +146,17 @@
  */
 void test_1()
 {
-	TObject obj1;
-	
 	// obj.name = "zhang"
-	TRelOwn rel("name");
-	rel.set_rel(""obj1);
-	rel.set_to(TString("zhang"));
+	TObject *obj1 = new TObject();
+	TString *name1 = new TString("zhang");
+	TRelation *rel1 = new TRelation();
+	rel1->setObject("name", obj1);
+	rel1->setObject("value", name1);
 	
+	obj1->setRelation("name", rel1);
+	name1->setRelation("", rel1);
+
+#if 0
 	// obj.age = 43
 	obj1.set_rel("age", 43);
 	
@@ -166,6 +170,7 @@ void test_1()
 	zhang.set_property(&teach);
 	teach.set_property("from", &zhang);
 	teach.set_property("to", &li);
+#endif
 } 
    
 int main(int argc, char * argv[])
