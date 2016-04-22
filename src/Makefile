@@ -5,13 +5,13 @@ LDFLAGS= -g
 
 all:${TARGET}
 
-${TARGET}:main.o object.o
+${TARGET}:main.o element.o
 	${CC} ${LDFLAGS} $^ -o $@
 
 main.o:main.cc
 	${CC} ${CFLAGS} -c $<
 
-object.o:object.cc object.h
+element.o:element.cc element.h
 	${CC} ${CFLAGS} -c $<
 
 clean:
@@ -19,3 +19,6 @@ clean:
 
 run:
 	./think
+
+debug:
+	gdb ./think
