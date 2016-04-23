@@ -4,6 +4,7 @@
 #include <list>
 #include <map>
 #include <string>
+#include <iostream>
 
 using namespace std;
 
@@ -38,9 +39,19 @@ public:
 	 * 返回此对象的信息。
 	 * TODO 是否返回其他对象的信息？
 	 */ 
-	virtual string info()
+	virtual void info(int level)
 	{
-		return "None";
+		cout << "Element:" << endl;
+		
+		if (level <= 0) {
+			return;
+		}
+		
+		Relations::iterator iter;
+		for(iter = relations.begin(); iter != relations.end(); iter ++) {
+			cout << "\t" << iter->first << "->\t";
+			((TElement *)iter->second)->info(--level);
+		}
 	}
 	
 	/**
@@ -75,9 +86,7 @@ public:
 };
 
 /**
- * 所有关系的基类。
- * 可以连接多个对象。
- * TODO 最少两个？
+ * 所有关系的基类，可以连接多个对象。
  */
 class TRelation : public TElement
 {
@@ -95,10 +104,26 @@ public:
 	virtual ~TRelation()
 	{
 	}
+	
+	virtual void info(int level)
+	{
+		cout << "Relation:" << endl;
+		
+		if (level <= 0) {
+			return;
+		}
+		
+		Elements::iterator iter;
+		for(iter = elements.begin(); iter != elements.end(); iter ++) {
+			cout << "\t" << iter->first << "->\t";
+			iter->second->info(--level);
+		}
+	}
 
 	virtual void setElement(string key, TElement * elm) 
 	{
 		elements.insert(Elements::value_type(key, elm));
+		// elements[key] = elm;
 	}
 	
 	/**
@@ -109,7 +134,7 @@ public:
 		elements.erase(key);
 	}
 	
-	virtual TElement * getElement(string key) 
+	virtual TElement * getElement(string key)
 	{
 		Elements::iterator iter = elements.find(key);
 		if (iter == elements.end()) {
@@ -139,9 +164,10 @@ public:
 	{
 	}
 	
-	virtual string info()
+	virtual void info(int level)
 	{
-		return string("value:") + value;
+		TElement::info(--level);
+		cout << "\tvalue:" << value << endl;
 	}
 	
 	void setString(string v)

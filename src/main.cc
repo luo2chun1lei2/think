@@ -1,13 +1,11 @@
-#include <iostream>
- 
 #include "element.h"
 
 using namespace std;
 
-void info(TElement *elm)
+void info(TElement *elm, int level)
 {
 	if (elm) {
-		cout << "element:" <<  elm << "," << elm->info() << endl;
+		elm->info(level);
 	} else {
 		cout << "element is NULL" << endl;
 	}
@@ -60,16 +58,18 @@ void test_1()
 	////////////////////////////////////////////////////////// 开始查询
 	
 	// ? elm1.name
+	//info(&e1, 2);
 	tmp_rel = e1.getRelation("name");
 	if (tmp_rel == NULL) {
 		cout << "Cannot find name of e1." << endl;
 		return;
 	}
-	info(tmp_rel->getElement("name"));
+	//info(tmp_rel, 2);
+	//info(tmp_rel->getElement("name"), 1);
 	
 	// ? elm1.student
-	tmp_rel = e2.getRelation("student");
-	info(tmp_rel);
+	tmp_rel = e1.getRelation("student");
+	info(tmp_rel, 2);
 }
    
 int main(int argc, char * argv[])
