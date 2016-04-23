@@ -5,7 +5,8 @@ using namespace std;
 void info(TElement *elm, int level)
 {
 	if (elm) {
-		elm->info(level);
+		elm->info(level); 
+		cout << endl;
 	} else {
 		cout << "element is NULL" << endl;
 	}
@@ -58,7 +59,7 @@ void test_1()
 	////////////////////////////////////////////////////////// 开始查询
 	
 	// ? elm1.name
-	//info(&e1, 2);
+	info(&e1, 2);
 	tmp_rel = e1.getRelation("name");
 	if (tmp_rel == NULL) {
 		cout << "Cannot find name of e1." << endl;
@@ -69,7 +70,7 @@ void test_1()
 	
 	// ? elm1.student
 	tmp_rel = e1.getRelation("student");
-	info(tmp_rel, 2);
+	//info(tmp_rel, 1);
 }
    
 int main(int argc, char * argv[])

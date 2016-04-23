@@ -41,17 +41,29 @@ public:
 	 */ 
 	virtual void info(int level)
 	{
-		cout << "Element:" << endl;
-		
-		if (level <= 0) {
-			return;
-		}
+		cout << "Element(";
 		
 		Relations::iterator iter;
-		for(iter = relations.begin(); iter != relations.end(); iter ++) {
-			cout << "\t" << iter->first << "->\t";
+		bool added = false;
+		for(iter = relations.begin(); iter != relations.end(); iter++) {
+			if (level <= 0) {
+				if (iter->first != "name") {
+					// 只输出“name”
+					continue;
+				}
+			}
+			
+			if (added) {
+				cout << ",";
+			}
+			
+			cout << iter->first << ":";
 			((TElement *)iter->second)->info(--level);
+			
+			added = true;
 		}
+		
+		cout << ")";
 	}
 	
 	/**
@@ -107,17 +119,29 @@ public:
 	
 	virtual void info(int level)
 	{
-		cout << "Relation:" << endl;
-		
-		if (level <= 0) {
-			return;
-		}
+		cout << "Relation(";
 		
 		Elements::iterator iter;
-		for(iter = elements.begin(); iter != elements.end(); iter ++) {
-			cout << "\t" << iter->first << "->\t";
+		bool added = false;
+		for(iter = elements.begin(); iter != elements.end(); iter++) {
+			if (level <= 0) {
+				if (iter->first != "name") {
+					// 只输出"name"
+					continue;
+				}
+			}
+			
+			if (added) {
+				cout << ",";
+			}
+			
+			cout << iter->first << ":";
 			iter->second->info(--level);
+			
+			added = true;
 		}
+		
+		cout << ")";
 	}
 
 	virtual void setElement(string key, TElement * elm) 
@@ -166,8 +190,30 @@ public:
 	
 	virtual void info(int level)
 	{
-		TElement::info(--level);
-		cout << "\tvalue:" << value << endl;
+		cout << "Value(" << value;
+		
+		Relations::iterator iter;
+		bool added = false;
+		for(iter = relations.begin(); iter != relations.end(); iter++) {
+		
+			if (level <= 0) {
+				if (iter->first != "name") {
+					// 只输出“name”
+					continue;
+				}
+			}
+			
+			if (added) {
+				cout << ",";
+			}
+			
+			cout << iter->first << ":";
+			iter->second->info(--level);
+			
+			added = true;
+		}
+		
+		cout << ")";
 	}
 	
 	void setString(string v)
