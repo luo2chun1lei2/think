@@ -52,6 +52,14 @@ public:
 	}
 	
 	/**
+	 * 删除指定Key的关系。
+	 */
+	virtual void delRelation(string key)
+	{
+		relations.erase(key);
+	}
+	
+	/**
 	 * 找到一个关系。
 	 */
 	virtual TRelation * getRelation(string key)
@@ -93,6 +101,14 @@ public:
 		elements.insert(Elements::value_type(key, elm));
 	}
 	
+	/**
+	 * 删除制定key的关系。
+	 */
+	virtual void delElement(string key)
+	{
+		elements.erase(key);
+	}
+	
 	virtual TElement * getElement(string key) 
 	{
 		Elements::iterator iter = elements.find(key);
@@ -105,7 +121,8 @@ public:
 };
 
 /**
- * 保存值的一种元素。
+ * 值元素。
+ * 所有的值，比如整数、文字、浮点数等都用这个类型来表示。
  */
 class TValue : public TElement
 {
