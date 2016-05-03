@@ -1,4 +1,5 @@
 #include "element.h"
+#include "app.h"
 
 using namespace std;
 
@@ -75,6 +76,7 @@ void test_1()
    
 int main(int argc, char * argv[])
 {
-	test_1();
+	//test_1();
+    HelloWin::show_app();
 	return 0;
 }
