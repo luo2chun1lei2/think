@@ -11,13 +11,14 @@ endif
 TARGET=a.out
 SRCS=main.cc
 
-CFLAGS=
+CFLAGS=-g
 CPP_FLAGS= ${CFLAGS}
 C_FLAGS= ${CFLAGS}
+LD_FLAGS=-g
 
 OBJS=$(patsubst %,%.o,${SRCS})
 all: ${OBJS}
-	${CPP} $^ -o ${TARGET}
+	${CPP} ${LD_FLAGS} $^ -o ${TARGET}
 
 C_OBJS=$(filter %.c.o, ${OBJS})
 ${C_OBJS}: %.c.o: %.c
@@ -31,4 +32,4 @@ run:
 	@./${TARGET}
 
 clean:
-	rm -rf *.o ${TARGET}
+	@rm -rf *.o ${TARGET}
