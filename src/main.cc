@@ -205,6 +205,15 @@ private:
     TValue & sum;
 };
 
+/*
+class RMulti : public TRelation
+{
+public:
+	RMulti(TValue
+protected:
+private:
+};
+*/
 //////////////////////////////////////////////////
 
 // 编写的例子1，满足如下的数学公式。
