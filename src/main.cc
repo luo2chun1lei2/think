@@ -2,91 +2,12 @@
 
 #include <list>
 
+#include "subject-observer.h"
+
 using namespace std;
 
 // 作为主要的输入输出界面，以及测试程序。
 // 对外接口是C语言的，不能是C++的。
-
-//////////////////////////////////////////////////
-
-/**
- * 数值元素，只完成基本的数值动作，不具有对象的功能。
- */
-class VValue
-{
-public:
-    VValue() {}
-    VValue(int v) {
-    	this->value = v;
-    }
-    virtual ~VValue() {}
-    
-    int intValue() {
-    	return value;
-    }
-    
-    void setIntValue(int v) {
-    	this->value = v;
-    }
-protected:
-	int value;
-private:
-};
-
-//////////////////////////////////////////////////
-// 注册和通知（Event)
-
-class ESubject;
-
-class EObserver
-{
-public:
-	// 接受者需要知道来源，才能正确的处理多个内部元素的问题。
-	virtual void update(ESubject * sub, VValue &value) = 0;
-protected:	
-private:
-};
-
-/**
- * 发送信息方。自身有改变通知观察者(Observer)。
- */
-class ESubject
-{
-public:
-	typedef list<EObserver *> obs_list_t;
-	virtual void attach(EObserver * obs) {
-		obs_list_t::iterator itr;
-		for(itr = observers.begin(); itr != observers.end(); itr ++) {
-			if ( *itr == obs ) {
-				// already attached, so exit.
-				return;
-			}
-		}
-		observers.push_back(obs);
-	}
-	
-	virtual void detach(EObserver *obs) {
-		obs_list_t::iterator itr;
-		
-		for(itr = observers.begin(); itr != observers.end(); itr ++) {
-			if ( *itr == obs ) {
-				observers.erase(itr);
-				break;
-			}
-		}
-		
-	}
-	// 当subject发生变化后，通知所有的observer。
-	virtual void notify(VValue &value) {
-		obs_list_t::iterator itr;
-		for(itr = observers.begin(); itr != observers.end(); itr ++) {
-			(*itr)->update(this, value);
-		}
-	}
-protected:
-	list<EObserver *> observers;
-private:
-};
 
 //////////////////////////////////////////////////
 // 对象基类以及子类

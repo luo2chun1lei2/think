@@ -9,7 +9,7 @@ else
 endif
 
 TARGET=a.out
-SRCS=main.cc
+SRCS=main.cc value.cc subject-observer.cc
 
 CFLAGS=-g
 CPP_FLAGS= ${CFLAGS}
