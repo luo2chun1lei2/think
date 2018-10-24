@@ -8,8 +8,8 @@ else
   CPP=g++
 endif
 
-TARGET=a.out
-SRCS=main.cc value.cc subject-observer.cc
+TARGET=think
+SRCS=main.cc value.cc subject-observer.cc console.cc lang.cc
 
 CFLAGS=-g
 CPP_FLAGS= ${CFLAGS}
@@ -29,7 +29,10 @@ ${CPP_OBJS}: %.cc.o: %.cc
 	${CPP} ${CPP_FLAGS} -c $< -o $@
 
 run:
-	@./${TARGET}
+	@./${TARGET} --console
+	
+test:
+	@./${TARGET} --test
 
 clean:
 	@rm -rf *.o ${TARGET}
