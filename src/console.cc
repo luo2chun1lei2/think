@@ -5,8 +5,22 @@
 
 #include "lang.h"
 
+static void show_help(void)
+{
+	printf("help/h: show help information.\n");
+	printf("quit/q: quit from console.\n");
+}
+
 static int do_inner_cmd(const char *line)
 {
+	if (strcmp("quit", line) == 0 || strcmp("q", line) == 0 ) {
+		return true;
+	} else if(strcmp("help", line) == 0 || strcmp("h", line) == 0 ) {
+		show_help();
+	} else {
+		printf("Unkown commnd: \"%s\"\n", line);
+	}
+	
 	return false;
 }
 
@@ -17,6 +31,7 @@ static int do_inner_cmd(const char *line)
 static int parse_input(const char *line)
 {
 	//printf("line:%s\n", line);
+	// 所有以 “!" 开始的单词都是内部的命令。
 	if (line[0] == '!') {
 		return do_inner_cmd(&line[1]);
 	}
@@ -34,7 +49,7 @@ void console_loop()
     do {
     	memset(line, 0, sizeof(line));
     	scanf("%s", line);
-        parse_input(line);
+        is_quit = parse_input(line);
     } while(!is_quit);
 
 }
