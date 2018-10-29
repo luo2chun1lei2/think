@@ -172,14 +172,13 @@ void usage(void)
 }
 
 void test();
-void console();
 
 int main(int argc, char *argv[])
 {
 	// 分析参数，调用具体的功能。
 	int opt=0;
 	opterr=0;//关闭getopt错误信息
-	while((opt = getopt_long(argc, argv, "nc", long_options, NULL))!=-1) {
+	while((opt = getopt_long(argc, argv, "tc", long_options, NULL))!=-1) {
 		switch(opt) {
 		case 't':
 			//printf("The number is %s\n", optarg);

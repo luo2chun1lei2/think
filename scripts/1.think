@@ -1,1 +1,14 @@
-# 这个是Think脚本，采用解释器执行。
+// 这个是Think脚本，采用解释器执行。
+
+// Example 1: luocl has money(100 Yuan).
+obj1 = new obj
+obj2 = new obj
+obj1.add_property("name", "luocl")
+obj2.add_property("money", 100)
+
+has = new relation(has, obj1, obj2)	// has is a relation.
+
+//--
+luocl = people
+money = 45
+luocl has money.
