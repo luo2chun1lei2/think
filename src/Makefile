@@ -9,7 +9,7 @@ else
 endif
 
 TARGET=think
-SRCS=main.cc value.cc subject-observer.cc console.cc lang.cc
+SRCS=$(wildcard *.cc)
 
 CFLAGS=-g
 CPP_FLAGS= ${CFLAGS}
@@ -35,4 +35,4 @@ test:
 	@./${TARGET} --test
 
 clean:
-	@rm -rf *.o ${TARGET}
+	@rm -rf *.o tmp.dot ${TARGET}

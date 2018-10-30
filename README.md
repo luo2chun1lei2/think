@@ -116,6 +116,9 @@ TODO: 不过是否也会传递某些高级的对象？比如Relation、Object等
 
 ### 走向实际
 
+#需要安装:
+#sudo apt-get install libgraphviz-dev libboost-all-dev
+
 这里是面向用户的，内部需要用关系建立模型，然后建立模型之间的关系，而不能总是用之前的做法去实现。
 当然允许在没有新的想法情况下，用旧的方法来实现这个这个软件。
 
@@ -132,3 +135,5 @@ TODO: 不过是否也会传递某些高级的对象？比如Relation、Object等
 1. 画面、事件和模型。
 	1. table1 = "./names.txt"
 	1. table1.lines[0].column[2] = "hello"
+
+增加Dump命令，可以将目前的关系变成 graphviz 的dot 语言，然后生成svg显示出来。

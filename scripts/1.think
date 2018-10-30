@@ -8,7 +8,7 @@ obj2.add_property("money", 100)
 
 has = new relation(has, obj1, obj2)	// has is a relation.
 
-//--
-luocl = people
-money = 45
-luocl has money.
+//-- 新的写法
+luocl = one people
+money("that").value = 45
+luocl has that money.

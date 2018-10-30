@@ -4,11 +4,18 @@
 #include <string.h>
 
 #include "lang.h"
+#include "test.h"
 
 static void show_help(void)
 {
 	printf("help/h: show help information.\n");
 	printf("quit/q: quit from console.\n");
+}
+
+static void show_dump(void)
+{
+	// TODO 临时实现，之后用于console中命令生成的系统的dump。
+	test_dump();
 }
 
 static int do_inner_cmd(const char *line)
@@ -17,6 +24,8 @@ static int do_inner_cmd(const char *line)
 		return true;
 	} else if(strcmp("help", line) == 0 || strcmp("h", line) == 0 ) {
 		show_help();
+		} else if(strcmp("dump", line) == 0 || strcmp("d", line) == 0 ) {
+		show_dump();
 	} else {
 		printf("Unkown commnd: \"%s\"\n", line);
 	}
