@@ -137,3 +137,4 @@ TODO: 不过是否也会传递某些高级的对象？比如Relation、Object等
 	1. table1.lines[0].column[2] = "hello"
 
 增加Dump命令，可以将目前的关系变成 graphviz 的dot 语言，然后生成svg显示出来。
+
