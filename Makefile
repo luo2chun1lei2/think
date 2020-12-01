@@ -10,43 +10,46 @@
 SRC_ROOT_DIR=./src
 TARGET:=think
 OUT:=./out
+INCLUDE_DIR :=
 
 ## 编译选项
 CPP_C:=g++
 
-CPP_FLAGS := -g
-TEST_CPP_FLAGS := ${CPP_FLAGS}
-LD_FLAGS := -g
-TEST_LD_FLAGS := ${LD_FLAGS}
+CPP_FLAGS :=
+TEST_CPP_FLAGS := ${CPP_FLAGS} -g
+LD_FLAGS :=
+TEST_LD_FLAGS := ${LD_FLAGS} -g
 
 ## 扩展的宏
 TARGET_PATH := ${OUT}/${TARGET}
 TEST_TARGET := ${TARGET}.test
 TEST_TARGET_PATH := ${OUT}/${TEST_TARGET}
 
-#TEST_SRC := $(vpath src/*.test.cpp)
 SUB_DIRS = $(shell find ${SRC_ROOT_DIR} -type d)
-#$(wildcard src/*.test.cpp)
+
 TEST_SRC := $(foreach dir, $(SUB_DIRS), $(wildcard $(dir)/*.test.cpp))
 SRC := $(filter-out ${TEST_SRC}, $(foreach dir, $(SUB_DIRS), $(wildcard $(dir)/*.cpp)))
+HEADS := $(foreach dir, $(SUB_DIRS), $(wildcard $(dir)/*.hpp))
+
+INCLUDE_DIR += $(patsubst %,-I%,${SUB_DIRS})
 
 OBJS := $(patsubst ${SRC_ROOT_DIR}/%.cpp,${OUT}/%.o,${SRC})
 TEST_OBJS := $(patsubst ${SRC_ROOT_DIR}/%.cpp,${OUT}/%.o,${TEST_SRC})
 
 ## 规则
 all:
-	@echo "${SUB_DIRS} | ${SRC} -> ${OBJS} | ${TEST_SRC} -> ${TEST_OBJS}"
+	@echo "${SUB_DIRS} | ${INCLUDE_DIR} | ${SRC} -> ${OBJS} | ${TEST_SRC} -> ${TEST_OBJS}"
 
 prepare:
 	mkdir -p ${OUT}
 
-${OUT}/%.o:${SRC_ROOT_DIR}/%.test.cpp
+${OUT}/%.test.o:${SRC_ROOT_DIR}/%.test.cpp ${HEADS}
 	mkdir -p `dirname $@`
-	$(CPP_C) $(TEST_CPP_FLAGS) -c $< -o $@
+	$(CPP_C) $(INCLUDE_DIR) $(TEST_CPP_FLAGS) -c $< -o $@
 
-${OUT}/%.o:${SRC_ROOT_DIR}/%.cpp
+${OUT}/%.o:${SRC_ROOT_DIR}/%.cpp ${HEADS}
 	mkdir -p `dirname $@`
-	$(CPP_C) $(CPP_FLAGS) -c $< -o $@
+	$(CPP_C) $(INCLUDE_DIR) $(CPP_FLAGS) -c $< -o $@
 
 build_exe: prepare ${OBJS}
 	${CPP_C} ${LD_FLAGS} ${OBJS} -o ${TARGET_PATH}
@@ -54,13 +57,13 @@ build_exe: prepare ${OBJS}
 build_test: build_exe prepare ${TEST_OBJS}
 	${CPP_C} ${TEST_LD_FLAGS} ${TEST_OBJS} -o ${TEST_TARGET_PATH}
 
-all: build_exe build_test
+all: build_test
 
 clean:
 	@rm -rf ${OUT}
 	
 run: build_exe
-	${TARGET_PATH}
+	${TARGET_PATH} ${ARGS}
 	
 test: build_test
 	${TEST_TARGET_PATH}
