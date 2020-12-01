@@ -1,7 +1,7 @@
 # Think的总编译文件
 
 # 事前准备
-# sudo apt-get install catch
+# sudo apt-get install catch libuuid
 # catch: c plus plus 的单元测试工具，可以使用BDD-style的测试用例。
 
 .PHONY: clean prepare run test
@@ -17,7 +17,7 @@ CPP_C:=g++
 
 CPP_FLAGS :=
 TEST_CPP_FLAGS := ${CPP_FLAGS} -g
-LD_FLAGS :=
+LD_FLAGS := -luuid
 TEST_LD_FLAGS := ${LD_FLAGS} -g
 
 ## 扩展的宏
@@ -41,7 +41,7 @@ all:
 	@echo "${SUB_DIRS} | ${INCLUDE_DIR} | ${SRC} -> ${OBJS} | ${TEST_SRC} -> ${TEST_OBJS}"
 
 prepare:
-	mkdir -p ${OUT}
+	@mkdir -p ${OUT}
 
 ${OUT}/%.test.o:${SRC_ROOT_DIR}/%.test.cpp ${HEADS}
 	mkdir -p `dirname $@`
@@ -52,10 +52,10 @@ ${OUT}/%.o:${SRC_ROOT_DIR}/%.cpp ${HEADS}
 	$(CPP_C) $(INCLUDE_DIR) $(CPP_FLAGS) -c $< -o $@
 
 build_exe: prepare ${OBJS}
-	${CPP_C} ${LD_FLAGS} ${OBJS} -o ${TARGET_PATH}
+	${CPP_C} ${OBJS} ${LD_FLAGS} -o ${TARGET_PATH}
 
-build_test: build_exe prepare ${TEST_OBJS}
-	${CPP_C} ${TEST_LD_FLAGS} ${TEST_OBJS} -o ${TEST_TARGET_PATH}
+build_test: build_exe prepare ${TEST_OBJS} $(filter-out ./out/main.o, ${OBJS})
+	${CPP_C} ${TEST_LD_FLAGS} ${TEST_OBJS} $(filter-out ./out/main.o, ${OBJS}) -o ${TEST_TARGET_PATH}
 
 all: build_test
 
@@ -63,7 +63,7 @@ clean:
 	@rm -rf ${OUT}
 	
 run: build_exe
-	${TARGET_PATH} ${ARGS}
+	@${TARGET_PATH} ${ARGS}
 	
 test: build_test
-	${TEST_TARGET_PATH}
+	@${TEST_TARGET_PATH}
