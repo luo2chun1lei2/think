@@ -1,8 +1,8 @@
 #include <catch.hpp>
 
-#include <element.hpp>
+#include <ElementId.hpp>
 
-TEST_CASE("test", "[create_id]")
+TEST_CASE("[ElementId]", "test element id")
 {
 	ElementId id1;
 	ElementId id2;
@@ -34,4 +34,11 @@ TEST_CASE("test", "[create_id]")
         id1 = id2;
         REQUIRE( id1 == id2 );
     }
+}
+
+TEST_CASE("[ElementIdFactory]", "test factory of element id")
+{
+	ElementIdFactory *factory = ElementIdFactory::get_instance();
+	
+	REQUIRE(factory != NULL);
 }

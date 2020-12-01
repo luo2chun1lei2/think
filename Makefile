@@ -1,7 +1,7 @@
 # Think的总编译文件
 
 # 事前准备
-# sudo apt-get install catch libuuid
+# sudo apt-get install catch uuid-dev
 # catch: c plus plus 的单元测试工具，可以使用BDD-style的测试用例。
 
 .PHONY: clean prepare run test
@@ -54,8 +54,8 @@ ${OUT}/%.o:${SRC_ROOT_DIR}/%.cpp ${HEADS}
 build_exe: prepare ${OBJS}
 	${CPP_C} ${OBJS} ${LD_FLAGS} -o ${TARGET_PATH}
 
-build_test: build_exe prepare ${TEST_OBJS} $(filter-out ./out/main.o, ${OBJS})
-	${CPP_C} ${TEST_LD_FLAGS} ${TEST_OBJS} $(filter-out ./out/main.o, ${OBJS}) -o ${TEST_TARGET_PATH}
+build_test: build_exe prepare ${TEST_OBJS} $(filter-out ${OUT}/Main.o, ${OBJS})
+	${CPP_C} ${TEST_OBJS} $(filter-out ${OUT}/Main.o, ${OBJS}) ${TEST_LD_FLAGS} -o ${TEST_TARGET_PATH}
 
 all: build_test
 
@@ -66,4 +66,4 @@ run: build_exe
 	@${TARGET_PATH} ${ARGS}
 	
 test: build_test
-	@${TEST_TARGET_PATH}
+	@${TEST_TARGET_PATH} ${ARGS}

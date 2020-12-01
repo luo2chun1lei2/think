@@ -1,0 +1,10 @@
+#include <Element.hpp>
+
+/////////////////////////////////////////////////////////////////////
+
+ElementId Element::get_id()
+{
+	return this->id;
+}
+
+

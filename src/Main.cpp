@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <getopt.h>
 
-#include <misc.hpp>
+#include <Misc.hpp>
 
 static const char *_sopts = "his:";
 extern char *optarg; 

@@ -28,14 +28,22 @@ protected:
 private:
 };
 
-/**
- * 所有的元素的基类。
- */
-class Element
+class ElementIdFactory
 {
 public:
-	
+	static ElementIdFactory* get_instance() {
+		if(factory == nullptr) {
+			factory = new ElementIdFactory();
+		}
+		return factory;
+	}
+	// 产生唯一的 ID。
+	ElementId generate();
 protected:
-	elm_id_t id;
+	ElementIdFactory() {}	// 单例模式。
+	virtual ~ElementIdFactory() {}
+	
+	static ElementIdFactory *factory;
 private:
 };
+

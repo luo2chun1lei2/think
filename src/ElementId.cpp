@@ -1,4 +1,4 @@
-#include <element.hpp>
+#include <ElementId.hpp>
 
 ElementId::ElementId()
 {
@@ -39,3 +39,7 @@ bool ElementId::is_empty()
 {
 	return uuid_is_null(id);
 }
+
+///////////////////////////////////////////////////////////
+
+ElementIdFactory * ElementIdFactory::factory = nullptr;
