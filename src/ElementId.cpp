@@ -43,3 +43,10 @@ bool ElementId::is_empty()
 ///////////////////////////////////////////////////////////
 
 ElementIdFactory * ElementIdFactory::factory = nullptr;
+
+ElementId ElementIdFactory::generate()
+{
+	ElementId id;
+	id.generate();
+	return id;
+}

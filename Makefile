@@ -4,7 +4,7 @@
 # sudo apt-get install catch uuid-dev
 # catch: c plus plus 的单元测试工具，可以使用BDD-style的测试用例。
 
-.PHONY: clean prepare run test
+.PHONY: clean prepare run test format
 
 ## 代码和目标名字
 SRC_ROOT_DIR=./src
@@ -67,3 +67,6 @@ run: build_exe
 	
 test: build_test
 	@${TEST_TARGET_PATH} ${ARGS}
+	
+format:
+	indent -npro -kr -i4 -ts4 -sob -l120 -ss -bl  -bli 0 --blank-lines-after-procedures ${TEST_SRC} ${TEST_SRC}

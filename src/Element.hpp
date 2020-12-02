@@ -12,16 +12,12 @@ public:
 	Element(const Element &elm);
 	virtual ~Element() {}
 	
-	virtual ElementId get_id();
+	virtual ElementId get_id() const;
+	
+	virtual bool operator==(const Element &elm);
+	virtual bool operator!=(const Element &elm);
 	
 protected:
 	ElementId id;
-private:
-};
-
-class BasicElement : public Element
-{
-public:
-protected:
 private:
 };
