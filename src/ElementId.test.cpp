@@ -12,16 +12,14 @@ TEST_CASE("test Element Id", "[base]")
 
 	REQUIRE(id1 == id2);
 
-	SECTION("Two ids are not same.")
-	{
+	SECTION("Two ids are not same.") {
 		id1.generate();
 		id2.generate();
 
 		REQUIRE(id1 != id2);
 	}
 
-	SECTION("Compare and assgn value.")
-	{
+	SECTION("Compare and assgn value.") {
 		id1.generate();
 		id2.generate();
 
@@ -44,8 +42,7 @@ TEST_CASE("test factory of element id", "[base]")
 
 	REQUIRE(factory != NULL);
 
-	SECTION("Generate a element id.")
-	{
+	SECTION("Generate a element id.") {
 		ElementId id1 = factory->generate();
 		ElementId id2 = factory->generate();
 

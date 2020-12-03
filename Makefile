@@ -69,5 +69,5 @@ test: build_test
 	@${TEST_TARGET_PATH} ${ARGS}
 	
 format:
-	@indent -npro -kr -i4 -ts4 -sob -l120 -ss -bl  -bli 0 --blank-lines-after-procedures ${TEST_SRC} ${TEST_SRC}
+	@indent -linux ${TEST_SRC} ${TEST_SRC}
 	@find -name "*~" | xargs rm -f
