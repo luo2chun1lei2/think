@@ -1,5 +1,7 @@
 #pragma once
 
+#include <vector>
+
 #include <Element.hpp>
 #include <Relation.hpp>
 
@@ -10,9 +12,16 @@
 class Model
 {
 public:
-	Model(){}
+	Model();
 	Model(const Model &mdl) = delete;
-	virtual ~Model(){}
+	virtual ~Model();
+	
+	virtual bool add_elm(Element *elm);
+	virtual Element * get_elm(uint32_t no) const;
+	virtual Element * find_elm(const ElementId id) const;
+	
 protected:
+	std::vector<Element *> elms;
+	
 private:
 };
