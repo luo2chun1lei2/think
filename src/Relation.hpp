@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <string>
 #include <initializer_list>
 
 #include <Element.hpp>
@@ -8,7 +9,7 @@
 class Relation: public Element
 {
 public:
-	Relation();
+	Relation(const std::string name);
 	Relation(const Relation &rlt);
 	virtual ~Relation();
 	
@@ -17,7 +18,9 @@ public:
 	virtual void relate(std::initializer_list<Element*> lst);
 	// 得到此关系涉及到元素，按照序号。
 	// 如果不存在，就会返回NULL。
-	virtual const Element * get_elm(uint32_t no);
+	virtual const Element * get_elm(uint32_t no) const;
+	
+	virtual std::vector<Element *> get_elms() const;
 	
 protected:
 	// 关联的元素列表。

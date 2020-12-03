@@ -1,6 +1,6 @@
 #include <Relation.hpp>
 
-Relation::Relation()
+Relation::Relation(const std::string name) : Element(name)
 {
 }
 
@@ -25,11 +25,16 @@ void Relation::relate(std::initializer_list<Element*> lst)
 
 // 得到此关系涉及到元素，按照序号。
 // 如果不存在，就会返回NULL。
-const Element * Relation::get_elm(uint32_t no)
+const Element * Relation::get_elm(uint32_t no) const
 {
 	if(no >= elms.size()) {
 		return nullptr;
 	} else {
 		return this->elms[no];
 	}
+}
+
+std::vector<Element *> Relation::get_elms() const
+{
+	return this->elms;
 }

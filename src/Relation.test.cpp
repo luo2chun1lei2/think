@@ -4,8 +4,8 @@
 
 TEST_CASE("test relation", "[base]")
 {
-	Relation rlt1;
-	Relation rlt2;
+	Relation rlt1("rlt1");
+	Relation rlt2("rlt2");
 
 	SECTION("Relation has id")
 	{
@@ -23,8 +23,8 @@ TEST_CASE("test relation", "[base]")
 
 	SECTION("Relation can has relation with two objects")
 	{
-		Element elm1;
-		Element elm2;
+		Element elm1("elm1");
+		Element elm2("elm2");
 		// 建立 elm1 和 elm2 之间的关系。
 		rlt1.relate(
 					   {
