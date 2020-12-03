@@ -27,5 +27,9 @@ void Relation::relate(std::initializer_list<Element*> lst)
 // 如果不存在，就会返回NULL。
 const Element * Relation::get_elm(uint32_t no)
 {
-	return this->elms[no];
+	if(no >= elms.size()) {
+		return nullptr;
+	} else {
+		return this->elms[no];
+	}
 }
