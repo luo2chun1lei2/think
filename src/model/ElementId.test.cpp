@@ -2,7 +2,7 @@
 
 #include <ElementId.hpp>
 
-TEST_CASE("test Element Id", "[base]")
+TEST_CASE("test Element Id", "[model]")
 {
 	ElementId id1;
 	ElementId id2;

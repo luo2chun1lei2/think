@@ -2,7 +2,7 @@
 
 #include <Relation.hpp>
 
-TEST_CASE("test relation", "[base]")
+TEST_CASE("test relation", "[model]")
 {
 	Relation rlt1("rlt1");
 	Relation rlt2("rlt2");

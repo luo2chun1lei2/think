@@ -1,11 +1,14 @@
 #include <catch.hpp>
 
+#include <Input.hpp>
 #include <Model.hpp>
 
-TEST_CASE("test model", "[model]")
+TEST_CASE("test input about comand line", "[app]")
 {
-	Element elm0("elm0");	// not in model.
-	Element elm1("elm1");
+	InputCmdLine input();
+	
+#if 0
+	input.add(Element elm1("elm1");
 	Element elm2("elm2");
 	Element elm3("elm3");
 
@@ -82,4 +85,6 @@ TEST_CASE("test model", "[model]")
 			REQUIRE(found[0] == &elm3);
 		}
 	}
+#endif
 }
+

@@ -2,7 +2,7 @@
 
 #include <Element.hpp>
 
-TEST_CASE("test element", "[base]")
+TEST_CASE("test element", "[model]")
 {
 	Element elm1("elm1");
 	Element elm2("elm2");
