@@ -9,7 +9,7 @@ Element::Element(const std::string name)
 	this->name = name;
 }
 
-Element::Element(const Element &elm)
+Element::Element(const Element & elm)
 {
 	id = elm.id;
 	name = elm.name;
@@ -25,12 +25,12 @@ std::string Element::get_name() const
 	return this->name;
 }
 
-bool Element::operator==(const Element &elm)
+bool Element::operator==(const Element & elm)
 {
 	return elm.get_id() == this->get_id();
 }
 
-bool Element::operator!=(const Element &elm)
+bool Element::operator!=(const Element & elm)
 {
-	return ! (*this == elm);
+	return !(*this == elm);
 }

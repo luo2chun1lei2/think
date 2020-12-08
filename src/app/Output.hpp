@@ -29,5 +29,6 @@ public:
 	virtual void set_output_filepath(const std::string path);
 	virtual bool output(const Model &model);
 protected:
+	std::string output_file_path;
 private:
 };

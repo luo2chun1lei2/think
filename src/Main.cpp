@@ -5,7 +5,7 @@
 #include <Misc.hpp>
 
 static const char *_sopts = "his:";
-extern char *optarg; 
+extern char *optarg;
 static const struct option _lopts[] = {
 	{"help", no_argument, 0, 'h'},
 	{"script", required_argument, 0, 's'},
@@ -18,8 +18,7 @@ static const char *usage =
     "options:\n"
     "  -h, --help            prints this message and exit.\n"
     "  -s, --script <path>   execute script at start.\n"
-    "  -i, --interactive     run into interactive mode.\n"
-    "\n";
+    "  -i, --interactive     run into interactive mode.\n" "\n";
 
 static void print_usage_and_exit(const char *prog, int code)
 {
@@ -27,13 +26,13 @@ static void print_usage_and_exit(const char *prog, int code)
 	exit(code);
 }
 
-int main(int argc, char* argv[])
+int main(int argc, char *argv[])
 {
 	LOGI("start think...\n");
 
 	int c;
 	int oidx = 0;
-	
+
 	bool enter_interactive = false;
 	const char *script_path = NULL;
 

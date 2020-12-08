@@ -1,5 +1,8 @@
 #include <catch.hpp>
 
+#include <stdlib.h>
+#include <unistd.h>
+
 #include <Output.hpp>
 
 TEST_CASE("test output about graphviz", "[app]")
@@ -35,7 +38,13 @@ TEST_CASE("test output about graphviz", "[app]")
 
 	SECTION("init and export") {
 		OutputGraphviz output;
-		output.set_output_filepath("/tmp/temp.txt");
+		char path[] = "/tmp/XXXXXX.txt";
+		int fd = mkstemps(path, 4);
+		REQUIRE(fd != -1);
+		close(fd);
+
+		output.set_output_filepath(path);
+		REQUIRE(output.output(model));
 	}
 
 }

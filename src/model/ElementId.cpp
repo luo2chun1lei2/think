@@ -5,7 +5,7 @@ ElementId::ElementId()
 	this->clear();
 }
 
-ElementId::ElementId(const ElementId &from)
+ElementId::ElementId(const ElementId & from)
 {
 	uuid_copy(this->id, from.id);
 }
@@ -14,12 +14,12 @@ ElementId::~ElementId()
 {
 }
 
-bool ElementId::operator==(const ElementId &elm_id)
+bool ElementId::operator==(const ElementId & elm_id)
 {
 	return uuid_compare(this->id, elm_id.id) == 0;
 }
 
-bool ElementId::operator!=(const ElementId &elm_id)
+bool ElementId::operator!=(const ElementId & elm_id)
 {
 	return !(*this == elm_id);
 }
@@ -42,7 +42,7 @@ bool ElementId::is_empty()
 
 ///////////////////////////////////////////////////////////
 
-ElementIdFactory * ElementIdFactory::factory = nullptr;
+ElementIdFactory *ElementIdFactory::factory = nullptr;
 
 ElementId ElementIdFactory::generate()
 {

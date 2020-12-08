@@ -1,7 +1,7 @@
 # Think的总编译文件
 
 # 事前准备
-# sudo apt-get install catch uuid-dev
+# sudo apt-get install catch uuid-dev libgraphviz-dev
 # catch: c plus plus 的单元测试工具，可以使用BDD-style的测试用例。
 
 .PHONY: clean prepare run test format
@@ -15,9 +15,9 @@ INCLUDE_DIR :=
 ## 编译选项
 CPP_C:=g++
 
-CPP_FLAGS :=
+CPP_FLAGS := `pkg-config libgvc --cflags` -Wall
 TEST_CPP_FLAGS := ${CPP_FLAGS} -g
-LD_FLAGS := -luuid
+LD_FLAGS := -luuid `pkg-config libgvc --libs`
 TEST_LD_FLAGS := ${LD_FLAGS} -g
 
 ## 扩展的宏
@@ -69,5 +69,5 @@ test: build_test
 	@${TEST_TARGET_PATH} ${ARGS}
 	
 format:
-	@indent -linux ${TEST_SRC} ${TEST_SRC}
+	@indent -linux ${SRC} ${TEST_SRC}
 	@find -name "*~" | xargs rm -f
