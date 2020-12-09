@@ -26,7 +26,7 @@ bool Model::add_elm(Element * elm)
 	return true;
 }
 
-Element *Model::get_elm(uint32_t no) const const
+Element *Model::get_elm(uint32_t no) const
 {
 	if (no >= elms.size()) {
 		return nullptr;
@@ -35,7 +35,7 @@ Element *Model::get_elm(uint32_t no) const const
 	}
 }
 
-Element *Model::find_elm(const ElementId id) constconst
+Element *Model::find_elm(const ElementId id) const
 {
  for (auto e:elms) {
 		if (e->get_id() == id) {
@@ -46,7 +46,7 @@ Element *Model::find_elm(const ElementId id) constconst
 	return nullptr;
 }
 
-vector < Element * >Model::find_elm(const std::string name) constconst
+vector < Element * >Model::find_elm(const std::string name) const
 {
 	vector < Element * >found;
  for (auto e:elms) {

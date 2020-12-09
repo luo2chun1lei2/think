@@ -4,6 +4,6 @@
 
 TEST_CASE("test misc", "[misc]")
 {
-	LOGE("error message.");
-	LOGI("information message.");
+	LOGE("error message.\n");
+	LOGI("information message.\n");
 }

@@ -3,7 +3,12 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+#include <sstream>
+
+#include <Misc.hpp>
 #include <Output.hpp>
+
+using namespace std;
 
 TEST_CASE("test output about graphviz", "[app]")
 {
@@ -36,15 +41,22 @@ TEST_CASE("test output about graphviz", "[app]")
 	model.add_elm(&rlt1);
 	model.add_elm(&rlt2);
 
-	SECTION("init and export") {
+	SECTION("init and export", "[block]") {
 		OutputGraphviz output;
-		char path[] = "/tmp/XXXXXX.txt";
+		char path[] = "/tmp/XXXXXX.svg";
 		int fd = mkstemps(path, 4);
 		REQUIRE(fd != -1);
 		close(fd);
 
 		output.set_output_filepath(path);
+		LOGE("path=%s\n", path);
 		REQUIRE(output.output(model));
+		
+		// 执行显示图片的命令，system必须退出才行。
+		ostringstream stream;
+		stream << "eog " << path;
+		auto cmd = stream.str();
+		system(cmd.c_str());
 	}
 
 }
