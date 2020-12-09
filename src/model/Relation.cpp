@@ -34,6 +34,11 @@ const Element *Relation::get_elm(uint32_t no) const
 	}
 }
 
+size_t Relation::get_elm_count() const
+{
+	return this->elms.size();
+}
+
 std::vector < Element * >Relation::get_elms() const
 {
 	return this->elms;

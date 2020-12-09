@@ -19,6 +19,7 @@ public:
 	// 得到此关系涉及到元素，按照序号。
 	// 如果不存在，就会返回NULL。
 	virtual const Element * get_elm(uint32_t no) const;
+	virtual size_t get_elm_count() const;
 	
 	virtual std::vector<Element *> get_elms() const;
 	

@@ -35,6 +35,11 @@ Element *Model::get_elm(uint32_t no) const
 	}
 }
 
+size_t Model::get_elm_count() const
+{
+	return elms.size();
+}
+
 Element *Model::find_elm(const ElementId id) const
 {
  for (auto e:elms) {
@@ -49,13 +54,24 @@ Element *Model::find_elm(const ElementId id) const
 vector < Element * >Model::find_elm(const std::string name) const
 {
 	vector < Element * >found;
- for (auto e:elms) {
+ 	for (auto e:elms) {
 		if (e->get_name() == name) {
 			found.push_back(e);
 		}
 	}
 
 	return found;
+}
+
+int Model::index_of(const ElementId id) const
+{
+	for(int i=0; i<elms.size(); i++) {
+		if (elms[i]->get_id() == id) {
+			return i;
+		}
+	}
+	
+	return -1;
 }
 
 // TODO: 目前的问题是relation中没有方向。

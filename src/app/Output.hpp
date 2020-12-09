@@ -2,6 +2,8 @@
 
 #include <string>
 
+#include <graphviz/gvc.h>
+
 #include <Model.hpp>
 
 /**
@@ -29,6 +31,12 @@ public:
 	virtual void set_output_filepath(const std::string path);
 	virtual bool output(const Model &model);
 protected:
+	virtual bool prepare_graphviz();
+	virtual void finish_graphviz();
+	
 	std::string output_file_path;
+	Agraph_t *g;
+	GVC_t *gvc;
+
 private:
 };
