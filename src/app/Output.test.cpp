@@ -30,10 +30,6 @@ TEST_CASE("test output about graphviz", "[app][block]") {
     rlt1.relate(&elm1, &elm2);
     rlt2.relate(&elm2, &elm3);
 
-    model.add_elm(&elm1);
-    model.add_elm(&elm2);
-    model.add_elm(&elm3);
-
     model.add_elm(&rlt1);
     model.add_elm(&rlt2);
 
