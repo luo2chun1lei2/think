@@ -2,8 +2,7 @@
 
 #include <Misc.hpp>
 
-TEST_CASE("test misc", "[misc]")
-{
-	LOGE("error message.\n");
-	LOGI("information message.\n");
+TEST_CASE("test misc", "[misc]") {
+    LOGE("error message.\n");
+    LOGI("information message.\n");
 }

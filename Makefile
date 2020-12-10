@@ -71,7 +71,8 @@ test: build_test
 # 不运行可以阻塞的测试项目	
 auto_test: build_test
 	@${TEST_TARGET_PATH} ~[block] ${ARGS}
-	
+
+# 使用clang-format，配置参数在 .clang-format文件中。
+# ident工具对于c++语法解析的不正确。
 format:
-	@indent -linux ${SRC} ${TEST_SRC}
-	@find -name "*~" | xargs rm -f
+	@clang-format -i ${SRC} ${TEST_SRC}

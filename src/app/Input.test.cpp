@@ -3,9 +3,8 @@
 #include <Input.hpp>
 #include <Model.hpp>
 
-TEST_CASE("test input about comand line", "[app]")
-{
-	InputCmdLine input();
+TEST_CASE("test input about comand line", "[app]") {
+    InputCmdLine input();
 
 #if 0
 	input.add(Element elm1("elm1"); Element elm2("elm2"); Element elm3("elm3"); Relation rlt0("rlt0");	// not in model.
@@ -58,4 +57,4 @@ TEST_CASE("test input about comand line", "[app]")
 		  REQUIRE(found.size() == 1); REQUIRE(found[0] == &elm3);}
 		  }
 #endif
-		  }
+}
