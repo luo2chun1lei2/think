@@ -27,11 +27,11 @@ TEST_CASE("test model", "[model]")
 	}
 
 	SECTION("Add relations and find.") {
-		rlt1.relate( {
-			    &elm1, &elm2}
+		rlt1.relate( 
+			    &elm1, &elm2
 		);
-		rlt2.relate( {
-			    &elm2, &elm3}
+		rlt2.relate( 
+			    &elm2, &elm3
 		);
 
 		model.add_elm(&elm1);

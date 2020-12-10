@@ -10,7 +10,8 @@
 
 using namespace std;
 
-TEST_CASE("test output about graphviz", "[app]")
+// 此测试会阻塞，直到关闭eog程序。
+TEST_CASE("test output about graphviz", "[app][block]")
 {
 	Element elm0("elm0");	// not in model.
 	Element elm1("elm1");
@@ -27,11 +28,11 @@ TEST_CASE("test output about graphviz", "[app]")
 	model.add_elm(&elm2);
 	model.add_elm(&elm3);
 
-	rlt1.relate( {
-		    &elm1, &elm2}
+	rlt1.relate(
+		    &elm1, &elm2
 	);
-	rlt2.relate( {
-		    &elm2, &elm3}
+	rlt2.relate( 
+		    &elm2, &elm3
 	);
 
 	model.add_elm(&elm1);
@@ -41,7 +42,7 @@ TEST_CASE("test output about graphviz", "[app]")
 	model.add_elm(&rlt1);
 	model.add_elm(&rlt2);
 
-	SECTION("init and export", "[block]") {
+	SECTION("init and export") {
 		OutputGraphviz output;
 		char path[] = "/tmp/XXXXXX.svg";
 		int fd = mkstemps(path, 4);

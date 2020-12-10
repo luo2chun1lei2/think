@@ -23,12 +23,9 @@ TEST_CASE("test relation", "[model]")
 		Element elm1("elm1");
 		Element elm2("elm2");
 		// 建立 elm1 和 elm2 之间的关系。
-		rlt1.relate( {
-			    &elm1, &elm2}
-		);
+		rlt1.relate(&elm1, &elm2);
 
-		REQUIRE(elm1 == *(rlt1.get_elm(0)));
-		REQUIRE(elm2 == *(rlt1.get_elm(1)));
-		REQUIRE(rlt1.get_elm(2) == NULL);
+		REQUIRE(elm1 == *(rlt1.get_from()));
+		REQUIRE(elm2 == *(rlt1.get_to()));
 	}
 }

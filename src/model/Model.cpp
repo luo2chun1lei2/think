@@ -74,30 +74,20 @@ int Model::index_of(const ElementId id) const
 	return -1;
 }
 
-// TODO: 目前的问题是relation中没有方向。
-std::vector < Element * >Model::find_elm_by_rlt(const std::string elm_name,
+// 语义是：elm的rlt关系对应的elm是什么。
+// 但是elm允许有同名的关系，比如某个人的亲戚，可以有很多。
+// find to = from.rlt.
+std::vector <Element * >Model::find_elm_by_rlt(const std::string elm_name,
 						const std::string rlt_name)
 {
-	vector < Element * >found;
+	vector <Element * >found;
 
-	vector < Element * >found_rlts = find_elm(rlt_name);
- for (auto rlt:found_rlts) {
-
-		vector < Element * >elms =
-		    dynamic_cast < Relation * >(rlt)->get_elms();
-		bool got = false;
- for (auto e:	elms) {
-			if (e->get_name() == elm_name) {
-				got = true;
-			}
-		}
-
-		if (got) {
- for (auto e:		elms) {
-				if (e->get_name() != elm_name) {
-					found.push_back(e);
-				}
-			}
+	vector <Element * >found_rlts = find_elm(rlt_name);
+	for (auto elm: found_rlts) {
+		Relation * rlt = dynamic_cast<Relation *>(elm);
+		Element * e = rlt->get_from();
+		if (e->get_name() == elm_name) {
+			found.push_back(rlt->get_to());
 		}
 	}
 

@@ -85,17 +85,12 @@ bool OutputGraphviz::output(const Model & model)
     		Relation *rlt = dynamic_cast<Relation *>(elm);
     		string str_name = rlt->get_name();
     		char * name = const_cast<char *>(str_name.c_str());
-    		size_t rlt_elm_count = rlt->get_elm_count();
-    		if (rlt_elm_count <2) {
-    			LOGE("Find Relation(%s) has only one elements.\n", name);
-    			continue;
-    		}
-
-    		int index;    		
-    		index = model.index_of( rlt->get_elm(0)->get_id() );
+    	
+    		int index;
+    		index = model.index_of(rlt->get_from()->get_id());
     		Agnode_t * f = (Agnode_t *)ag_elms[index];
     		
-    		index = model.index_of( rlt->get_elm(1)->get_id() );
+    		index = model.index_of( rlt->get_to()->get_id());
     		Agnode_t * t = (Agnode_t *)ag_elms[index];
     		
     		Agedge_t *e = agedge(g, f, t, name, 1);

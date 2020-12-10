@@ -64,9 +64,13 @@ clean:
 	
 run: build_exe
 	@${TARGET_PATH} ${ARGS}
-	
+
 test: build_test
-	@${TEST_TARGET_PATH} ${ARGS}
+	@${TEST_TARGET_PATH}${ARGS}
+
+# 不运行可以阻塞的测试项目	
+auto_test: build_test
+	@${TEST_TARGET_PATH} ~[block] ${ARGS}
 	
 format:
 	@indent -linux ${SRC} ${TEST_SRC}
