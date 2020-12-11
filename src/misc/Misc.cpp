@@ -12,7 +12,7 @@ bool CombineLine::add(std::string line, std::string &all)
 	}
 }
 
-bool ParseCommandLineWithProperties::parse(const std::string cmdline, Properties &properties)
+bool ParseCommandLineWithProperties::parse(const std::string cmdline)
 {
 	return false;
 }

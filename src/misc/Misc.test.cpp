@@ -88,12 +88,14 @@ TEST_CASE("test combine line", "[misc]") {
 TEST_CASE("parse command line with properties", "[misc]") {
 	ParseCommandLineWithProperties parse;
 	SECTION("one line") {
-		Properties propties;
+		ParseCommandLineWithProperties::Properties propties;
 	
-    	REQUIRE(parse.parse("XXX a=1 b=2", propties));
-    	REQUIRE(propties.size() == );
-    	
-    	REQUIRE(clines.add(" this is only 1 line \\ ", all));	// 注意，后面有一个空格。
-    	REQUIRE(all == " this is only 1 line \\ ");
+    	REQUIRE(parse.parse("XXX a=1 b=2"));
+    	REQUIRE(parse.get_start() == "XXX");
+    	REQUIRE(parse.get_properties().size() == 2);
+    	REQUIRE(parse.get_properties()[0].first == "a");
+    	REQUIRE(parse.get_properties()[0].second == "1");
+    	REQUIRE(parse.get_properties()[1].first == "b");
+    	REQUIRE(parse.get_properties()[1].second == "2");
     }
-
+}

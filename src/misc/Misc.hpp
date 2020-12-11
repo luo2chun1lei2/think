@@ -29,7 +29,7 @@ protected:
 /**
  * 分析一行属性命令，然后将命令分解成对应的属性。
  * format:
- * XXXX prop_name=prop_value prog_name=prop_value ...
+ * start prop_name=prop_value prog_name=prop_value ...
  * prop_name 和 prop_value 可以用双引号扩上，这样就可以有空格。
  * 例子：
  * Relation name="父子“ from="罗父“ to=”罗某“
@@ -44,9 +44,18 @@ public:
 	
 	// 如果命令不和要求，就返回false，其他返回true，properties里面是键值对。
 	// 因为这里不考虑key的重复问题，所以用vector。
-	bool parse(const std::string cmdline);
+	virtual bool parse(const std::string cmdline);
+	
+	virtual std::string get_start() {
+		return start;
+	}
+	
+	virtual Properties get_properties() {
+		return properties;
+	}
+	
 protected:
-	std::string obj_name;
-	Properties properties
+	std::string start;
+	Properties properties;
 private:
 };
