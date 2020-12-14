@@ -6,7 +6,7 @@
 
 using namespace std;
 
-OutputGraphviz::OutputGraphviz() {
+OutputGraphviz::OutputGraphviz(const string name) : Output(name) {
 }
 
 OutputGraphviz::~OutputGraphviz() {

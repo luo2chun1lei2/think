@@ -50,7 +50,6 @@ TEST_CASE("test combine line", "[misc]") {
 TEST_CASE("parse command line with properties", "[misc]") {
 	ParseCommandLineWithProperties parse;
 	SECTION("one line") {
-		ParseCommandLineWithProperties::Properties propties;
 	
 		REQUIRE(!parse.parse("XXX a=1 b="));
 		REQUIRE(!parse.parse("XXX a= b=2"));

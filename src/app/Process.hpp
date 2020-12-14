@@ -35,7 +35,8 @@ public:
 	}
 	
 	/**
-	 *
+	 * 分析命令并执行。
+	 * @cmd 这里命令是一行，不存在换行问题。
 	 * @return false:命令解析失败，不符合语法。不代表执行的结果如何。
 	 */
 	virtual bool exec(const std::string cmd);

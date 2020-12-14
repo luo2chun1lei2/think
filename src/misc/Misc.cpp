@@ -92,3 +92,14 @@ bool ParseCommandLineWithProperties::parse(const std::string cmdline)
 	
 	return true;
 }
+
+std::string ParseCommandLineWithProperties::get_prop_value(const std::string prop_key)
+{
+	for(pair<string, string> one : this->properties) {
+		if (one.first == prop_key) {
+			return one.second;
+		}
+	}
+	
+	return "";
+}

@@ -33,6 +33,7 @@ protected:
  * prop_name 和 prop_value 可以用双引号扩上，这样就可以有空格。
  * 例子：
  * Relation name="父子“ from="罗父“ to=”罗某“
+ * 注意分析后的属性等，如果原来带有双引号，那么解析后也会带有双引号。
  */
 class ParseCommandLineWithProperties
 {
@@ -53,6 +54,8 @@ public:
 	virtual Properties get_properties() {
 		return properties;
 	}
+	
+	virtual std::string get_prop_value(const std::string prop_key);
 	
 protected:
 	virtual bool parse_match(const std::string cmdline);

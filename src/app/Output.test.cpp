@@ -34,7 +34,7 @@ TEST_CASE("test output about graphviz", "[app][block]") {
     model.add_elm(&rlt2);
 
     SECTION("init and export") {
-        OutputGraphviz output;
+        OutputGraphviz output("test");
         char           path[] = "/tmp/XXXXXX.svg";
         int            fd     = mkstemps(path, 4);
         REQUIRE(fd != -1);
