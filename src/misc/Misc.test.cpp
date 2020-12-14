@@ -52,11 +52,13 @@ TEST_CASE("parse command line with properties", "[misc]") {
 	SECTION("one line") {
 		ParseCommandLineWithProperties::Properties propties;
 	
-//		REQUIRE(!parse.parse("XXX a=1 b="));
-//		REQUIRE(!parse.parse("XXX a= b=2"));
-//		REQUIRE(!parse.parse("a=1 b=2"));
-//		REQUIRE(!parse.parse("xxx a b=2"));
-//		REQUIRE(!parse.parse("xxx"));	// 不合法，认为连名字都没有。
+		REQUIRE(!parse.parse("XXX a=1 b="));
+		REQUIRE(!parse.parse("XXX a= b=2"));
+		REQUIRE(!parse.parse("a=1 b=2"));
+		REQUIRE(!parse.parse("xxx a b=2"));
+		
+		REQUIRE(parse.parse("xxx"));	// TODO: 这个合法吗？一个属性都没有？
+		REQUIRE(parse.get_start() == "xxx");
 		
     	REQUIRE(parse.parse("XXX a=1 b=2"));
     	REQUIRE(parse.get_start() == "XXX");

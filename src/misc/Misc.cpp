@@ -17,24 +17,37 @@ bool CombineLine::add(std::string line, std::string &all)
 	}
 }
 
-bool ParseCommandLineWithProperties::parse_start(const std::string cmdline)
+// 是一个字母或数组组成的无空格字符串，或者有空格，则需要两边用双引号来括起来。
+// 比如：  abc123  or   "a b c 1 2 3"
+#define TAG "(\"([[:alnum:]]|[[:space:]])+\"|[[:alnum:]]+)"
+
+bool ParseCommandLineWithProperties::parse_match(const std::string cmdline)
 {
-	string pattern = "^(\"([[:alnum:]]|[[:space:]])+\"|[[:alnum:]]+)[[:space:]]+.*";
+	string pattern = "^[[:space:]]*" TAG "([[:space:]]+" TAG "=" TAG ")*[[:space:]]*$";
 	
 	regex r(pattern);
 	
 	// 先判断是否匹配。
-	if (!regex_match(cmdline, r)) {
+	if (regex_match(cmdline, r)) {
+		return true;
+	} else {
 		LOGE("Command line doesn't match pattern.\n");
 		return false;
 	}
+}
+
+bool ParseCommandLineWithProperties::parse_start(const std::string cmdline)
+{
+	string pattern = "^(\"([[:alnum:]]|[[:space:]])+\"|[[:alnum:]]+)[[:space:]]*";
+	
+	regex r(pattern);
 	
 	for(sregex_iterator it(cmdline.begin(), cmdline.end(), r), end_it; it != end_it; ++it) {
 		const smatch &m = *it;
-		for(auto s : m) {
-			cout << s.str() + "@";
-		}
-		cout << endl;
+//		for(auto s : m) {
+//			cout << s.str() + "@";
+//		}
+//		cout << endl;
 		this->start = m[1].str();
 	}
 	
@@ -49,10 +62,10 @@ bool ParseCommandLineWithProperties::parse_properties(const std::string cmdline)
 		
 	for(sregex_iterator it(cmdline.begin(), cmdline.end(), r), end_it; it != end_it; ++it) {
 		const smatch &m = *it;
-		for(auto s : m) {
-			cout << s.str() + "@";
-		}
-		cout << endl;
+//		for(auto s : m) {
+//			cout << s.str() + "@";
+//		}
+//		cout << endl;
 		this->properties.push_back(make_pair(m[1].str(), m[3].str()));
 	}
 	
@@ -63,6 +76,10 @@ bool ParseCommandLineWithProperties::parse(const std::string cmdline)
 {
 	this->start = "";
 	this->properties.clear();
+	
+	if (!parse_match(cmdline)) {
+		return false;
+	}
 	
 	if (!parse_start(cmdline)) {
 		return false;

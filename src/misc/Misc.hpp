@@ -55,6 +55,7 @@ public:
 	}
 	
 protected:
+	virtual bool parse_match(const std::string cmdline);
 	virtual bool parse_start(const std::string cmdline);
 	virtual bool parse_properties(const std::string cmdline);
 
