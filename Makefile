@@ -15,10 +15,10 @@ INCLUDE_DIR :=
 ## 编译选项
 CPP_C:=g++
 
-CPP_FLAGS := `pkg-config libgvc --cflags` -Wall
-TEST_CPP_FLAGS := ${CPP_FLAGS} -g
-LD_FLAGS := -luuid `pkg-config libgvc --libs`
-TEST_LD_FLAGS := ${LD_FLAGS} -g
+CPP_FLAGS := `pkg-config libgvc --cflags` -Wall -g
+TEST_CPP_FLAGS := ${CPP_FLAGS}
+LD_FLAGS := -luuid `pkg-config libgvc --libs` -g
+TEST_LD_FLAGS := ${LD_FLAGS}
 
 ## 扩展的宏
 TARGET_PATH := ${OUT}/${TARGET}

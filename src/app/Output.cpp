@@ -44,7 +44,7 @@ void OutputGraphviz::finish_graphviz() {
     gvFreeContext(gvc);
 }
 
-bool OutputGraphviz::output(const Model &model) {
+bool OutputGraphviz::output(const Model *model) {
     if (!prepare_graphviz()) {
         return false;
     }
@@ -52,13 +52,13 @@ bool OutputGraphviz::output(const Model &model) {
     /* Create a simple digraph */
     g = agopen("g", Agdirected, 0);
 
-    size_t count = model.get_elm_count();
+    size_t count = model->get_elm_count();
 
     void *ag_elms[ count ];
 
     // 先处理非Relation的元素。
     for (size_t i = 0; i < count; i++) {
-        Element *elm = model.get_elm(i);
+        Element *elm = model->get_elm(i);
         if (typeid(*elm) != typeid(Relation)) {
             string    str_name = elm->get_name();
             char *    name     = const_cast<char *>(str_name.c_str());
@@ -75,22 +75,32 @@ bool OutputGraphviz::output(const Model &model) {
 
     // 然后再处理Relation的元素。
     for (size_t i = 0; i < count; i++) {
-        Element *elm = model.get_elm(i);
+        Element *elm = model->get_elm(i);
         if (typeid(*elm) == typeid(Relation)) {
             Relation *rlt      = dynamic_cast<Relation *>(elm);
             string    str_name = rlt->get_name();
             char *    name     = const_cast<char *>(str_name.c_str());
 
             int index;
-            index       = model.index_of(rlt->get_from()->get_id());
+            if (!rlt->get_from()) {
+                LOGE("Relation(%s) hasn't from.\n", rlt->get_name().c_str());
+                return false;
+            }
+
+            if (!rlt->get_to() ) {
+                LOGE("Relation(%s) hasn't to.\n", rlt->get_name().c_str());
+                return false;
+            }
+
+            index       = model->index_of(rlt->get_from()->get_id());
             Agnode_t *f = (Agnode_t *)ag_elms[ index ];
 
-            index       = model.index_of(rlt->get_to()->get_id());
+            index       = model->index_of(rlt->get_to()->get_id());
             Agnode_t *t = (Agnode_t *)ag_elms[ index ];
 
             Agedge_t *e = agedge(g, f, t, name, 1);
 
-            LOGI("NAME=%s\n", name);
+            //LOGI("NAME=%s\n", name);
             agsafeset(e, "label", name, "");
 
             ag_elms[ i ] = e;

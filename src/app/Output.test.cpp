@@ -41,8 +41,8 @@ TEST_CASE("test output about graphviz", "[app][block]") {
         close(fd);
 
         output.set_output_filepath(path);
-        LOGE("path=%s\n", path);
-        REQUIRE(output.output(model));
+        LOGI("path=%s\n", path);
+        REQUIRE(output.output(&model));
 
         // 执行显示图片的命令，system必须退出才行。
         ostringstream stream;

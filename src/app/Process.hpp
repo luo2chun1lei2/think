@@ -23,16 +23,23 @@ private:
 class ProcessCmdLine : public Process
 {
 public:
-	ProcessCmdLine() : Process() {}
+	ProcessCmdLine() : Process() {
+		model = nullptr;
+	}
 	
-	virtual ~ProcessCmdLine() {}
+	virtual ~ProcessCmdLine() {
+		if (model) {
+			delete model;
+		}
+	}
 	
 	virtual void set_model(Model *model) {
 		this->model = model;
 	}
-	virtual void set_output(Output *output) {
-		this->output = output;
-	}
+	
+	//virtual void set_output(Output *output) {
+	//	this->output = output;
+	//}
 	
 	/**
 	 * 分析命令并执行。
@@ -43,6 +50,5 @@ public:
 	
 protected:
 	Model *model;
-    Output *output;
 private:
 };

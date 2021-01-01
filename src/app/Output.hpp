@@ -15,7 +15,7 @@ class Output
 public:
 	Output(const std::string name) {}
 	virtual ~Output() {}
-	virtual bool output(const Model &model) = 0;
+	virtual bool output(const Model *model) = 0;
 protected:
 private:
 };
@@ -29,7 +29,7 @@ public:
 	OutputGraphviz(const std::string name);
 	virtual ~OutputGraphviz();
 	virtual void set_output_filepath(const std::string path);
-	virtual bool output(const Model &model);
+	virtual bool output(const Model *model);
 protected:
 	virtual bool prepare_graphviz();
 	virtual void finish_graphviz();
