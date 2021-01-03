@@ -33,3 +33,4 @@ GRTAGS
 GSYMS
 GTAGS
 out/
+.vscode/

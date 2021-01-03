@@ -6,8 +6,8 @@
 #include <string>
 #include <vector>
 
-#define LOGE(fmt, ...) fprintf(stderr, fmt, ##__VA_ARGS__)
-#define LOGI(fmt, ...) fprintf(stdout, fmt, ##__VA_ARGS__)
+#define LOGE(fmt, ...) fprintf(stderr, "%s:%d ", __FILE__, __LINE__); fprintf(stderr, fmt, ##__VA_ARGS__)
+#define LOGI(fmt, ...) fprintf(stdout, "%s:%d ", __FILE__, __LINE__); fprintf(stdout, fmt, ##__VA_ARGS__)
 
 /**
  * 在脚本或者命令行时，会出现多行写一个命令的时候，未完成的行后面用”\“来标记，
@@ -67,3 +67,36 @@ protected:
 	
 private:
 };
+
+/**
+ * 分析表达式(不需要名字？)
+ * 此处应该按照算数表达式来解析，然后其中的变量按照 Path 来解析。
+ * 关系： xxx.xxx 由对象开始，沿着关系查找。
+ * TODO: 逻辑： xxx == xxx
+ * TODO: 算数表达式： xxx + xxx
+ * 
+ */
+class ParseExpr
+{
+public:
+// 路径，在
+using Path = std::vector<std::string>;
+
+	ParseExpr() {}
+	virtual ~ParseExpr() {}
+	
+	// 如果命令不和要求，就返回false，其他返回true
+	virtual bool parse(const std::string expr);
+
+	virtual Path get_path();
+
+protected:
+	Path path;
+
+	virtual bool parse_match(const std::string input);
+	virtual bool parse_tree(const std::string input);
+
+private:
+};
+
+

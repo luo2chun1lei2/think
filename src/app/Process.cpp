@@ -5,6 +5,7 @@
 
 #include <Misc.hpp>
 #include <Output.hpp>
+#include <Query.hpp>
 
 #include <sstream>
 
@@ -17,7 +18,7 @@ bool ProcessCmdLine::exec(const std::string cmd) {
 		return false;
 	}
 	
-	string elm_class = parse.get_start();
+	string start_str = parse.get_start();
 	// TODO: properties好像没有用？
 	ParseCommandLineWithProperties::Properties properties = parse.get_properties();
 	
@@ -27,11 +28,11 @@ bool ProcessCmdLine::exec(const std::string cmd) {
 		return false;
 	}
 	
-	if (elm_class == "Model") {
+	if (start_str == "Model") {
 		Model *model = new Model(name);
 		this->set_model(model);
 		return true;
-	} else if(elm_class == "Output") {
+	} else if(start_str == "Output") {
 		OutputGraphviz * output = new OutputGraphviz(name);
 
 		// 生成临时文件。
@@ -54,11 +55,11 @@ bool ProcessCmdLine::exec(const std::string cmd) {
         system(cmd.c_str());
 
 		return true;
-	} else if(elm_class == "Element") {
+	} else if(start_str == "Element") {
 		Element *elm = new Element(name);
 		model->add_elm(elm);
 		return true;
-	} else if(elm_class == "Relation") {
+	} else if(start_str == "Relation") {
 		Relation *rlt = new Relation(name);
 
 		string from_str = parse.get_prop_value("from");
@@ -100,15 +101,21 @@ bool ProcessCmdLine::exec(const std::string cmd) {
 		model->add_elm(rlt);
 		return true;
 
-	} else if(elm_class == "Query") {
-		//Query * query = new Query(name);
-		//query->
+	} else if(start_str == "Query") {
+		// TODO: 生成一个查询对象，应该是临时的？或者是永久的？
+		Query * query = new Query(name);
+
+		string expr = parse.get_prop_value("value");
+
+		string result = query->query(model, expr);
+		// TODO: 这里用日志直接输出，有点不好吧？
+		LOGI("value=%s\n", result.c_str());
 		return true;
-	} else if(elm_class == "Clear") {
+	} else if(start_str == "Clear") {
 		// TODO: no impl
 		return false;
 	}
 	
-	LOGE("Unknown(%s) type or operation.\n", elm_class.c_str());
+	LOGE("Unknown(%s) element or operation.\n", start_str.c_str());
 	return false;	
 }

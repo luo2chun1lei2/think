@@ -66,6 +66,14 @@ TEST_CASE("parse command line with properties", "[misc]") {
     	REQUIRE(parse.get_properties()[0].second == "1");
     	REQUIRE(parse.get_properties()[1].first == "b");
     	REQUIRE(parse.get_properties()[1].second == "2");
+
+
+		REQUIRE(parse.parse("XXX a.123=1_abc"));
+    	REQUIRE(parse.get_start() == "XXX");
+    	REQUIRE(parse.get_properties().size() == 1);
+    	REQUIRE(parse.get_properties()[0].first == "a.123");
+    	REQUIRE(parse.get_properties()[0].second == "1_abc");
+
     	
     	REQUIRE(parse.parse("\"X X X\" a=1 b=2"));
     	REQUIRE(parse.get_start() == "\"X X X\"");
@@ -80,3 +88,38 @@ TEST_CASE("parse command line with properties", "[misc]") {
     	
     }
 }
+
+TEST_CASE("parse expr", "[misc]") {
+	ParseExpr parse;
+	SECTION("relation") {
+
+		ParseExpr::Path path;
+	
+		REQUIRE(parse.parse("1.2.3.4"));
+		path = parse.get_path();
+		REQUIRE(path.size() == 4);
+		REQUIRE(path[0] == "1");
+		REQUIRE(path[1] == "2");
+		REQUIRE(path[2] == "3");
+		REQUIRE(path[3] == "4");
+
+		REQUIRE(parse.parse("\"1 1\".2.3.\"4 4\""));
+		path = parse.get_path();
+		REQUIRE(path.size() == 4);
+		REQUIRE(path[0] == "\"1 1\"");
+		REQUIRE(path[1] == "2");
+		REQUIRE(path[2] == "3");
+		REQUIRE(path[3] == "\"4 4\"");
+    }
+
+	SECTION("logic") {
+		//REQUIRE(parse.parse("1 = 2"));
+		//REQUIRE(parse.parse("a.1 = b.2"));
+    }
+
+	SECTION("algo") {
+		//REQUIRE(parse.parse("1 + 2"));
+		//REQUIRE(parse.parse("a.1 + b.2"));
+    }
+}
+

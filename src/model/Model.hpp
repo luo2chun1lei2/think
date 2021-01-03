@@ -24,7 +24,8 @@ public:
 	std::vector<Element *> find_elm(const std::string name) const;
 	virtual int index_of(const ElementId id) const;	// -1 : not found
 	
-	virtual std::vector<Element *> find_elm_by_rlt(const std::string elm_name, const std::string rlt_name);
+	// found = elm_name.rlt_name
+	virtual std::vector<Element *> find_elm_by_rlt(const std::string elm_name, const std::string rlt_name) const;
 	
 protected:
 	std::vector<Element *> elms;

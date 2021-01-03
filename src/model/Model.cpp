@@ -70,7 +70,7 @@ int Model::index_of(const ElementId id) const {
 // 语义是：elm的rlt关系对应的elm是什么。
 // 但是elm允许有同名的关系，比如某个人的亲戚，可以有很多。
 // find to = from.rlt.
-std::vector<Element *> Model::find_elm_by_rlt(const std::string elm_name, const std::string rlt_name) {
+std::vector<Element *> Model::find_elm_by_rlt(const std::string elm_name, const std::string rlt_name) const {
     vector<Element *> found;
 
     vector<Element *> found_rlts = find_elm(rlt_name);

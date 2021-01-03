@@ -4,7 +4,7 @@
 # sudo apt-get install catch uuid-dev libgraphviz-dev
 # catch: c plus plus 的单元测试工具，可以使用BDD-style的测试用例。
 
-.PHONY: clean prepare run test format
+.PHONY: clean prepare run test format auto_test auto-test
 
 ## 代码和目标名字
 SRC_ROOT_DIR=./src
@@ -68,7 +68,9 @@ run: build_exe
 test: build_test
 	@${TEST_TARGET_PATH}${ARGS}
 
-# 不运行可以阻塞的测试项目	
+# 不运行可以阻塞的测试项目
+auto-test: auto_test
+
 auto_test: build_test
 	@${TEST_TARGET_PATH} ~[block] ${ARGS}
 
