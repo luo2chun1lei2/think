@@ -1,0 +1,10 @@
+# 本模型描述“nblmsg”的功能涉及到的模块关系，以及调用关系。
+# 1. printf 打印的日志到哪里去了？
+# 2. nblmsg打印的日志和Android的日志关系是什么？
+
+# USERSPACE: printf() -> vfprintf() -> printf_core() -> __fwritex(FILE *f) -> f.write() -> __stdout_write -> __stdio_write() -> writev -> write -> 
+#     stdout 是父进程（appmgr）传递给子进程的，由父进程决定子进程的stdin/stdout/stderr导出到哪里。具体appmsg从哪里得到的这个 handle，没有找到。
+
+# KERNEL: _panic -> __printf_output_func/_vprintf -> __printf_output_func() ->__kernel_stdout_write() -> 写入 uart 或者 console。
+
+# 这个软件目前无法描述复杂的调用关系，所以先从这个方向下手，然后再说其他的。
