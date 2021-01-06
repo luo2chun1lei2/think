@@ -7,49 +7,48 @@
 
 
 # 设置了TUI的启动参数，比如中断和内存区域。
-Element --name="driver.nbl_display.fb_width" --file "nebula/vendor/grt/third_party/mtkv8/e02/cmdline.txt"
+Element name="driver.nbl_display.fb_width" file="nebula/vendor/grt/third_party/mtkv8/e02/cmdline.txt"
 
 # 根据环境变量，获取到 fb_width后，计算fb buffer的大小，初始化显存内存。
 # 以及创建了 DisplayDevice 实例，将显示相关的信息都写入到 DisplayDevice 中，传递给 DisplayDevice 实例。
-Element --name="DisplayController::CreateDisplayDevice()" --file="/nebula/third_party/hee-trusty/tui/nbl_drvfwk/display/display_controller.cc"
+Element name="DisplayController::CreateDisplayDevice()" file="/nebula/third_party/hee-trusty/tui/nbl_drvfwk/display/display_controller.cc"
 
 # 驱动的开始的接口，并不是最开始的接口，这里仅仅在日志中显示了值是多少。
-Element --name="nbl_drv_glue_init()" --file="/nebula/third_party/hee-trusty/nbl_drv/src/core.cc"
+Element name="nbl_drv_glue_init()" file="/nebula/third_party/hee-trusty/nbl_drv/src/core.cc"
 
 # DDK中驱动的基类
-Element --name="ddk::Device"
+Element name="ddk::Device"
 
 # TUI驱动的框架
-Element --name="DisplayController" --file="/nebula/third_party/hee-trusty/tui/nbl_drvfwk/display/display_controller.h"
+Element name="DisplayController" file="/nebula/third_party/hee-trusty/tui/nbl_drvfwk/display/display_controller.h"
 
-Element --name="CreateDisplayDevice()"
-Element --name="ResumeDisplayDevice()"
-Element --name="PauseDisplayDevice()"
-Element --name="DestroyDisplayDevice()"
+Element name="CreateDisplayDevice()"
+Element name="ResumeDisplayDevice()"
+Element name="PauseDisplayDevice()"
+Element name="DestroyDisplayDevice()"
 # 加载特定平台的动态库，比如"libdisplay.<mt6761>.so"。
-Element --name="LoadAndInitDisplayModule()"
+Element name="LoadAndInitDisplayModule()"
 
-Relation --name="包含" --from="DisplayController" --to="CreateDisplayDevice()"
-Relation --name="包含" --from="DisplayController" --to="ResumeDisplayDevice()"
-Relation --name="包含" --from="DisplayController" --to="PauseDisplayDevice()"
-Relation --name="包含" --from="DisplayController" --to="DestroyDisplayDevice()"
-Relation --name="包含" --from="DisplayController" --to="LoadAndInitDisplayModule()"
+Relation name="包含" from="DisplayController" to="CreateDisplayDevice()"
+Relation name="包含" from="DisplayController" to="ResumeDisplayDevice()"
+Relation name="包含" from="DisplayController" to="PauseDisplayDevice()"
+Relation name="包含" from="DisplayController" to="DestroyDisplayDevice()"
+Relation name="包含" from="DisplayController" to="LoadAndInitDisplayModule()"
 
 # 调用关系
-Relation --from="DisplayController::CreateDisplayDevice()" --to="nbl_drv_glue_init()"
+Relation from="DisplayController::CreateDisplayDevice()" to="nbl_drv_glue_init()"
 
 # 数据传递关系（实际上这个是数据传递给了这个函数）
-Relation --from="driver.nbl_display.fb_width" --to="nbl_drv_glue_init()"
-
+Relation from="driver.nbl_display.fb_width" to="nbl_drv_glue_init()"
 
 
 ##################################
 # Touch的函数
 
 # 通过环境变量得到的，然后保存到全局变量中。
-Element --name="DrvInit()"
+Element name="DrvInit()"
 
 # 这个也是Touch的函数，从全局变量中拿到，用于计算触点的位置。
-Element --name="drTouchReportV2()"
+Element name="drTouchReportV2()"
 
 # Touch用到长宽，不容易用调用关系来描述。

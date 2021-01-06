@@ -8,3 +8,8 @@
 # KERNEL: _panic -> __printf_output_func/_vprintf -> __printf_output_func() ->__kernel_stdout_write() -> 写入 uart 或者 console。
 
 # 这个软件目前无法描述复杂的调用关系，所以先从这个方向下手，然后再说其他的。
+
+Element name=bootshim
+Element name="log_puts()"
+
+Relation name=own from=bootshim to="log_puts()"

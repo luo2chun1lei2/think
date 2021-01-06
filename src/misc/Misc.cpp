@@ -19,8 +19,9 @@ bool CombineLine::add(std::string line, std::string &all)
 
 // 是一个"字母\数\.\_"组成的无空格字符串，或者有空格，则需要两边用双引号来括起来。
 // 比如：  abc123  or   "a b c 1 2 3" or abc.123 or abc_123
+// \u4e00-\u9fa5 是中文。
 // TODO: 下面是否都用一个TAG表达式？ 应该区分名字和值，是不同的表达式。
-#define TAG "(\"([a-zA-Z0-9\\._]|[[:space:]])+\"|[a-zA-Z0-9\\._]+)"
+#define TAG "(\"([\u4e00-\u9fa5a-zA-Z0-9\\._]|[[:space:]])+\"|[\u4e00-\u9fa5a-zA-Z0-9\\._]+)"
 
 bool ParseCommandLineWithProperties::parse_match(const std::string cmdline)
 {
@@ -39,7 +40,7 @@ bool ParseCommandLineWithProperties::parse_match(const std::string cmdline)
 
 bool ParseCommandLineWithProperties::parse_start(const std::string cmdline)
 {
-	string pattern = "^(\"([a-zA-Z0-9\\._]|[[:space:]])+\"|[a-zA-Z0-9\\._]+)[[:space:]]*";
+	string pattern = "^(\"([\u4e00-\u9fa5a-zA-Z0-9\\._]|[[:space:]])+\"|[\u4e00-\u9fa5a-zA-Z0-9\\._]+)[[:space:]]*";
 	
 	regex r(pattern);
 	
@@ -57,7 +58,7 @@ bool ParseCommandLineWithProperties::parse_start(const std::string cmdline)
 
 bool ParseCommandLineWithProperties::parse_properties(const std::string cmdline)
 {
-	string pattern = "[[:space:]]+(\"([a-zA-Z0-9\\._]|[[:space:]])+\"|[a-zA-Z0-9\\._]+)=(\"([a-zA-Z0-9\\._]|[[:space:]])+\"|[a-zA-Z0-9\\._]+)(?=[[:space:]]*)";
+	string pattern = "[[:space:]]+(\"([\u4e00-\u9fa5a-zA-Z0-9\\._]|[[:space:]])+\"|[a-zA-Z0-9\\._]+)=(\"([\u4e00-\u9fa5a-zA-Z0-9\\._]|[[:space:]])+\"|[\u4e00-\u9fa5a-zA-Z0-9\\._]+)(?=[[:space:]]*)";
 	
 	regex r(pattern);
 		
@@ -127,19 +128,6 @@ bool ParseExpr::parse_match(const string input)
 
 bool ParseExpr::parse_tree(const string input)
 {
-	/*
-	string pattern = "^[[:space:]]*(" TAG_NAME ")(\\." TAG_NAME ")*[[:space:]]*$";
-	
-	regex r(pattern);
-		
-	for(sregex_iterator it(input.begin(), input.end(), r), end_it; it != end_it; ++it) {
-		const smatch &m = *it;
-		for(auto s : m) {
-			cout << s.str() + "|";
-		}
-		cout << endl;
-		this->path.push_back(m[1].str());
-	}*/
 	// 用分割的方式来分析语法。
 	std::regex reg("\\.");
 	std::sregex_token_iterator pos(input.begin(), input.end(), reg, -1);

@@ -65,8 +65,11 @@ clean:
 run: build_exe
 	@${TARGET_PATH} ${ARGS}
 
+debug: build_exe
+	gdb ${TARGET_PATH} -x "set args ${ARGS}"
+
 test: build_test
-	@${TEST_TARGET_PATH}${ARGS}
+	@${TEST_TARGET_PATH} ${ARGS}
 
 # 不运行可以阻塞的测试项目
 auto-test: auto_test

@@ -35,7 +35,7 @@ void OutputGraphviz::finish_graphviz() {
     gvRenderFilename(gvc, g, "svg", this->output_file_path.c_str());
 
     /* Free layout data */
-    gvFreeLayout(gvc, g);
+    //gvFreeLayout(gvc, g); //TODO: 单独运行时，发现有重复释放资源的问题，将这个注释，就没有了。
 
     /* Free graph structures */
     agclose(g);

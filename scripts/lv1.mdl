@@ -1,23 +1,31 @@
 # Level1 的脚本，仅仅创建最简单的模型，没有类型和组合。
 # 用regex来分析
 
-Element name="罗某“ age=28
-Element name=“罗妻” age=25
-Element name="罗父” age=52
-Element name="罗母” age=51
-Element name=“罗爷” age=78
-Element name=“罗奶” age=72
-Element name=“罗子” age=3
-Element name=“罗女” age=1
+Model name=mdl
 
-Relation name="父子“ from="罗父“ to=”罗某“
-Relation name="父子“ from="罗某“ to=”罗子“
-Relation name="父女“ from="罗某“ to=”罗女“
+Element name="罗某" age=28
+Element name="罗妻" age=25
+Element name="罗父" age=52
+Element name="罗母" age=51
+Element name="罗爷" age=78
+Element name="罗奶" age=72
+Element name="罗子" age=3
+Element name="罗女" age=1
 
-Relation name="母子“ from="罗母“ to=”罗某“
-Relation name="母子“ from="罗妻“ to=”罗子“
+Relation name="父子" from="罗爷" to="罗父"
+Relation name="父子" from="罗父" to="罗某"
+Relation name="父子" from="罗某" to="罗子"
 
-Relation name="母女“ from="罗妻“ to=”罗女“
+Relation name="父女" from="罗某" to="罗女"
 
-Relation name=”夫妻“ from="罗某" to=”罗女“
-Relation name=”夫妻“ from="罗父" to=”罗母“
+Relation name="母子" from="罗奶" to="罗母"
+Relation name="母子" from="罗母" to="罗某"
+Relation name="母子" from="罗妻" to="罗子"
+
+Relation name="母女" from="罗妻" to="罗女"
+
+Relation name="夫妻" from="罗某" to="罗女"
+Relation name="夫妻" from="罗父" to="罗母"
+Relation name="夫妻" from="罗爷" to="罗奶"
+
+Output name=out
