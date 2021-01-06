@@ -9,7 +9,11 @@
 
 # 这个软件目前无法描述复杂的调用关系，所以先从这个方向下手，然后再说其他的。
 
+Model name=mdl
+
 Element name=bootshim
 Element name="log_puts()"
 
 Relation name=own from=bootshim to="log_puts()"
+
+Output name=out

@@ -55,7 +55,6 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    //printf("%d %s.\n", enter_interactive, script_path);
     ProcessCmdLine process;
 
     if (script_path) {
@@ -80,7 +79,7 @@ int main(int argc, char *argv[]) {
         }
         fclose(fp);
     } else {
-        //TODO: 交互模式。        
+        //TODO: 交互模式。目前没有需要，所以先不实现。
     }
 
     return 0;

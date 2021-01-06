@@ -17,11 +17,16 @@ bool CombineLine::add(std::string line, std::string &all)
 	}
 }
 
-// 是一个"字母\数\.\_"组成的无空格字符串，或者有空格，则需要两边用双引号来括起来。
+// TODO: 用正则表达式实现下面的逻辑分析，已经很难维护了。
+
+// 命令行的格式： ElementType property_name=property_value property_name=property_value
+// ElementType格式等于 property_name
+// perperty_name : 是两种情况，一种是用双引号来括起来文字，什么文字都可以。另外一种是"汉字\字母\数\.\_"组成的无空格字符串。 //===========================> HERE
 // 比如：  abc123  or   "a b c 1 2 3" or abc.123 or abc_123
 // \u4e00-\u9fa5 是中文。
-// TODO: 下面是否都用一个TAG表达式？ 应该区分名字和值，是不同的表达式。
+// 区分名字和值，是不同的表达式。
 #define TAG "(\"([\u4e00-\u9fa5a-zA-Z0-9\\._]|[[:space:]])+\"|[\u4e00-\u9fa5a-zA-Z0-9\\._]+)"
+#define TAG_VALUE "(\"([\u4e00-\u9fa5a-zA-Z0-9\\._]|[[:space:]])+\"|[\u4e00-\u9fa5a-zA-Z0-9\\._]+)"
 
 bool ParseCommandLineWithProperties::parse_match(const std::string cmdline)
 {
@@ -108,12 +113,13 @@ std::string ParseCommandLineWithProperties::get_prop_value(const std::string pro
 
 ///////////////////////////////////////////////////////////
 
-#define TAG_NAME "(\"([a-zA-Z0-9_]|[[:space:]])+\"|[a-zA-Z0-9_]+)"
+// 表达式中的名字的特点。
+#define EXPR_NAME "(\"([a-zA-Z0-9_]|[[:space:]])+\"|[a-zA-Z0-9_]+)"
 
 bool ParseExpr::parse_match(const string input)
 {
 	// TAG.TAG.TAG ……
-	string pattern = "^[[:space:]]*" TAG_NAME "(\\." TAG_NAME ")*[[:space:]]*$";
+	string pattern = "^[[:space:]]*" EXPR_NAME "(\\." EXPR_NAME ")*[[:space:]]*$";
 	
 	regex r(pattern);
 	
