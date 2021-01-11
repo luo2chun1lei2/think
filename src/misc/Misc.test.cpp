@@ -56,8 +56,14 @@ TEST_CASE("parse command line with properties", "[misc]") {
 		REQUIRE(!parse.parse("a=1 b=2"));
 		REQUIRE(!parse.parse("xxx a b=2"));
 		
-		REQUIRE(parse.parse("xxx"));	// TODO: 这个合法吗？一个属性都没有？
+		REQUIRE(parse.parse("xxx"));
 		REQUIRE(parse.get_start() == "xxx");
+
+		REQUIRE(parse.parse("x_x_x"));
+		REQUIRE(parse.get_start() == "x_x_x");
+
+		REQUIRE(parse.parse("\"x x x\""));
+		REQUIRE(parse.get_start() == "\"x x x\"");
 		
     	REQUIRE(parse.parse("XXX a=1 b=2"));
     	REQUIRE(parse.get_start() == "XXX");
@@ -68,11 +74,11 @@ TEST_CASE("parse command line with properties", "[misc]") {
     	REQUIRE(parse.get_properties()[1].second == "2");
 
 
-		REQUIRE(parse.parse("XXX a.123=1_abc"));
+		REQUIRE(parse.parse("XXX a_123=1.a_b_c"));
     	REQUIRE(parse.get_start() == "XXX");
     	REQUIRE(parse.get_properties().size() == 1);
-    	REQUIRE(parse.get_properties()[0].first == "a.123");
-    	REQUIRE(parse.get_properties()[0].second == "1_abc");
+    	REQUIRE(parse.get_properties()[0].first == "a_123");
+    	REQUIRE(parse.get_properties()[0].second == "1.a_b_c");
 
     	
     	REQUIRE(parse.parse("\"X X X\" a=1 b=2"));
