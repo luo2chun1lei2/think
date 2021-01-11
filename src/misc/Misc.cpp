@@ -27,8 +27,8 @@ bool CombineLine::add(std::string line, std::string &all)
 // \u4e00-\u9fa5 是中文。
 // 区分名字和值，是不同的表达式。
 
-#define PROP_NAME "(\"([\u4e00-\u9fa5a-zA-Z0-9\\._\\ \t])+\"|[\u4e00-\u9fa5a-zA-Z0-9_]+)"
-#define PROP_VALUE "(\"([\u4e00-\u9fa5a-zA-Z0-9\\._]|[[:space:]])+\"|[\u4e00-\u9fa5a-zA-Z0-9\\._]+)"
+#define PROP_NAME "(\"([^\"])+\"|[\u4e00-\u9fa5a-zA-Z0-9_]+)"
+#define PROP_VALUE "(\"([^\"])+\"|[\u4e00-\u9fa5a-zA-Z0-9\\._]+)"
 
 bool ParseCommandLineWithProperties::parse_match(const std::string cmdline)
 {
