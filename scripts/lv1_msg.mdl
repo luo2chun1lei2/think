@@ -14,6 +14,19 @@ Model name=mdl
 Element name=bootshim
 Element name="log_puts()"
 
+Element name=kernel
+Element name="_panic()"
+
+Elment name=userspace
+Element name="printf()"
+
 Relation name=own from=bootshim to="log_puts()"
+
+Relation name=own from=kernel to="_panic()"
+
+Relation name=own from=userspace to="printf()"
+
+Relation name=invoke from="printf()" to="log_puts()"
+Relation name=invoke from="log_puts()" to="_panic()"
 
 Output name=out

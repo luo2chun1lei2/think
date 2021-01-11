@@ -55,6 +55,29 @@ bool ProcessCmdLine::exec(const std::string cmd) {
         system(cmd.c_str());
 
 		return true;
+	} else if(start_str == "Output2") {
+		OutputGraphviz * output = new OutputGraphviz(name);
+
+		// 生成临时文件。
+		char path[] = "/tmp/XXXXXX.txt";
+        int fd = mkstemps(path, 4);
+        if(fd == -1) {
+			LOGE("Cannot open temp file.\n");
+			return false;
+		}
+        close(fd);
+
+		// 设定临时文件路径。
+        output->set_output_filepath(path);
+        output->output2(this->model);
+
+        // 执行显示图片的命令，system必须退出才行。
+        ostringstream stream;
+        stream << "cat " << path;
+        auto cmd = stream.str();
+        system(cmd.c_str());
+
+		return true;
 	} else if(start_str == "Element") {
 		Element *elm = new Element(name);
 		model->add_elm(elm);

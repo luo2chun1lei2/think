@@ -16,8 +16,6 @@ Relation name="父子" from="罗爷" to="罗父"
 Relation name="父子" from="罗父" to="罗某"
 Relation name="父子" from="罗某" to="罗子"
 
-Relation name="父女" from="罗某" to="罗女"
-
 Relation name="母子" from="罗奶" to="罗母"
 Relation name="母子" from="罗母" to="罗某"
 Relation name="母子" from="罗妻" to="罗子"
@@ -28,4 +26,4 @@ Relation name="夫妻" from="罗某" to="罗女"
 Relation name="夫妻" from="罗父" to="罗母"
 Relation name="夫妻" from="罗爷" to="罗奶"
 
-Output name=out
+Output2 name=out
