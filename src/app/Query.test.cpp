@@ -1,7 +1,7 @@
 #include <catch.hpp>
 
-#include <Query.hpp>
 #include <Process.hpp>
+#include <Query.hpp>
 
 /**
  * 查询是遍历模型，然后根据关系和指令进行计算。
@@ -27,14 +27,14 @@ TEST_CASE("Query", "[app]") {
             SECTION("query") {
                 REQUIRE(process.exec("Query name=q01 value=eml1.rlt1")); // TODO: 应该显示到日志中，但是怎么看到？
                 REQUIRE(process.exec("Query name=q02 value=eml2.rlt2"));
-                //REQUIRE(process.exec("Query name=q03 value=eml2.~rlt1")); // 反关系
+                // REQUIRE(process.exec("Query name=q03 value=eml2.~rlt1")); // 反关系
                 REQUIRE(process.exec("Query name=q04 value=eml1.rlt3")); // Failed
             }
 
             // 处理表达式。
             SECTION("logic judge") {
-                REQUIRE(process.exec("Query name=q11 value=eml1.rlt2"));  // 不存在的关系
-                //REQUIRE(process.exec("Query name=q12 value=\"eml1.rlt1==elm3.~rlt2\"")); // “==” 判断。
+                REQUIRE(process.exec("Query name=q11 value=eml1.rlt2")); // 不存在的关系
+                // REQUIRE(process.exec("Query name=q12 value=\"eml1.rlt1==elm3.~rlt2\"")); // “==” 判断。
             }
         }
     }

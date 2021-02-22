@@ -6,7 +6,8 @@
 
 using namespace std;
 
-OutputGraphviz::OutputGraphviz(const string name) : Output(name) {
+OutputGraphviz::OutputGraphviz(const string name)
+    : Output(name) {
 }
 
 OutputGraphviz::~OutputGraphviz() {
@@ -35,7 +36,7 @@ void OutputGraphviz::finish_graphviz2() {
     gvRenderFilename(gvc, g, "plain", this->output_file_path.c_str());
 
     /* Free layout data */
-    //gvFreeLayout(gvc, g); //TODO: 单独运行时，发现有重复释放资源的问题，将这个注释，就没有了。
+    // gvFreeLayout(gvc, g); //TODO: 单独运行时，发现有重复释放资源的问题，将这个注释，就没有了。
 
     /* Free graph structures */
     agclose(g);
@@ -56,7 +57,7 @@ void OutputGraphviz::finish_graphviz() {
     gvRenderFilename(gvc, g, "svg", this->output_file_path.c_str());
 
     /* Free layout data */
-    //gvFreeLayout(gvc, g); //TODO: 单独运行时，发现有重复释放资源的问题，将这个注释，就没有了。
+    // gvFreeLayout(gvc, g); //TODO: 单独运行时，发现有重复释放资源的问题，将这个注释，就没有了。
 
     /* Free graph structures */
     agclose(g);
@@ -91,7 +92,7 @@ bool OutputGraphviz::output(const Model *model) {
             agsafeset(n, "color", "blue", "");
             agsafeset(n, "shape", "box", "");
 
-            //LOGI("node: %s\n", name);
+            // LOGI("node: %s\n", name);
 
             ag_elms[ i ] = n;
         }
@@ -104,18 +105,18 @@ bool OutputGraphviz::output(const Model *model) {
             Relation *rlt      = dynamic_cast<Relation *>(elm);
             string    str_name = rlt->get_name();
             char *    name     = const_cast<char *>(str_name.c_str());
-            
+
             if (!rlt->get_from()) {
                 LOGE("Relation(%s) hasn't from.\n", name);
                 return false;
             }
 
-            if (!rlt->get_to() ) {
+            if (!rlt->get_to()) {
                 LOGE("Relation(%s) hasn't to.\n", name);
                 return false;
             }
 
-            //LOGI("%s --%S-> %s\n", rlt->get_from()->get_name().c_str(), name, rlt->get_to()->get_name().c_str());
+            // LOGI("%s --%S-> %s\n", rlt->get_from()->get_name().c_str(), name, rlt->get_to()->get_name().c_str());
             int index;
             index       = model->index_of(rlt->get_from()->get_id());
             Agnode_t *f = (Agnode_t *)ag_elms[ index ];
@@ -170,7 +171,7 @@ bool OutputGraphviz::output2(const Model *model) {
             agsafeset(n, "color", "blue", "");
             agsafeset(n, "shape", "box", "");
 
-            //LOGI("node: %s\n", name);
+            // LOGI("node: %s\n", name);
 
             ag_elms[ i ] = n;
         }
@@ -183,18 +184,18 @@ bool OutputGraphviz::output2(const Model *model) {
             Relation *rlt      = dynamic_cast<Relation *>(elm);
             string    str_name = rlt->get_name();
             char *    name     = const_cast<char *>(str_name.c_str());
-            
+
             if (!rlt->get_from()) {
                 LOGE("Relation(%s) hasn't from.\n", name);
                 return false;
             }
 
-            if (!rlt->get_to() ) {
+            if (!rlt->get_to()) {
                 LOGE("Relation(%s) hasn't to.\n", name);
                 return false;
             }
 
-            //LOGI("%s --%S-> %s\n", rlt->get_from()->get_name().c_str(), name, rlt->get_to()->get_name().c_str());
+            // LOGI("%s --%S-> %s\n", rlt->get_from()->get_name().c_str(), name, rlt->get_to()->get_name().c_str());
             int index;
             index       = model->index_of(rlt->get_from()->get_id());
             Agnode_t *f = (Agnode_t *)ag_elms[ index ];

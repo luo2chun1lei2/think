@@ -6,18 +6,16 @@
 
 #include <Process.hpp>
 
-static const char *        _sopts = "his:";
+static const char *        _sopts = "hi";
 extern char *              optarg;
-static const struct option _lopts[] = {{"help", no_argument, 0, 'h'},
-                                       {"script", required_argument, 0, 's'},
-                                       {"interactive", no_argument, 0, 'i'},
-                                       {0, 0, 0, 0}};
+static const struct option _lopts[] = {
+    {"help", no_argument, 0, 'h'}, {"interactive", no_argument, 0, 'i'}, {0, 0, 0, 0}};
 
-static const char *usage = "Usage: %s [options]\n"
+static const char *usage = "Usage: %s [options] <script path>\n"
+                           "  <script path>   execute script by given path.\n"
                            "options:\n"
                            "  -h, --help            prints this message and exit.\n"
-                           "  -s, --script <path>   execute script at start.\n"
-                           "  -i, --interactive     run into interactive mode, it's default mode.\n"    //TODO: 多余设置！
+                           "  -i, --interactive     run into interactive mode.\n"
                            "\n";
 
 static void print_usage_and_exit(const char *prog, int code) {
@@ -25,8 +23,9 @@ static void print_usage_and_exit(const char *prog, int code) {
     exit(code);
 }
 
+// TODO 为了测试方便，需要将main中的方法都放到其他的文件中。
 int main(int argc, char *argv[]) {
-    LOGI("start think...\n");
+    // LOGI("start think...\n");
 
     int c;
     int oidx = 0;
@@ -46,40 +45,47 @@ int main(int argc, char *argv[]) {
             case 'i':
                 enter_interactive = true;
                 break;
-            case 's':
-                script_path = optarg;
-                break;
             default:
                 print_usage_and_exit(argv[ 0 ], EXIT_FAILURE);
                 break;
         }
     }
 
+    // 非option的参数，就是脚本的路径。
+    // TODO 目前只支持一个，且最后一个。
+    if (optind < argc) {
+        while (optind < argc)
+            script_path = argv[ optind++ ];
+    }
+
     ProcessCmdLine process;
 
     if (script_path) {
-        FILE * fp = fopen(script_path, "r");
+        // TODO: 脚本的读取，需要单独抽取出来做成函数。
+        FILE *fp = fopen(script_path, "r");
         if (!fp) {
             LOGE("Cannot open file(%s)\n", script_path);
             return 1;
         }
-        char buf[1024]; // TODO: 假定一行最大是1024字节。
+        char buf[ 1024 ]; // TODO: 假定一行最大是1024字节。
         while (fgets(buf, sizeof(buf), fp)) {
-            //LOGI("read line:%s\n", buf);
-            if ( buf[0] == '#') {
+            // LOGI("read line:%s\n", buf);
+            if (buf[ 0 ] == '#') {
                 // TODO: 注释忽略，但是算法过于简单。
                 continue;
             }
 
             // TODO: 排除空行，这个实现逻辑也不准确。
-            if (buf[0] == '\n') { // 仅仅有一个'\n'
+            if (buf[ 0 ] == '\n') { // 仅仅有一个'\n'
                 continue;
             }
             process.exec(buf);
         }
         fclose(fp);
-    } else {
-        //TODO: 交互模式。目前没有需要，所以先不实现。
+    }
+
+    if (enter_interactive) {
+        // TODO: 交互模式。目前没有需要，所以先不实现。
     }
 
     return 0;

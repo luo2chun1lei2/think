@@ -1,6 +1,12 @@
+/**
+ * 总的测试入口，因为定义了CATCH_CONFIG_MAIN，
+ * 不过自己也有测试
+ */
 #define CATCH_CONFIG_MAIN
 #include <catch.hpp>
 
+// TODO: 下面是catch2的测试例子，以后熟悉了，可以删除。
+#if 0
 unsigned int Factorial(unsigned int number) {
     return number <= 1 ? number : Factorial(number - 1) * number;
 }
@@ -88,3 +94,4 @@ SCENARIO("vectors can be sized and resized", "[vector]") {
         }
     }
 }
+#endif

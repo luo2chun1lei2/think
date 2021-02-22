@@ -14,7 +14,6 @@ TEST_CASE("control about comand line", "[app][block]") {
 
     SECTION("create a model and output") {
         REQUIRE(process.exec("Model name=mdl"));
-        
 
         SECTION("add elments") {
             REQUIRE(process.exec("Element name=eml1"));
@@ -24,11 +23,11 @@ TEST_CASE("control about comand line", "[app][block]") {
             SECTION("add relation") {
                 REQUIRE(process.exec("Relation name=rlt1 from=eml1 to=eml2"));
                 REQUIRE(process.exec("Relation name=rlt2 from=eml2 to=eml3"));
-/*
-                SECTION("clear") {
-                    REQUIRE(process.exec("Clear")); // 没有名字，所以是临时对象，用完就释放
-                }   */
-                
+                /*
+                                SECTION("clear") {
+                                    REQUIRE(process.exec("Clear")); // 没有名字，所以是临时对象，用完就释放
+                                }   */
+
                 SECTION("output") {
                     REQUIRE(process.exec("Output name=out")); // output 是动作！
                 }

@@ -26,4 +26,4 @@ Relation name="夫妻" from="罗某" to="罗女"
 Relation name="夫妻" from="罗父" to="罗母"
 Relation name="夫妻" from="罗爷" to="罗奶"
 
-Output2 name=out
+Output name=out
