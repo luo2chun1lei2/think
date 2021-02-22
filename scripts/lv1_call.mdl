@@ -55,4 +55,4 @@ Element name="drTouchReportV2()"
 # Touch用到长宽，不容易用调用关系来描述。
 
 #option=text
-Output name=out
+Output name=out layout=list

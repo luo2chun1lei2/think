@@ -29,9 +29,6 @@ void OutputGraphviz::finish_graphviz() {
     // patchwork sfdp twopi”。
     gvLayout(gvc, g, "dot");
 
-    /* Compute a layout using layout engine from command line args */
-    gvLayoutJobs(gvc, g);
-
     /* Write the graph to file, svg、plain是导出的格式。 */
     if(options == GRAPH_SVG) {
         gvRenderFilename(gvc, g, "svg", this->output_file_path.c_str());
@@ -40,7 +37,7 @@ void OutputGraphviz::finish_graphviz() {
     }
     
     /* Free layout data */
-    // gvFreeLayout(gvc, g); //TODO: 单独运行时，发现有重复释放资源的问题，将这个注释，就没有了。
+    gvFreeLayout(gvc, g); //TODO: 单独运行时，发现有重复释放资源的问题，将这个注释，就没有了。
 
     /* Free graph structures */
     agclose(g);
@@ -54,7 +51,7 @@ bool OutputGraphviz::output(const Model *model) {
         return false;
     }
 
-    /* Create a simple digraph */
+    // 创建一个有向图 Agdirected
     g = agopen("g", Agdirected, 0);
 
     size_t count = model->get_elm_count();
@@ -81,7 +78,7 @@ bool OutputGraphviz::output(const Model *model) {
         }
     }
 
-    // 然后再处理Relation的元素。
+    // 然后再处理Relation的元素，作为边。
     for (size_t i = 0; i < count; i++) {
         Element *elm = model->get_elm(i);
         if (typeid(*elm) == typeid(Relation)) {

@@ -1,0 +1,36 @@
+# 列表。
+# 实际的例子是任务关系。
+# 1. 必须有顺序或者并列的层次关系。 xxx.sub = xxx， xxx.next = xxx, xxx.other = xxx
+# 2. 每个项目可以添加标签，比如优先级的，负责人之类的。 xxx.level = 1, xxx.chief = xxx
+# 3. 讨论： 标签如果添加随意的话，那么会导致标签变成不一致的东西。
+
+Model name=task
+
+# 描述元素
+
+Element name=task0 content="总任务"
+
+Element name=task1 content="任务1"
+Element name=task1_1 content="任务1.1"
+Element name=task1_2 content="任务1.2"
+Element name=task1_3 content="任务1.3"
+
+Element name=task2 content="任务2"
+Element name=task2_1 content="任务2.1"
+Element name=task2_1_1 content="任务2.2.1"
+
+Element name=task3 content="任务3"
+
+# 描述关系
+Relation name=own from=task0 to=task1
+Relation name=own from=task0 to=task2
+Relation name=own from=task0 to=task3
+
+Relation name=own from=task1 to=task1_1
+Relation name=own from=task1 to=task1_2
+Relation name=own from=task1 to=task1_3
+
+Relation name=own from=task2 to=task2_1
+Relation name=own from=task2_1 to=task2_1_1
+
+Output name=task
