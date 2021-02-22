@@ -11,6 +11,7 @@
 
 using namespace std;
 
+// TODO: 函数过大了，应该拆分。
 bool ProcessCmdLine::exec(const std::string cmd) {
     ParseCommandLineWithProperties parse;
 
@@ -33,51 +34,56 @@ bool ProcessCmdLine::exec(const std::string cmd) {
         this->set_model(model);
         return true;
     } else if (start_str == "Output") {
-        OutputGraphviz *output = new OutputGraphviz(name);
 
-        // 生成临时文件。
-        char path[] = "/tmp/XXXXXX.svg";
-        int  fd     = mkstemps(path, 4);
-        if (fd == -1) {
-            LOGE("Cannot open temp file.\n");
-            return false;
+        OutputGraphviz *output = nullptr;
+
+        string from_str = parse.get_prop_value("option");
+
+        if (from_str == "text") {
+            output = new OutputGraphviz(name, OutputGraphviz::GRAPH_TEXT);
+            // 生成临时文件。
+            char path[] = "/tmp/XXXXXX.txt";
+            int  fd     = mkstemps(path, 4);
+            if (fd == -1) {
+                LOGE("Cannot open temp file.\n");
+                return false;
+            }
+            close(fd);
+
+            // 设定临时文件路径。
+            output->set_output_filepath(path);
+            output->output(this->model);
+
+            // 执行显示图片的命令，system必须退出才行。
+            ostringstream stream;
+            stream << "cat " << path;
+            auto cmd = stream.str();
+            system(cmd.c_str());
+        } else {
+            output = new OutputGraphviz(name, OutputGraphviz::GRAPH_SVG);
+
+            // 生成临时文件。
+            char path[] = "/tmp/XXXXXX.svg";
+            int  fd     = mkstemps(path, 4);
+            if (fd == -1) {
+                LOGE("Cannot open temp file.\n");
+                return false;
+            }
+            close(fd);
+
+            // 设定临时文件路径。
+            output->set_output_filepath(path);
+            output->output(this->model);
+
+            // 执行显示图片的命令，system必须退出才行。
+            ostringstream stream;
+            stream << "eog " << path;
+            auto cmd = stream.str();
+            system(cmd.c_str());
         }
-        close(fd);
-
-        // 设定临时文件路径。
-        output->set_output_filepath(path);
-        output->output(this->model);
-
-        // 执行显示图片的命令，system必须退出才行。
-        ostringstream stream;
-        stream << "eog " << path;
-        auto cmd = stream.str();
-        system(cmd.c_str());
 
         return true;
-    } else if (start_str == "Output2") {
-        OutputGraphviz *output = new OutputGraphviz(name);
-
-        // 生成临时文件。
-        char path[] = "/tmp/XXXXXX.txt";
-        int  fd     = mkstemps(path, 4);
-        if (fd == -1) {
-            LOGE("Cannot open temp file.\n");
-            return false;
-        }
-        close(fd);
-
-        // 设定临时文件路径。
-        output->set_output_filepath(path);
-        output->output2(this->model);
-
-        // 执行显示图片的命令，system必须退出才行。
-        ostringstream stream;
-        stream << "cat " << path;
-        auto cmd = stream.str();
-        system(cmd.c_str());
-
-        return true;
+        
     } else if (start_str == "Element") {
         Element *elm = new Element(name);
         model->add_elm(elm);

@@ -26,17 +26,23 @@ private:
 class OutputGraphviz : public Output
 {
 public:
-	OutputGraphviz(const std::string name);
+	enum Options {
+		GRAPH_SVG = 0x1,
+		GRAPH_TEXT = 0x2,
+	};
+
+	OutputGraphviz(const std::string name, OutputGraphviz::Options options);
 	virtual ~OutputGraphviz();
 	virtual void set_output_filepath(const std::string path);
 	virtual bool output(const Model *model);
-	virtual bool output2(const Model *model);
+
 protected:
 	virtual bool prepare_graphviz();
 	virtual void finish_graphviz();
-	virtual void finish_graphviz2();
-	
+
 	std::string output_file_path;
+	Options options;
+
 	Agraph_t *g;
 	GVC_t *gvc;
 

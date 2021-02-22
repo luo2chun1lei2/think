@@ -4,7 +4,8 @@
 #include <Output.hpp>
 
 /**
- * 接受外部输入，然后控制内部的Model、output等组件。
+ * 作为容纳对于model的处理的对象，将外部的app和对于model的处理分离开。
+ * 比如接受外部输入，然后控制内部的Model、output等组件。
  * TODO: 后面也做成Element。
  */
 class Process
@@ -18,13 +19,18 @@ private:
 
 
 /**
- * 用命令行来控制Model和output。
+ * 包含一个Model，然后用命令行来控制Model。
  */
 class ProcessCmdLine : public Process
 {
 public:
 	ProcessCmdLine() : Process() {
 		model = nullptr;
+	}
+
+	// model被内部管理，外部不负责删除。
+	ProcessCmdLine(Model *model) : Process() {
+		this->model = model;
 	}
 	
 	virtual ~ProcessCmdLine() {
@@ -33,14 +39,13 @@ public:
 		}
 	}
 	
+	// model被内部管理，外部不负责删除。
 	virtual void set_model(Model *model) {
+		if (this->model)
+			delete this->model;
 		this->model = model;
 	}
-	
-	//virtual void set_output(Output *output) {
-	//	this->output = output;
-	//}
-	
+		
 	/**
 	 * 分析命令并执行。
 	 * @cmd 这里命令是一行，不存在换行问题。
@@ -49,6 +54,7 @@ public:
 	virtual bool exec(const std::string cmd);
 	
 protected:
+	// 当前只有一个model。
 	Model *model;
 private:
 };
