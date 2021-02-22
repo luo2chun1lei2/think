@@ -1,0 +1,28 @@
+# 记录编辑Android 宏的情况，看看是否可以关系化，以及图形化。
+# 1. 必须有顺序或者并列的层次关系。 xxx.sub = xxx， xxx.next = xxx, xxx.other = xxx
+# 2. 每个项目可以添加标签，比如优先级的，负责人之类的。 xxx.level = 1, xxx.chief = xxx
+# 3. 讨论： 标签如果添加随意的话，那么会导致标签变成不一致的东西。
+
+1. kernel-4.4/arch/arm64/boot/dts/mediatek/ecarxICP1_64.dts
+    引入头文件  <generated/autoconf.h> 有必要，是引入系统定义的宏。
+
+2. kernel-4.4/arch/arm64/boot/dts/mediatek/ecarxp.dts
+    使用了 CONFIG_NEBULA，宏来自于
+        kernel-4.4/arch/arm64/configs/ecarxICp1_64_defconfig or ecarxICp1_64_debug_defconfig 设定了 NEBULA_TEE_SUPPORT，
+        然后在 kernel-4.4/drivers/misc/mediatek/nebula/Kconfig 中设置了“如果设置了NEBULA_TEE_SUPPORT”，就是设置 NEBULA，而这个标志自动变成 CONFIG_NEBULA。
+
+    Q: 需要改成 CONFIG_NEBULA_TEE_SUPPORT 吗？
+    A: 改。
+
+3. kernel-4.4/arch/arm64/configs/ecarxICp1_64_debug_defconfig
+    CONFIG_LOG_BUF_SHIFT 19->20 （512KB -> 1MB） 需要提示用户自己修改！ 无法添加宏。
+    A：不需要修改，如果 Alps的Linux的Kernel log buffer大小不够，丢日志，就修改成20（最大值）。
+    <---- 这里也有系统的整体配置。
+
+4. kernel-4.4/arch/arm64/kernel/smp.c （全文都需要讨论 -> James 修改。）
+    里面也用到了 CONFIG_NEBULA，参考上面的说明。
+    45-48行，之前是写错了代码吗？
+    896 - 901 怎么改？是保持原来的代码，然后写我们的代码实现吗？
+
+5. kernel-4.4/drivers/misc/mediatek/Kconfig
+    这个能加入宏吗？ 加了有什么问题吗？
