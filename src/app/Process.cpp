@@ -141,7 +141,7 @@ bool ProcessCmdLine::exec(const std::string cmd) {
         LOGI("value=%s\n", result.c_str());
         return true;
     } else if (start_str == "Clear") {
-        // TODO: no impl
+        // TODO: no impl，感觉没有必要！
         return false;
     }
 
