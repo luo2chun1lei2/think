@@ -11,8 +11,7 @@
 
 using namespace std;
 
-bool ProcessCmdLine::output_graphviz(const string name, const string str_option)
-{
+bool ProcessCmdLine::output_graphviz(const string name, const string str_option) {
     OutputGraphviz *output = nullptr;
 
     if (str_option == "text") {
@@ -152,9 +151,14 @@ bool ProcessCmdLine::exec(const std::string cmd) {
 
         string expr = parse.get_prop_value("value");
 
-        string result = query->query(model, expr);
+        Element *elm = query->query(model, expr);
         // TODO: 这里用日志直接输出，有点不好吧？
-        LOGI("value=%s\n", result.c_str());
+
+        string result = "error";
+        if (elm) {
+            result = elm->get_value();
+        }
+        LOGI("%s\n", result.c_str());
         return true;
     } else if (start_str == "Clear") {
         // TODO: no impl，感觉没有必要！

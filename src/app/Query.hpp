@@ -14,7 +14,8 @@ public:
     Query(const std::string name);
     virtual ~Query();
 
-    std::string query(const Model *model, const std::string expr);
+    // 根据表达式，得到元素。 TODO:以后扩展后，也许得到的是值！
+    Element * query(const Model *model, const std::string expr);
 
 protected:
     std::string name;
