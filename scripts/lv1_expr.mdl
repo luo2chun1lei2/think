@@ -1,0 +1,7 @@
+# 研究表达式，包含查询语句
+
+Element name=a value=1
+Element name=b value=2
+Element name=c sum=3
+
+Query name=q1 value=a+b+c.sum

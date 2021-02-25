@@ -33,4 +33,5 @@ Relation name=own from=task1 to=task1_3
 Relation name=own from=task2 to=task2_1
 Relation name=own from=task2_1 to=task2_1_1
 
-Output name=task
+# option=text/graphivz
+Output name=task type=list

@@ -11,11 +11,28 @@
 
 using namespace std;
 
-bool ProcessCmdLine::output_graphviz(const string name, const string str_option) {
+bool ProcessCmdLine::output_graphviz(const string name, ParseCommandLineWithProperties &parse) {
+
+    string str_option = parse.get_prop_value("option");
+    string str_type = parse.get_prop_value("type");
+
     OutputGraphviz *output = nullptr;
 
+    OutputGraphviz::Type type;
+    if (str_type == "basic") {
+        type = OutputGraphviz::TYPE_BASIC;
+    } else if (str_type == "list") {
+        type = OutputGraphviz::TYPE_LIST;
+    } else if (str_type == "call") {
+        type = OutputGraphviz::TYPE_CALL;
+    } else if (str_type == "layout") {
+        type = OutputGraphviz::TYPE_LAYOUT;
+    } else {
+        type = OutputGraphviz::TYPE_BASIC;
+    }
+
     if (str_option == "text") {
-        output = new OutputGraphviz(name, OutputGraphviz::GRAPH_TEXT);
+        output = new OutputGraphviz(name, OutputGraphviz::GRAPH_TEXT, type);
 
         // 生成临时文件。
         char path[] = "/tmp/XXXXXX.txt";
@@ -30,13 +47,13 @@ bool ProcessCmdLine::output_graphviz(const string name, const string str_option)
         output->set_output_filepath(path);
         output->output(this->model);
 
-        // 执行显示图片的命令，system必须退出才行。
+        // 显示graphviz内部的绘制脚本，而不是dot本身的脚本。
         ostringstream stream;
         stream << "cat " << path;
         auto cmd = stream.str();
         system(cmd.c_str());
-    } else {
-        output = new OutputGraphviz(name, OutputGraphviz::GRAPH_SVG);
+    } else { // SVG is default。
+        output = new OutputGraphviz(name, OutputGraphviz::GRAPH_SVG, type);
 
         // 生成临时文件。
         char path[] = "/tmp/XXXXXX.svg";
@@ -72,12 +89,6 @@ bool ProcessCmdLine::init_all_properties(Element *elm, ParseCommandLineWithPrope
     }
 
     return true;
-
-    /*
-        string str_desc = parse.get_prop_value("desc");
-            if (str_desc.length()) {
-                model->set_property_of_elm(elm, "desc", str_desc);
-            } */
 }
 
 // TODO: 函数过大了，应该拆分。
@@ -105,9 +116,7 @@ bool ProcessCmdLine::exec(const std::string cmd) {
         return true;
     } else if (start_str == "Output") {
         // output model.
-        string str_option = parse.get_prop_value("option");
-
-        return output_graphviz(name, str_option);
+        return output_graphviz(name, parse);
 
     } else if (start_str == "Element") {
         // Create a element.

@@ -7,9 +7,10 @@
 
 using namespace std;
 
-OutputGraphviz::OutputGraphviz(const string name, OutputGraphviz::Options options)
+OutputGraphviz::OutputGraphviz(const string name, OutputGraphviz::Option option, OutputGraphviz::Type type)
     : Output(name)
-    , options(options) {
+    , option(option)
+    , type(type) {
 }
 
 OutputGraphviz::~OutputGraphviz() {
@@ -29,13 +30,17 @@ bool OutputGraphviz::prepare_graphviz() {
 void OutputGraphviz::finish_graphviz() {
     // 设定layout是格式的，可以是“circo dot fdp neato nop nop1 nop2 osage
     // patchwork sfdp twopi”。
+    // dot: 是按照层级来安排节点
+    // circo: 是一个中心，显然其他的节点向四周扩散的方法。
+    // neato: 会重叠，和circo有点像。
+    // ...
     gvLayout(gvc, g, "dot");
 
     /* Write the graph to file, svg、plain是导出的格式。 */
-    if (options == GRAPH_SVG) {
-        gvRenderFilename(gvc, g, "svg", this->output_file_path.c_str());
-    } else { // GRAPH_TEXT
+    if (option == GRAPH_TEXT) {
         gvRenderFilename(gvc, g, "plain", this->output_file_path.c_str());
+    } else { // GRAPH_SVG : 缺省！
+        gvRenderFilename(gvc, g, "svg", this->output_file_path.c_str());
     }
 
     /* Free layout data */
@@ -100,8 +105,7 @@ bool OutputGraphviz::output(const Model *model) {
         }
     }
 
-// 然后再处理Relation的元素，作为边。
-#if 1
+    // 然后再处理Relation的元素，作为边。
     for (size_t i = 0; i < count; i++) {
         Element *elm = model->get_elm(i);
         if (typeid(*elm) == typeid(Relation)) {
@@ -148,7 +152,11 @@ bool OutputGraphviz::output(const Model *model) {
             ag_elms[i] = e;
         }
     }
-#endif
+
+    if (type == TYPE_LIST) {
+        // LIST时，横屏显示。
+        agsafeset(g, "rankdir", "LR", "");
+    }
 
     finish_graphviz();
 
