@@ -24,8 +24,13 @@ public:
 	std::vector<Element *> find_elm(const std::string name) const;
 	virtual int index_of(const ElementId id) const;	// -1 : not found
 	
-	// found = elm_name.rlt_name
+	// 属性/TAG的原型：found = elm_name.rlt_name
 	virtual std::vector<Element *> find_elm_by_rlt(const std::string elm_name, const std::string rlt_name) const;
+
+	// 属性的函数。
+	virtual std::vector<Element *> get_property_of_elm(const std::string elm_name, const std::string rlt_name) const;
+	virtual bool set_property_of_elm(const std::string elm_name, const std::string rlt_name, const Element *to);
+	virtual bool set_property_of_elm(Element *from, const std::string rlt_name, const std::string value);
 	
 protected:
 	std::vector<Element *> elms;

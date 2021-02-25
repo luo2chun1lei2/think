@@ -1,13 +1,15 @@
 #include <Output.hpp>
 
 #include <array>
+#include <vector>
 
 #include <Misc.hpp>
 
 using namespace std;
 
 OutputGraphviz::OutputGraphviz(const string name, OutputGraphviz::Options options)
-    : Output(name), options(options) {
+    : Output(name)
+    , options(options) {
 }
 
 OutputGraphviz::~OutputGraphviz() {
@@ -30,14 +32,14 @@ void OutputGraphviz::finish_graphviz() {
     gvLayout(gvc, g, "dot");
 
     /* Write the graph to file, svg、plain是导出的格式。 */
-    if(options == GRAPH_SVG) {
+    if (options == GRAPH_SVG) {
         gvRenderFilename(gvc, g, "svg", this->output_file_path.c_str());
     } else { // GRAPH_TEXT
         gvRenderFilename(gvc, g, "plain", this->output_file_path.c_str());
     }
-    
+
     /* Free layout data */
-    gvFreeLayout(gvc, g); //TODO: 单独运行时，发现有重复释放资源的问题，将这个注释，就没有了。
+    gvFreeLayout(gvc, g); // TODO: 单独运行时，发现有重复释放资源的问题，将这个注释，就没有了。
 
     /* Free graph structures */
     agclose(g);
@@ -64,9 +66,29 @@ bool OutputGraphviz::output(const Model *model) {
     for (size_t i = 0; i < count; i++) {
         Element *elm = model->get_elm(i);
         if (typeid(*elm) != typeid(Relation)) {
-            string    str_name = elm->get_name();
-            char *    name     = const_cast<char *>(str_name.c_str());
-            Agnode_t *n        = agnode(g, name, 1); // 1 是固定的。
+
+            string str_name = elm->get_name();
+            if (str_name.length() == 0) {
+                //名字是空，就是匿名的，不要显示。
+                continue;
+            }
+
+            char *name = const_cast<char *>(str_name.c_str());
+
+            vector<Element *> elm_descs = model->find_elm_by_rlt(elm->get_name(), "desc");
+            string            str_desc;
+            char *            desc = NULL;
+            if (elm_descs.size()) {
+                str_desc = elm_descs[ 0 ]->get_value();
+                desc     = const_cast<char *>(str_desc.c_str());
+            }
+
+            Agnode_t *n;
+            if (desc == NULL) {
+                n = agnode(g, name, 1); // 1 是固定的。
+            } else {
+                n = agnode(g, desc, 1); // 1 是固定的。
+            }
 
             /* 设置节点的属性 */
             agsafeset(n, "color", "blue", "");
@@ -78,7 +100,8 @@ bool OutputGraphviz::output(const Model *model) {
         }
     }
 
-    // 然后再处理Relation的元素，作为边。
+// 然后再处理Relation的元素，作为边。
+#if 1
     for (size_t i = 0; i < count; i++) {
         Element *elm = model->get_elm(i);
         if (typeid(*elm) == typeid(Relation)) {
@@ -94,6 +117,11 @@ bool OutputGraphviz::output(const Model *model) {
             if (!rlt->get_to()) {
                 LOGE("Relation(%s) hasn't to.\n", name);
                 return false;
+            }
+
+            if (rlt->get_from()->get_name().length() == 0 || rlt->get_to()->get_name().length() == 0) {
+                // relation相关的元素如果是匿名的，就不显示。
+                continue;
             }
 
             // LOGI("%s --%S-> %s\n", rlt->get_from()->get_name().c_str(), name, rlt->get_to()->get_name().c_str());
@@ -120,6 +148,7 @@ bool OutputGraphviz::output(const Model *model) {
             ag_elms[ i ] = e;
         }
     }
+#endif
 
     finish_graphviz();
 

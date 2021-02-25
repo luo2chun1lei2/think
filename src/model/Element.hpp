@@ -14,11 +14,16 @@ class Element
 {
 public:
 	Element(const std::string name);
+	Element(const std::string name, const std::string value);
 	Element(const Element &elm);
 	virtual ~Element() {}
 	
 	virtual ElementId get_id() const;
 	virtual std::string get_name() const;
+	// 返回一个值，针对的是“值”类型的元素，比如数字、文字、布尔型等。
+	// TODO: 是否应该建立一个 ElementValue 类型？
+	virtual void set_value(const std::string value) {this->value = value;}
+	virtual std::string get_value() const {return value;}
 	
 	virtual bool operator==(const Element &elm);
 	virtual bool operator!=(const Element &elm);
@@ -26,5 +31,7 @@ public:
 protected:
 	ElementId id;
 	std::string name;
+
+	std::string value;
 private:
 };

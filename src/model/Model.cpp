@@ -1,5 +1,7 @@
 #include <Model.hpp>
 
+#include <Misc.hpp>
+
 using namespace std;
 
 Model::Model(const std::string name)
@@ -83,4 +85,25 @@ std::vector<Element *> Model::find_elm_by_rlt(const std::string elm_name, const 
     }
 
     return found;
+}
+
+std::vector<Element *> Model::get_property_of_elm(const std::string elm_name, const std::string rlt_name) const {
+    return find_elm_by_rlt(elm_name, rlt_name);
+}
+
+bool Model::set_property_of_elm(const std::string elm_name, const std::string rlt_name, const Element *to) {
+    // NO IMPL
+    return false;
+}
+
+bool Model::set_property_of_elm(Element *from, const std::string rlt_name, const std::string value) {
+    // 创建 value, name=""就当做是匿名的！
+    Element *elm = new Element("");
+    elm->set_value(value);
+    add_elm(elm);
+
+    // 创建Relation
+    Relation *rlt = new Relation(rlt_name);
+    rlt->relate(from, elm);
+    add_elm(rlt);
 }

@@ -37,10 +37,11 @@ bool ProcessCmdLine::exec(const std::string cmd) {
 
         OutputGraphviz *output = nullptr;
 
-        string from_str = parse.get_prop_value("option");
+        string str_option = parse.get_prop_value("option");
 
-        if (from_str == "text") {
+        if (str_option == "text") {
             output = new OutputGraphviz(name, OutputGraphviz::GRAPH_TEXT);
+
             // 生成临时文件。
             char path[] = "/tmp/XXXXXX.txt";
             int  fd     = mkstemps(path, 4);
@@ -83,10 +84,17 @@ bool ProcessCmdLine::exec(const std::string cmd) {
         }
 
         return true;
-        
+
     } else if (start_str == "Element") {
         Element *elm = new Element(name);
+
         model->add_elm(elm);
+        // TODO: 应该添加此元素所有的属性到element中！ 后面还要包括Relation的。
+
+        string str_desc = parse.get_prop_value("desc");
+        if (str_desc.length()) {
+            model->set_property_of_elm(elm, "desc", str_desc);
+        }
         return true;
     } else if (start_str == "Relation") {
         Relation *rlt = new Relation(name);

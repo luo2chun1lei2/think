@@ -4,13 +4,21 @@
 /////////////////////////////////////////////////////////////////////
 
 Element::Element(const std::string name) {
-    id         = ElementIdFactory::get_instance()->generate();
-    this->name = name;
+    id          = ElementIdFactory::get_instance()->generate();
+    this->name  = name;
+    this->value = "";
+}
+
+Element::Element(const std::string name, const std::string value) {
+    id          = ElementIdFactory::get_instance()->generate();
+    this->name  = name;
+    this->value = value;
 }
 
 Element::Element(const Element &elm) {
-    id   = elm.id;
-    name = elm.name;
+    id    = elm.id;
+    name  = elm.name;
+    value = elm.value;
 }
 
 ElementId Element::get_id() const {

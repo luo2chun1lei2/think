@@ -8,18 +8,18 @@ Model name=task
 
 # 描述元素
 
-Element name=task0 content="总任务"
+Element name=task0 desc="总任务"
 
-Element name=task1 content="任务1"
-Element name=task1_1 content="任务1.1"
-Element name=task1_2 content="任务1.2"
-Element name=task1_3 content="任务1.3"
+Element name=task1 desc="任务1"
+Element name=task1_1 desc="任务1.1"
+Element name=task1_2 desc="任务1.2"
+Element name=task1_3 desc="任务1.3"
 
-Element name=task2 content="任务2"
-Element name=task2_1 content="任务2.1"
-Element name=task2_1_1 content="任务2.2.1"
+Element name=task2 desc="任务2"
+Element name=task2_1 desc="任务2.1"
+Element name=task2_1_1 desc="任务2.2.1"
 
-Element name=task3 content="任务3"
+Element name=task3 desc="任务3"
 
 # 描述关系
 Relation name=own from=task0 to=task1
