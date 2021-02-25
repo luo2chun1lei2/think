@@ -11,6 +11,57 @@
 
 using namespace std;
 
+bool ProcessCmdLine::output_graphviz(const string name, const string str_option)
+{
+    OutputGraphviz *output = nullptr;
+
+    if (str_option == "text") {
+        output = new OutputGraphviz(name, OutputGraphviz::GRAPH_TEXT);
+
+        // 生成临时文件。
+        char path[] = "/tmp/XXXXXX.txt";
+        int  fd     = mkstemps(path, 4);
+        if (fd == -1) {
+            LOGE("Cannot open temp file.\n");
+            return false;
+        }
+        close(fd);
+
+        // 设定临时文件路径。
+        output->set_output_filepath(path);
+        output->output(this->model);
+
+        // 执行显示图片的命令，system必须退出才行。
+        ostringstream stream;
+        stream << "cat " << path;
+        auto cmd = stream.str();
+        system(cmd.c_str());
+    } else {
+        output = new OutputGraphviz(name, OutputGraphviz::GRAPH_SVG);
+
+        // 生成临时文件。
+        char path[] = "/tmp/XXXXXX.svg";
+        int  fd     = mkstemps(path, 4);
+        if (fd == -1) {
+            LOGE("Cannot open temp file.\n");
+            return false;
+        }
+        close(fd);
+
+        // 设定临时文件路径。
+        output->set_output_filepath(path);
+        output->output(this->model);
+
+        // 执行显示图片的命令，system必须退出才行。
+        ostringstream stream;
+        stream << "eog " << path;
+        auto cmd = stream.str();
+        system(cmd.c_str());
+    }
+
+    return true;
+}
+
 // TODO: 函数过大了，应该拆分。
 bool ProcessCmdLine::exec(const std::string cmd) {
     ParseCommandLineWithProperties parse;
@@ -30,62 +81,18 @@ bool ProcessCmdLine::exec(const std::string cmd) {
     }
 
     if (start_str == "Model") {
+        // Create a model
         Model *model = new Model(name);
         this->set_model(model);
         return true;
     } else if (start_str == "Output") {
-
-        OutputGraphviz *output = nullptr;
-
+        // output model.
         string str_option = parse.get_prop_value("option");
 
-        if (str_option == "text") {
-            output = new OutputGraphviz(name, OutputGraphviz::GRAPH_TEXT);
-
-            // 生成临时文件。
-            char path[] = "/tmp/XXXXXX.txt";
-            int  fd     = mkstemps(path, 4);
-            if (fd == -1) {
-                LOGE("Cannot open temp file.\n");
-                return false;
-            }
-            close(fd);
-
-            // 设定临时文件路径。
-            output->set_output_filepath(path);
-            output->output(this->model);
-
-            // 执行显示图片的命令，system必须退出才行。
-            ostringstream stream;
-            stream << "cat " << path;
-            auto cmd = stream.str();
-            system(cmd.c_str());
-        } else {
-            output = new OutputGraphviz(name, OutputGraphviz::GRAPH_SVG);
-
-            // 生成临时文件。
-            char path[] = "/tmp/XXXXXX.svg";
-            int  fd     = mkstemps(path, 4);
-            if (fd == -1) {
-                LOGE("Cannot open temp file.\n");
-                return false;
-            }
-            close(fd);
-
-            // 设定临时文件路径。
-            output->set_output_filepath(path);
-            output->output(this->model);
-
-            // 执行显示图片的命令，system必须退出才行。
-            ostringstream stream;
-            stream << "eog " << path;
-            auto cmd = stream.str();
-            system(cmd.c_str());
-        }
-
-        return true;
+        return output_graphviz(name, str_option);
 
     } else if (start_str == "Element") {
+        // Create a element.
         Element *elm = new Element(name);
 
         model->add_elm(elm);
@@ -97,6 +104,7 @@ bool ProcessCmdLine::exec(const std::string cmd) {
         }
         return true;
     } else if (start_str == "Relation") {
+        // Create a relation.
         Relation *rlt = new Relation(name);
 
         string from_str = parse.get_prop_value("from");

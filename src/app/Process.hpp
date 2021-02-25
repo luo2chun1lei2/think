@@ -56,5 +56,8 @@ public:
 protected:
 	// 当前只有一个model。
 	Model *model;
+
+	bool output_graphviz(const std::string name, const std::string str_option);
+
 private:
 };
