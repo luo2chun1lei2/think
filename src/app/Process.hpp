@@ -2,6 +2,7 @@
 
 #include <Model.hpp>
 #include <Output.hpp>
+#include <Misc.hpp>
 
 /**
  * 作为容纳对于model的处理的对象，将外部的app和对于model的处理分离开。
@@ -57,6 +58,8 @@ protected:
 	// 当前只有一个model。
 	Model *model;
 
+	// 根据来自commandline的properties设置elm的内部属性。
+	bool init_all_properties(Element * elm, ParseCommandLineWithProperties::Properties properties);
 	bool output_graphviz(const std::string name, const std::string str_option);
 
 private:

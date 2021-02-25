@@ -61,6 +61,25 @@ bool ProcessCmdLine::output_graphviz(const string name, const string str_option)
     return true;
 }
 
+bool ProcessCmdLine::init_all_properties(Element *elm, ParseCommandLineWithProperties::Properties properties) {
+
+    for (pair<string, string> one : properties) {
+        if (one.first == "name") {
+            continue;
+        }
+
+        model->set_property_of_elm(elm, one.first, one.second);
+    }
+
+    return true;
+
+    /*
+        string str_desc = parse.get_prop_value("desc");
+            if (str_desc.length()) {
+                model->set_property_of_elm(elm, "desc", str_desc);
+            } */
+}
+
 // TODO: 函数过大了，应该拆分。
 bool ProcessCmdLine::exec(const std::string cmd) {
     ParseCommandLineWithProperties parse;
@@ -95,16 +114,22 @@ bool ProcessCmdLine::exec(const std::string cmd) {
         Element *elm = new Element(name);
 
         model->add_elm(elm);
-        // TODO: 应该添加此元素所有的属性到element中！ 后面还要包括Relation的。
 
-        string str_desc = parse.get_prop_value("desc");
-        if (str_desc.length()) {
-            model->set_property_of_elm(elm, "desc", str_desc);
+        if( ! init_all_properties(elm, properties) ) {
+            LOGE("Cannot initialize properties of element(%s).\n", name.c_str());
+            return false;
         }
+
         return true;
+
     } else if (start_str == "Relation") {
         // Create a relation.
         Relation *rlt = new Relation(name);
+
+        if( !init_all_properties(rlt, properties) ) {
+            LOGE("Cannot initialize properties of relation(%s).\n", name.c_str());
+            return false;
+        }
 
         string from_str = parse.get_prop_value("from");
         if (from_str == "") {
