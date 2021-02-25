@@ -30,7 +30,7 @@ Element *Model::get_elm(uint32_t no) const {
     if (no >= elms.size()) {
         return nullptr;
     } else {
-        return elms[ no ];
+        return elms[no];
     }
 }
 
@@ -61,7 +61,7 @@ vector<Element *> Model::find_elm(const std::string name) const {
 
 int Model::index_of(const ElementId id) const {
     for (int i = 0; i < elms.size(); i++) {
-        if (elms[ i ]->get_id() == id) {
+        if (elms[i]->get_id() == id) {
             return i;
         }
     }
@@ -78,7 +78,7 @@ std::vector<Element *> Model::find_elm_by_rlt(const std::string elm_name, const 
     vector<Element *> found_rlts = find_elm(rlt_name);
     for (auto elm : found_rlts) {
         Relation *rlt = dynamic_cast<Relation *>(elm);
-        Element * e   = rlt->get_from();
+        Element *e = rlt->get_from();
         if (e->get_name() == elm_name) {
             found.push_back(rlt->get_to());
         }

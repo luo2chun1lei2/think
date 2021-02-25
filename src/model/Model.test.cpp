@@ -54,11 +54,11 @@ TEST_CASE("test model", "[model]") {
 
             found = model.find_elm("elm1");
             REQUIRE(found.size() == 1);
-            REQUIRE(found[ 0 ] == &elm1);
+            REQUIRE(found[0] == &elm1);
 
             found = model.find_elm("rlt2");
             REQUIRE(found.size() == 1);
-            REQUIRE(found[ 0 ] == &rlt2);
+            REQUIRE(found[0] == &rlt2);
 
             found = model.find_elm("xxx");
             REQUIRE(found.size() == 0);
@@ -70,11 +70,11 @@ TEST_CASE("test model", "[model]") {
             // 根据 元素的名字，以及它的关系的名字，找到涉及到的元素。
             found = model.find_elm_by_rlt("elm1", "rlt1");
             REQUIRE(found.size() == 1);
-            REQUIRE(found[ 0 ] == &elm2);
+            REQUIRE(found[0] == &elm2);
 
             found = model.find_elm_by_rlt("elm2", "rlt2");
             REQUIRE(found.size() == 1);
-            REQUIRE(found[ 0 ] == &elm3);
+            REQUIRE(found[0] == &elm3);
         }
     }
 }

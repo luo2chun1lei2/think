@@ -55,7 +55,7 @@ bool ParseCommandLineWithProperties::parse_start(const std::string cmdline) {
         //	cout << s.str() + "@";
         //}
         // cout << endl;
-        this->start = m[ 1 ].str();
+        this->start = m[1].str();
     }
 
     return true;
@@ -72,7 +72,7 @@ bool ParseCommandLineWithProperties::parse_properties(const std::string cmdline)
         //			cout << s.str() + "@";
         //		}
         //		cout << endl;
-        this->properties.push_back(make_pair(m[ 1 ].str(), m[ 3 ].str()));
+        this->properties.push_back(make_pair(m[1].str(), m[3].str()));
     }
 
     return true;
@@ -128,9 +128,9 @@ bool ParseExpr::parse_match(const string input) {
 
 bool ParseExpr::parse_tree(const string input) {
     // 用分割的方式来分析语法。
-    std::regex                 reg("\\.");
+    std::regex reg("\\.");
     std::sregex_token_iterator pos(input.begin(), input.end(), reg, -1);
-    decltype(pos)              end;
+    decltype(pos) end;
     for (; pos != end; ++pos) {
         // std::cout << pos->str() << std::endl;
         this->path.push_back(pos->str());

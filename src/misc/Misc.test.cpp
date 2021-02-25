@@ -68,16 +68,16 @@ TEST_CASE("parse command line with properties", "[misc]") {
         REQUIRE(parse.parse("XXX a=1 b=2"));
         REQUIRE(parse.get_start() == "XXX");
         REQUIRE(parse.get_properties().size() == 2);
-        REQUIRE(parse.get_properties()[ 0 ].first == "a");
-        REQUIRE(parse.get_properties()[ 0 ].second == "1");
-        REQUIRE(parse.get_properties()[ 1 ].first == "b");
-        REQUIRE(parse.get_properties()[ 1 ].second == "2");
+        REQUIRE(parse.get_properties()[0].first == "a");
+        REQUIRE(parse.get_properties()[0].second == "1");
+        REQUIRE(parse.get_properties()[1].first == "b");
+        REQUIRE(parse.get_properties()[1].second == "2");
 
         REQUIRE(parse.parse("XXX a_123=1.a_b_c"));
         REQUIRE(parse.get_start() == "XXX");
         REQUIRE(parse.get_properties().size() == 1);
-        REQUIRE(parse.get_properties()[ 0 ].first == "a_123");
-        REQUIRE(parse.get_properties()[ 0 ].second == "1.a_b_c");
+        REQUIRE(parse.get_properties()[0].first == "a_123");
+        REQUIRE(parse.get_properties()[0].second == "1.a_b_c");
 
         REQUIRE(parse.parse("\"X X X\" a=1 b=2"));
         REQUIRE(parse.get_start() == "\"X X X\"");
@@ -85,10 +85,10 @@ TEST_CASE("parse command line with properties", "[misc]") {
         REQUIRE(parse.parse("XXX \"a a\"=1 b=\"2 3 2\""));
         REQUIRE(parse.get_start() == "XXX");
         REQUIRE(parse.get_properties().size() == 2);
-        REQUIRE(parse.get_properties()[ 0 ].first == "\"a a\"");
-        REQUIRE(parse.get_properties()[ 0 ].second == "1");
-        REQUIRE(parse.get_properties()[ 1 ].first == "b");
-        REQUIRE(parse.get_properties()[ 1 ].second == "\"2 3 2\"");
+        REQUIRE(parse.get_properties()[0].first == "\"a a\"");
+        REQUIRE(parse.get_properties()[0].second == "1");
+        REQUIRE(parse.get_properties()[1].first == "b");
+        REQUIRE(parse.get_properties()[1].second == "\"2 3 2\"");
     }
 }
 
@@ -101,18 +101,18 @@ TEST_CASE("parse expr", "[misc]") {
         REQUIRE(parse.parse("1.2.3.4"));
         path = parse.get_path();
         REQUIRE(path.size() == 4);
-        REQUIRE(path[ 0 ] == "1");
-        REQUIRE(path[ 1 ] == "2");
-        REQUIRE(path[ 2 ] == "3");
-        REQUIRE(path[ 3 ] == "4");
+        REQUIRE(path[0] == "1");
+        REQUIRE(path[1] == "2");
+        REQUIRE(path[2] == "3");
+        REQUIRE(path[3] == "4");
 
         REQUIRE(parse.parse("\"1 1\".2.3.\"4 4\""));
         path = parse.get_path();
         REQUIRE(path.size() == 4);
-        REQUIRE(path[ 0 ] == "\"1 1\"");
-        REQUIRE(path[ 1 ] == "2");
-        REQUIRE(path[ 2 ] == "3");
-        REQUIRE(path[ 3 ] == "\"4 4\"");
+        REQUIRE(path[0] == "\"1 1\"");
+        REQUIRE(path[1] == "2");
+        REQUIRE(path[2] == "3");
+        REQUIRE(path[3] == "\"4 4\"");
     }
 
     SECTION("logic") {

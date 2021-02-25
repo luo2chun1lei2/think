@@ -6,8 +6,8 @@
 
 #include <Process.hpp>
 
-static const char *        _sopts = "hi";
-extern char *              optarg;
+static const char *_sopts = "hi";
+extern char *optarg;
 static const struct option _lopts[] = {
     {"help", no_argument, 0, 'h'}, {"interactive", no_argument, 0, 'i'}, {0, 0, 0, 0}};
 
@@ -30,8 +30,8 @@ int main(int argc, char *argv[]) {
     int c;
     int oidx = 0;
 
-    bool        enter_interactive = true;
-    const char *script_path       = NULL;
+    bool enter_interactive = true;
+    const char *script_path = NULL;
 
     while (1) {
         c = getopt_long(argc, argv, _sopts, _lopts, &oidx);
@@ -40,13 +40,13 @@ int main(int argc, char *argv[]) {
 
         switch (c) {
             case 'h':
-                print_usage_and_exit(argv[ 0 ], EXIT_SUCCESS);
+                print_usage_and_exit(argv[0], EXIT_SUCCESS);
                 break;
             case 'i':
                 enter_interactive = true;
                 break;
             default:
-                print_usage_and_exit(argv[ 0 ], EXIT_FAILURE);
+                print_usage_and_exit(argv[0], EXIT_FAILURE);
                 break;
         }
     }
@@ -55,7 +55,7 @@ int main(int argc, char *argv[]) {
     // TODO 目前只支持一个，且最后一个。
     if (optind < argc) {
         while (optind < argc)
-            script_path = argv[ optind++ ];
+            script_path = argv[optind++];
     }
 
     ProcessCmdLine process;
@@ -67,16 +67,16 @@ int main(int argc, char *argv[]) {
             LOGE("Cannot open file(%s)\n", script_path);
             return 1;
         }
-        char buf[ 1024 ]; // TODO: 假定一行最大是1024字节。
+        char buf[1024]; // TODO: 假定一行最大是1024字节。
         while (fgets(buf, sizeof(buf), fp)) {
             // LOGI("read line:%s\n", buf);
-            if (buf[ 0 ] == '#') {
+            if (buf[0] == '#') {
                 // TODO: 注释忽略，但是算法过于简单。
                 continue;
             }
 
             // TODO: 排除空行，这个实现逻辑也不准确。
-            if (buf[ 0 ] == '\n') { // 仅仅有一个'\n'
+            if (buf[0] == '\n') { // 仅仅有一个'\n'
                 continue;
             }
             process.exec(buf);

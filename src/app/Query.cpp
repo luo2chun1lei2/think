@@ -32,14 +32,14 @@ Element *Query::query(const Model *model, const std::string expr) {
                 return nullptr;
             }
 
-            elm = found[ 0 ];
+            elm = found[0];
         } else {
             vector<Element *> found = model->find_elm_by_rlt(elm->get_name(), p);
             if (found.size() != 1) {
                 LOGE("Elment(%s) have no or multiple relations(%s).\n", elm->get_name().c_str(), p.c_str());
                 return nullptr;
             }
-            elm = found[ 0 ];
+            elm = found[0];
         }
     }
 

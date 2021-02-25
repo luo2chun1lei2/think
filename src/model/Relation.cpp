@@ -15,7 +15,7 @@ Relation::~Relation() {
 
 void Relation::relate(Element *from, Element *to) {
     this->from = from;
-    this->to   = to;
+    this->to = to;
 }
 
 // 得到此关系涉及到元素，按照序号。

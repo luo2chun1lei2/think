@@ -35,8 +35,8 @@ TEST_CASE("test output about graphviz", "[app][block]") {
 
     SECTION("init and export") {
         OutputGraphviz output("test", OutputGraphviz::GRAPH_SVG);
-        char           path[] = "/tmp/XXXXXX.svg";
-        int            fd     = mkstemps(path, 4);
+        char path[] = "/tmp/XXXXXX.svg";
+        int fd = mkstemps(path, 4);
         REQUIRE(fd != -1);
         close(fd);
 

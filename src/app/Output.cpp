@@ -58,7 +58,7 @@ bool OutputGraphviz::output(const Model *model) {
 
     size_t count = model->get_elm_count();
 
-    void *ag_elms[ count ];
+    void *ag_elms[count];
 
     memset(ag_elms, 0, sizeof(ag_elms));
 
@@ -76,11 +76,11 @@ bool OutputGraphviz::output(const Model *model) {
             char *name = const_cast<char *>(str_name.c_str());
 
             vector<Element *> elm_descs = model->find_elm_by_rlt(elm->get_name(), "desc");
-            string            str_desc;
-            char *            desc = NULL;
+            string str_desc;
+            char *desc = NULL;
             if (elm_descs.size()) {
-                str_desc = elm_descs[ 0 ]->get_value();
-                desc     = const_cast<char *>(str_desc.c_str());
+                str_desc = elm_descs[0]->get_value();
+                desc = const_cast<char *>(str_desc.c_str());
             }
 
             Agnode_t *n;
@@ -96,7 +96,7 @@ bool OutputGraphviz::output(const Model *model) {
 
             // LOGI("node: %s\n", name);
 
-            ag_elms[ i ] = n;
+            ag_elms[i] = n;
         }
     }
 
@@ -105,9 +105,9 @@ bool OutputGraphviz::output(const Model *model) {
     for (size_t i = 0; i < count; i++) {
         Element *elm = model->get_elm(i);
         if (typeid(*elm) == typeid(Relation)) {
-            Relation *rlt      = dynamic_cast<Relation *>(elm);
-            string    str_name = rlt->get_name();
-            char *    name     = const_cast<char *>(str_name.c_str());
+            Relation *rlt = dynamic_cast<Relation *>(elm);
+            string str_name = rlt->get_name();
+            char *name = const_cast<char *>(str_name.c_str());
 
             if (!rlt->get_from()) {
                 LOGE("Relation(%s) hasn't from.\n", name);
@@ -126,15 +126,15 @@ bool OutputGraphviz::output(const Model *model) {
 
             // LOGI("%s --%S-> %s\n", rlt->get_from()->get_name().c_str(), name, rlt->get_to()->get_name().c_str());
             int index;
-            index       = model->index_of(rlt->get_from()->get_id());
-            Agnode_t *f = (Agnode_t *)ag_elms[ index ];
+            index = model->index_of(rlt->get_from()->get_id());
+            Agnode_t *f = (Agnode_t *)ag_elms[index];
             if (index == -1 || !f) {
                 LOGE("Relation(%s) cannot find from node.\n", name);
                 return false;
             }
 
-            index       = model->index_of(rlt->get_to()->get_id());
-            Agnode_t *t = (Agnode_t *)ag_elms[ index ];
+            index = model->index_of(rlt->get_to()->get_id());
+            Agnode_t *t = (Agnode_t *)ag_elms[index];
             if (index == -1 || !t) {
                 LOGE("Relation(%s) cannot find to node.\n", name);
                 return false;
@@ -145,7 +145,7 @@ bool OutputGraphviz::output(const Model *model) {
             agsafeset(e, "label", name, "");
             agsafeset(e, "color", "black", "");
 
-            ag_elms[ i ] = e;
+            ag_elms[i] = e;
         }
     }
 #endif

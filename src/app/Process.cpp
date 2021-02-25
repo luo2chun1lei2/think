@@ -19,7 +19,7 @@ bool ProcessCmdLine::output_graphviz(const string name, const string str_option)
 
         // 生成临时文件。
         char path[] = "/tmp/XXXXXX.txt";
-        int  fd     = mkstemps(path, 4);
+        int fd = mkstemps(path, 4);
         if (fd == -1) {
             LOGE("Cannot open temp file.\n");
             return false;
@@ -40,7 +40,7 @@ bool ProcessCmdLine::output_graphviz(const string name, const string str_option)
 
         // 生成临时文件。
         char path[] = "/tmp/XXXXXX.svg";
-        int  fd     = mkstemps(path, 4);
+        int fd = mkstemps(path, 4);
         if (fd == -1) {
             LOGE("Cannot open temp file.\n");
             return false;
@@ -115,7 +115,7 @@ bool ProcessCmdLine::exec(const std::string cmd) {
 
         model->add_elm(elm);
 
-        if( ! init_all_properties(elm, properties) ) {
+        if (!init_all_properties(elm, properties)) {
             LOGE("Cannot initialize properties of element(%s).\n", name.c_str());
             return false;
         }
@@ -126,7 +126,7 @@ bool ProcessCmdLine::exec(const std::string cmd) {
         // Create a relation.
         Relation *rlt = new Relation(name);
 
-        if( !init_all_properties(rlt, properties) ) {
+        if (!init_all_properties(rlt, properties)) {
             LOGE("Cannot initialize properties of relation(%s).\n", name.c_str());
             return false;
         }
@@ -165,7 +165,7 @@ bool ProcessCmdLine::exec(const std::string cmd) {
             return false;
         }
 
-        rlt->relate(from_elms[ 0 ], to_elms[ 0 ]);
+        rlt->relate(from_elms[0], to_elms[0]);
 
         model->add_elm(rlt);
         return true;
