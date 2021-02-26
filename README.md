@@ -116,3 +116,71 @@ Query value=表达式
 	6. 允许截取大模型中的一部分关系，这个是查询的功能，然后形成新的模型，然后映射到"显示"中。
 	8. 还有互动模式，这个可以作为试验某些命令的地方。
 	9. output只简单实现了list模式，其他的call和layout还没有区分。
+
+
+7. 新的语法想法：
+
+7.1 类型定义：
+必须有类型，否则无法创建具有特定功能的元素，只能包含有许多通用的属性！
+
+7.2 元素定义：
+e0(xingming="luocl", old=43, sex="male")
+e0是程序内的名字，后面是此元素的具体属性。
+
+7.3 关系定义：
+e0.r1 = e1, e2， ...          // 可以设置e0和e1的关系为r1，e0和e2的关系也为r1
+等同于
+r1(e0, e1)		// ？ 怎么知道是relation还是普通elment，或者是不需要区分？
+r1(e0, e2)
+...
+
+我.侄子 = 小多, 小豹
+
+e0可以是表达式，只要最后的结果是一个必须已存在的元素。
+r1可以是表达式，最后的结果只要是一个“文字”，这样就可以创建一个新的relation。
+e1/e2可以是表达式，如果结果是一个必须已经存在的元素，那么就设置到r1中。如果结果是一个值，那么就创建一个新的元素。
+
+7.4 表达式定义：
+
+值和元素：此程序中所有的东西都是元素，关系也是元素的一种。值是元素的一种子类，特点是可以设置和获取一个值。
+值可以是文字、数字、布尔类型等，然后在运算符下，转化为特定的类型进行计算或其他处理。
+
+Value : set_value/get_value -> int/double/string.
+
+表达式是 各种元素的有效组合，可以是
+	expr = a
+	expr = a.b
+	expr = (a + 3) / 2
+
+7.5 实际和复杂的表达式
+
+mdl() { // ()属性，{} 区域
+
+task0(desc="总任务")
+
+task1( desc="任务1")
+task1_1( desc="任务1.1")
+task1_2( desc="任务1.2")
+task1_3( desc="任务1.3")
+
+task2( desc="任务2")
+task2_1( desc="任务2.1")
+task2_1_1( desc="任务2.2.1")
+
+task3( desc="任务3")
+# 描述关系
+own( from=task0 to=task1)
+own( from=task0 to=task2)
+own( from=task0 to=task3)
+
+own( from=task1 to=task1_1)
+own( from=task1 to=task1_2)
+own( from=task1 to=task1_3)
+
+own( from=task2 to=task2_1)
+own( from=task2_1 to=task2_1_1)
+}
+
+# 动作怎么办？
+graphviz(option=svg, type=list)
+output(mdl, graphviz)  # 建立mdl和graphviz的关系
