@@ -4,6 +4,7 @@
 
 #include <Misc.hpp>
 
+#include <Interview.hpp>
 #include <Process.hpp>
 
 static const char *_sopts = "hi";
@@ -23,14 +24,13 @@ static void print_usage_and_exit(const char *prog, int code) {
     exit(code);
 }
 
-// TODO 为了测试方便，需要将main中的方法都放到其他的文件中。
 int main(int argc, char *argv[]) {
     // LOGI("start think...\n");
 
     int c;
     int oidx = 0;
 
-    bool enter_interactive = true;
+    bool enter_interactive = false;
     const char *script_path = NULL;
 
     while (1) {
@@ -58,34 +58,11 @@ int main(int argc, char *argv[]) {
             script_path = argv[optind++];
     }
 
-    ProcessCmdLine process;
-
-    if (script_path) {
-        // TODO: 脚本的读取，需要单独抽取出来做成函数。
-        FILE *fp = fopen(script_path, "r");
-        if (!fp) {
-            LOGE("Cannot open file(%s)\n", script_path);
-            return 1;
-        }
-        char buf[1024]; // TODO: 假定一行最大是1024字节。
-        while (fgets(buf, sizeof(buf), fp)) {
-            // LOGI("read line:%s\n", buf);
-            if (buf[0] == '#') {
-                // TODO: 注释忽略，但是算法过于简单。
-                continue;
-            }
-
-            // TODO: 排除空行，这个实现逻辑也不准确。
-            if (buf[0] == '\n') { // 仅仅有一个'\n'
-                continue;
-            }
-            process.exec(buf);
-        }
-        fclose(fp);
-    }
+    exec_script(script_path);
 
     if (enter_interactive) {
-        // TODO: 交互模式。目前没有需要，所以先不实现。
+        Interview interview;
+        interview.loop();
     }
 
     return 0;

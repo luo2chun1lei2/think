@@ -1,17 +1,13 @@
 #include <catch.hpp>
 
-#include <stdlib.h>
-#include <unistd.h>
-
-#include <sstream>
-
-#include <Misc.hpp>
-#include <Output.hpp>
+#include <Interview.hpp>
 
 using namespace std;
 
-// 此测试会阻塞，直到关闭eog程序。
-TEST_CASE("test output about graphviz", "[app][block]") {
+// 测试交互，
+// TODO: 是否可以自动化？
+TEST_CASE("test interview", "[app]") {
+#if 0
     Element elm0("elm0"); // not in model.
     Element elm1("elm1");
     Element elm2("elm2");
@@ -34,7 +30,7 @@ TEST_CASE("test output about graphviz", "[app][block]") {
     model.add_elm(&rlt2);
 
     SECTION("init and export") {
-        OutputGraphviz output("test", OutputGraphviz::GRAPH_SVG, OutputGraphviz::TYPE_BASIC);
+        OutputGraphviz output("test", OutputGraphviz::GRAPH_SVG,  OutputGraphviz::TYPE_BASIC);
         char path[] = "/tmp/XXXXXX.svg";
         int fd = mkstemps(path, 4);
         REQUIRE(fd != -1);
@@ -50,4 +46,5 @@ TEST_CASE("test output about graphviz", "[app][block]") {
         auto cmd = stream.str();
         system(cmd.c_str());
     }
+#endif
 }

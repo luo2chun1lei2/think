@@ -64,3 +64,5 @@ protected:
 
 private:
 };
+
+bool exec_script(const char *script_path);
