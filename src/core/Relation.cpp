@@ -1,11 +1,23 @@
 #include <Relation.hpp>
 
-#if 0
 Relation::Relation(const std::string name)
-    : Element(name) {
-    this->from = this->to = nullptr;
+    : Object(name) {
+    // this->from = this->to = nullptr;
 }
 
+bool Relation::set_relation(...) {
+    return false;
+}
+
+size_t Relation::get_count_of_objs() {
+    return 0;
+}
+
+Object *Relation::get_obj(uint32_t index) {
+    return nullptr;
+}
+
+#if 0
 Relation::Relation(const Relation &rlt)
     : Element(rlt) {
     this->from = this->to = nullptr;

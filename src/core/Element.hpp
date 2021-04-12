@@ -3,7 +3,8 @@
 #include <Object.hpp>
 
 /**
- * 是对象的子类，
+ * 目前什么都不做。
+ * 没有用。
  */
 class Element : public Object
 {

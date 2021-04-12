@@ -60,13 +60,13 @@ int main(int argc, char *argv[]) {
             script_path = argv[optind++];
     }
 
-/*
-    exec_script(script_path);
+    /*
+        exec_script(script_path);
 
-    if (enter_interactive) {
-        Interview interview;
-        interview.loop();
-    }
-*/
+        if (enter_interactive) {
+            Interview interview;
+            interview.loop();
+        }
+    */
     return 0;
 }

@@ -4,13 +4,21 @@
 /////////////////////////////////////////////////////////////////////
 
 Object::Object(const std::string name) {
-    //id = ElementIdFactory::get_instance()->generate();
+    // id = ElementIdFactory::get_instance()->generate();
     this->name = name;
-    //this->value = "";
+    // this->value = "";
 }
 
 std::string Object::get_name() const {
     return this->name;
+}
+
+size_t Object::get_count_of_rlts() {
+    return 0;
+}
+
+Relation *Object::get_rlt(uint32_t index) {
+    return nullptr;
 }
 
 #if 0
