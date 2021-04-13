@@ -1,20 +1,44 @@
 #include <Relation.hpp>
 
+#include <stdarg.h>
+
+#include <Misc.hpp>
+
+using namespace std;
+
 Relation::Relation(const std::string name)
     : Object(name) {
     // this->from = this->to = nullptr;
 }
 
-bool Relation::set_relation(...) {
-    return false;
+Relation::~Relation() {
+}
+
+bool Relation::relate(initializer_list<Object *> il) {
+
+    for (auto beg = il.begin(); beg != il.end(); ++beg) {
+        if (add_obj(*beg) == false) {
+            LOGE("Cannot add object into relation.");
+            return false;
+        }
+    }
+
+    return true;
 }
 
 size_t Relation::get_count_of_objs() {
-    return 0;
+    return objects.size();
 }
 
 Object *Relation::get_obj(uint32_t index) {
-    return nullptr;
+    return objects[index];
+}
+
+bool Relation::add_obj(Object *pobj) {
+    if ( pobj->add_rlt(this) ) {
+        objects.push_back(pobj);
+    }
+    return true;
 }
 
 #if 0
@@ -23,8 +47,7 @@ Relation::Relation(const Relation &rlt)
     this->from = this->to = nullptr;
 }
 
-Relation::~Relation() {
-}
+
 
 void Relation::relate(Element *from, Element *to) {
     this->from = from;

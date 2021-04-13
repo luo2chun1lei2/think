@@ -14,11 +14,36 @@ std::string Object::get_name() const {
 }
 
 size_t Object::get_count_of_rlts() {
-    return 0;
+    return relations.size();
 }
 
 Relation *Object::get_rlt(uint32_t index) {
-    return nullptr;
+    return relations[index];
+}
+
+bool Object::contain_rlt(Relation *rlt) const {
+    for (auto r : relations) {
+        if (r == rlt) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+bool Object::add_rlt(Relation *rlt) {
+    if (rlt == nullptr) {
+        return false;
+    }
+
+    if (contain_rlt(rlt)) {
+        // Has contained it.
+        return false;
+    }
+
+    relations.push_back(rlt);
+
+    return true;
 }
 
 #if 0

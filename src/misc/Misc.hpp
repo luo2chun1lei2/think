@@ -6,8 +6,8 @@
 #include <string>
 #include <vector>
 
-#define LOGE(fmt, ...) fprintf(stderr, "%s:%d ", __FILE__, __LINE__); fprintf(stderr, fmt, ##__VA_ARGS__)
-#define LOGI(fmt, ...) fprintf(stdout, "%s:%d ", __FILE__, __LINE__); fprintf(stdout, fmt, ##__VA_ARGS__)
+#define LOGE(fmt, ...) {fprintf(stderr, "%s:%d ", __FILE__, __LINE__); fprintf(stderr, fmt, ##__VA_ARGS__);}
+#define LOGI(fmt, ...) {fprintf(stdout, "%s:%d ", __FILE__, __LINE__); fprintf(stdout, fmt, ##__VA_ARGS__);}
 
 /**
  * 在脚本或者命令行时，会出现多行写一个命令的时候，未完成的行后面用”\“来标记，

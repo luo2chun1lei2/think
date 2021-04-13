@@ -18,7 +18,7 @@ TEST_CASE("test relation", "[core]") {
 
         Relation *rlt1 = new Relation("rlt1");
 
-        REQUIRE(rlt1->set_relation(obj1, obj2));
+        REQUIRE(rlt1->relate({obj1, obj2}));
 
         REQUIRE(rlt1->get_count_of_objs() == 2);
         REQUIRE(rlt1->get_obj(0) == obj1);

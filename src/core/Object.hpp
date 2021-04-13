@@ -1,6 +1,8 @@
 #pragma once
 
 #include <string>
+#include <vector>
+#include <initializer_list>
 
 //#include <ElementId.hpp>
 
@@ -27,8 +29,12 @@ public:
 
 	virtual size_t get_count_of_rlts();
 	virtual Relation * get_rlt(uint32_t index);
+	virtual bool contain_rlt(Relation * rlt) const;
+	// Only add a relation to this object.
+	virtual bool add_rlt(Relation * rlt);
+	//	virtual void del_rlt(Relation * rlt);
 
-#if 0
+/*
 	Object(const std::string name, const std::string value);
 	Object(const Object &elm);
 	
@@ -41,16 +47,15 @@ public:
 	
 	virtual bool operator==(const Element &elm);
 	virtual bool operator!=(const Element &elm);
-#endif
+*/
 protected:
 
 	std::string name;
-#if 0
+	std::vector<Relation *> relations;
+/*
 	ElementId id;
-	
-
 	std::string value;
-#endif
+*/
 private:
 };
 
@@ -63,9 +68,10 @@ class Relation: public Object
 public:
 
 	Relation(const std::string name);
+	virtual ~Relation();
 /*
 	Relation(const Relation &rlt);
-	virtual ~Relation();
+	
 	
 	// 设置关系，这个是有方向的。
 	// 每次设置，都会清理之前的设定，然后重新设置。
@@ -75,10 +81,15 @@ public:
 	virtual Element * get_from() const;
 	virtual Element * get_to() const;
 */
-	virtual bool set_relation(...);
+	virtual bool relate(std::initializer_list<Object *> il);
 	virtual size_t get_count_of_objs();
 	virtual Object * get_obj(uint32_t index);
+	virtual bool add_obj(Object * pobj);
 protected:
+
+	// Relation也是一个对象，所以也会有自己的属性，那么就不能复用 Object::relations。
+	std::vector<Object *> objects;
+
 	// 关联的元素列表。
 //	Element *from;
 //	Element *to;
