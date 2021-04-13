@@ -1,6 +1,8 @@
 #include <Object.hpp>
 //#include <ElementId.hpp>
 
+using namespace std;
+
 /////////////////////////////////////////////////////////////////////
 
 Object::Object(const std::string name) {
@@ -46,7 +48,22 @@ bool Object::add_rlt(Relation *rlt) {
     return true;
 }
 
-#if 0
+std::vector<Object *> Object::get_property(const std::string rlt_name, const std::string obj_name) const {
+    vector<Object *> results;
+    for (auto r : this->relations) {
+        if (r->get_name() == rlt_name) {
+            for(auto o : r->get_objects()) {
+                if (o != this) {
+                    results.push_back(o);        
+                }
+            }
+        }
+    }
+
+    return results;
+}
+
+/*
 Element::Element(const std::string name, const std::string value) {
     id = ElementIdFactory::get_instance()->generate();
     this->name = name;
@@ -72,4 +89,4 @@ bool Element::operator==(const Element &elm) {
 bool Element::operator!=(const Element &elm) {
     return !(*this == elm);
 }
-#endif
+*/

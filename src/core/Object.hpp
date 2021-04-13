@@ -34,6 +34,9 @@ public:
 	virtual bool add_rlt(Relation * rlt);
 	//	virtual void del_rlt(Relation * rlt);
 
+	// get value of property.
+	virtual std::vector<Object *> get_property(const std::string rlt_name, const std::string obj_name) const;
+
 /*
 	Object(const std::string name, const std::string value);
 	Object(const Object &elm);
@@ -85,6 +88,9 @@ public:
 	virtual size_t get_count_of_objs();
 	virtual Object * get_obj(uint32_t index);
 	virtual bool add_obj(Object * pobj);
+
+	virtual const std::vector<Object *> & get_objects() const;
+
 protected:
 
 	// Relation也是一个对象，所以也会有自己的属性，那么就不能复用 Object::relations。

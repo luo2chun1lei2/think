@@ -34,8 +34,12 @@ Object *Relation::get_obj(uint32_t index) {
     return objects[index];
 }
 
+const std::vector<Object *> &Relation::get_objects() const {
+    return objects;
+}
+
 bool Relation::add_obj(Object *pobj) {
-    if ( pobj->add_rlt(this) ) {
+    if (pobj->add_rlt(this)) {
         objects.push_back(pobj);
     }
     return true;
