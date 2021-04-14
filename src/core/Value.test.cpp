@@ -1,7 +1,7 @@
 #include <catch.hpp>
 
-#include <Value.hpp>
 #include <Relation.hpp>
+#include <Value.hpp>
 
 using namespace std;
 
@@ -37,8 +37,7 @@ TEST_CASE("test constant variable", "[core]") {
         // - 关系建立后，根据实际情况设置值！
         // - 实际情况是，
         obj2.set_value(18);
-        Value * v = dynamic_cast<Value *>(found[0]);
+        Value *v = dynamic_cast<Value *>(found[0]);
         REQUIRE(v->get_value_as_int() == 18);
-
     }
 }
