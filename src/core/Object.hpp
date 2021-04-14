@@ -28,6 +28,7 @@ public:
 	virtual std::string get_name() const;
 
 	virtual size_t get_count_of_rlts();
+	virtual const std::vector<Relation *> & get_rlts() const;
 	virtual Relation * get_rlt(uint32_t index);
 	virtual bool contain_rlt(Relation * rlt) const;
 	// Only add a relation to this object.

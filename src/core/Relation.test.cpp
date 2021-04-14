@@ -44,7 +44,7 @@ TEST_CASE("test relation", "[core]") {
         Object c("c");
         Value d("2");
         d.set_value(2);
-        
+
         Relation plus("+");
         Relation devide("/");
         Relation equal("=");
@@ -84,6 +84,5 @@ TEST_CASE("test relation", "[core]") {
 
         REQUIRE(d.get_count_of_rlts() == 1);
         REQUIRE(d.get_rlt(0) == &devide);
-
     }
 }

@@ -20,6 +20,11 @@ Relation *Object::get_rlt(uint32_t index) {
     return relations[index];
 }
 
+const std::vector<Relation *> & Object::get_rlts() const
+{
+    return relations;
+}
+
 bool Object::contain_rlt(Relation *rlt) const {
     for (auto r : relations) {
         if (r == rlt) {
