@@ -1,6 +1,7 @@
 #include <catch.hpp>
 
 #include <Relation.hpp>
+#include <Value.hpp>
 
 TEST_CASE("test relation", "[core]") {
 
@@ -33,5 +34,56 @@ TEST_CASE("test relation", "[core]") {
         delete obj1;
         delete obj2;
         delete rlt1;
+    }
+
+    SECTION("Relation is combined object.") {
+        // c = (a+b)/2
+        // 注意，这里是关系的描述，不是动作，所以“=”是等于，不是赋值。
+        Object a("a");
+        Object b("b");
+        Object c("c");
+        Value d("2");
+        d.set_value(2);
+        
+        Relation plus("+");
+        Relation devide("/");
+        Relation equal("=");
+
+        REQUIRE(plus.relate({&a, &b}));
+        REQUIRE(devide.relate({&plus, &d}));
+        REQUIRE(equal.relate({&c, &devide}));
+
+        REQUIRE(plus.get_count_of_objs() == 2);
+        REQUIRE(plus.get_obj(0) == &a);
+        REQUIRE(plus.get_obj(1) == &b);
+
+        REQUIRE(plus.get_count_of_rlts() == 1);
+        REQUIRE(plus.get_rlt(0) == &devide);
+
+        REQUIRE(devide.get_count_of_objs() == 2);
+        REQUIRE(devide.get_obj(0) == &plus);
+        REQUIRE(devide.get_obj(1) == &d);
+
+        REQUIRE(devide.get_count_of_rlts() == 1);
+        REQUIRE(devide.get_rlt(0) == &equal);
+
+        REQUIRE(equal.get_count_of_objs() == 2);
+        REQUIRE(equal.get_obj(0) == &c);
+        REQUIRE(equal.get_obj(1) == &devide);
+
+        REQUIRE(equal.get_count_of_rlts() == 0);
+
+        REQUIRE(a.get_count_of_rlts() == 1);
+        REQUIRE(a.get_rlt(0) == &plus);
+
+        REQUIRE(b.get_count_of_rlts() == 1);
+        REQUIRE(b.get_rlt(0) == &plus);
+
+        REQUIRE(c.get_count_of_rlts() == 1);
+        REQUIRE(c.get_rlt(0) == &equal);
+
+        REQUIRE(d.get_count_of_rlts() == 1);
+        REQUIRE(d.get_rlt(0) == &devide);
+
     }
 }
