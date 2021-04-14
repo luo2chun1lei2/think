@@ -16,7 +16,8 @@ MAIN=app/Main
 ## 编译选项
 CPP_C:=g++
 
-CPP_FLAGS := `pkg-config libgvc --cflags` -Wall -g
+## 用到了 <variant>，所以需要 c++17 的支持。
+CPP_FLAGS := `pkg-config libgvc --cflags` -Wall -g --std=c++17
 TEST_CPP_FLAGS := ${CPP_FLAGS}
 LD_FLAGS := -luuid `pkg-config libgvc --libs` -g
 TEST_LD_FLAGS := ${LD_FLAGS}

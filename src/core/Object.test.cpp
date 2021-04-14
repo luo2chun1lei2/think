@@ -26,14 +26,14 @@ TEST_CASE("test object", "[core]") {
         REQUIRE(obj1.get_count_of_rlts() == 1);
     }
 
-    SECTION("Add a relation.") {
+    SECTION("Ger property by relation.") {
         Object obj1("obj1");
         Object obj2("obj2");
         Relation rlt1("rlt1");
 
         REQUIRE(rlt1.relate({&obj1, &obj2}));
 
-        vector<Object *> found = obj1.get_property("rlt1", "obj2");
+        vector<Object *> found = obj1.get_property("rlt1");
         REQUIRE(found.size() == 1);
         REQUIRE(found[0] == &obj2);
     }

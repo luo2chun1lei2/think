@@ -35,7 +35,9 @@ public:
 	//	virtual void del_rlt(Relation * rlt);
 
 	// get value of property.
-	virtual std::vector<Object *> get_property(const std::string rlt_name, const std::string obj_name) const;
+	virtual Object * get_property(const std::string rlt_name, const std::string obj_name) const;
+
+	virtual std::vector<Object *> get_property(const std::string rlt_name) const;
 
 /*
 	Object(const std::string name, const std::string value);
