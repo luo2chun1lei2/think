@@ -20,8 +20,8 @@ protected:
         return true;
     }
 
-    virtual bool on_meet_rlt(Relation * prlt) {
-        objs.push_back(prlt);
+    virtual bool on_meet_rlt(Relation *prlt) {
+        rlts.push_back(prlt);
         return true;
     }
 
@@ -99,7 +99,7 @@ TEST_CASE("test trave", "[action]") {
             REQUIRE(std::find(travel.objs.begin(), travel.objs.end(), &b) != travel.objs.end());
             REQUIRE(std::find(travel.objs.begin(), travel.objs.end(), &c) != travel.objs.end());
             REQUIRE(std::find(travel.objs.begin(), travel.objs.end(), &d) != travel.objs.end());
-            
+
             REQUIRE(travel.rlts.size() == 3);
             REQUIRE(std::find(travel.rlts.begin(), travel.rlts.end(), &plus) != travel.rlts.end());
             REQUIRE(std::find(travel.rlts.begin(), travel.rlts.end(), &devide) != travel.rlts.end());

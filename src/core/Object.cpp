@@ -20,8 +20,7 @@ Relation *Object::get_rlt(uint32_t index) {
     return relations[index];
 }
 
-const std::vector<Relation *> & Object::get_rlts() const
-{
+const std::vector<Relation *> &Object::get_rlts() const {
     return relations;
 }
 

@@ -71,12 +71,14 @@ run: build_exe
 debug: build_exe
 	gdb ${TARGET_PATH} -x "set args ${ARGS}"
 
+# TODO: args 是否正常传递，存疑。
+debug-test: build_test
+	gdb ${TEST_TARGET_PATH} ${ARGS}
+
 test: build_test
 	@${TEST_TARGET_PATH} ${ARGS}
 
 # 不运行可以阻塞的测试项目
-auto-test: auto_test
-
 auto_test: build_test
 	@${TEST_TARGET_PATH} ~[block] ${ARGS}
 
