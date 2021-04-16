@@ -1,6 +1,6 @@
 #include <catch.hpp>
 
-#include <Misc.hpp>
+#include <misc/Misc.hpp>
 
 using namespace std;
 

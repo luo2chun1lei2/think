@@ -1,8 +1,8 @@
-#include <Relation.hpp>
+#include <core/Relation.hpp>
 
 #include <stdarg.h>
 
-#include <Misc.hpp>
+#include <misc/Misc.hpp>
 
 using namespace std;
 

@@ -1,7 +1,7 @@
 #include <catch.hpp>
 
-#include <Relation.hpp>
-#include <Value.hpp>
+#include <core/Relation.hpp>
+#include <core/Value.hpp>
 
 TEST_CASE("test relation", "[core]") {
 

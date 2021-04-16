@@ -1,9 +1,10 @@
 #include <catch.hpp>
 
-#include <Object.hpp>
-#include <Relation.hpp>
-#include <Travel.hpp>
-#include <Value.hpp>
+#include <core/Object.hpp>
+#include <core/Relation.hpp>
+#include <core/Value.hpp>
+
+#include <action/Travel.hpp>
 
 #include <vector>
 

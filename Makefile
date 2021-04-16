@@ -34,7 +34,9 @@ TEST_SRC := $(foreach dir, $(SUB_DIRS), $(wildcard $(dir)/*.test.cpp))
 SRC := $(filter-out ${TEST_SRC}, $(foreach dir, $(SUB_DIRS), $(wildcard $(dir)/*.cpp)))
 HEADS := $(foreach dir, $(SUB_DIRS), $(wildcard $(dir)/*.hpp))
 
-INCLUDE_DIR += $(patsubst %,-I%,${SUB_DIRS})
+#不能将每个代码文件夹都放到include中，这样会导致文件名字重复，不符合Tree的设定规则。
+#INCLUDE_DIR += $(patsubst %,-I%,${SUB_DIRS})
+INCLUDE_DIR += -I${SRC_ROOT_DIR}
 
 OBJS := $(patsubst ${SRC_ROOT_DIR}/%.cpp,${OUT}/%.o,${SRC})
 TEST_OBJS := $(patsubst ${SRC_ROOT_DIR}/%.cpp,${OUT}/%.o,${TEST_SRC})
