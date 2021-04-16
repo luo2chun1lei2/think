@@ -25,6 +25,9 @@ public:
 	Object(const std::string name);
 	virtual ~Object() {}
 
+	///////////////////////////////////////////////////////
+	// Object-Relation Net
+
 	virtual std::string get_name() const;
 
 	virtual size_t get_count_of_rlts();
@@ -39,6 +42,16 @@ public:
 	virtual Object * get_property(const std::string rlt_name, const std::string obj_name) const;
 
 	virtual std::vector<Object *> get_property(const std::string rlt_name) const;
+
+	///////////////////////////////////////////////////////
+	// Perform
+
+	/**
+	 * 开始通知。
+	 */
+	virtual bool begin_notify();
+    virtual bool notify(Object *obj);
+    virtual bool end_notify();
 
 protected:
 
@@ -59,12 +72,22 @@ public:
 	Relation(const std::string name);
 	virtual ~Relation();
 
+	///////////////////////////////////////////////////////
+	// Object-Relation Net
 	virtual bool relate(std::initializer_list<Object *> il);
 	virtual size_t get_count_of_objs();
 	virtual Object * get_obj(uint32_t index);
 	virtual bool add_obj(Object * pobj);
 
 	virtual const std::vector<Object *> & get_objects() const;
+
+	///////////////////////////////////////////////////////
+	// Perform
+	/**
+     * 运转这个关系。
+     * @return true:成功运转，false:中间出现错误。
+     */
+    virtual bool perform();
 
 protected:
 

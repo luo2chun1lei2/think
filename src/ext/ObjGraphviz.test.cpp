@@ -2,5 +2,7 @@
 
 #include <ext/ObjGraphviz.hpp>
 
-TEST_CASE("test graphviz", "[ext]") {
+TEST_CASE("object graphviz", "[ext]") {
+    SECTION("a") {
+    }
 }

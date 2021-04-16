@@ -26,6 +26,7 @@ public:
 	virtual ~Graphviz();
     // 需要设定导出的文件路径。
 	virtual void set_output_filepath(const std::string path);
+	virtual std::string get_output_filepath();
     // 将一个模型导出！
 	//virtual bool output(const Model *model);
 
@@ -34,7 +35,7 @@ public:
     // 绘制后清理资源。
 	virtual void finish_graphviz();
 
-    virtual Agnode_t * add_node(const std::string str);
+    virtual Agnode_t * add_node(const std::string str, bool is_node);
 
     virtual Agedge_t * add_edge(const std::string str, Agnode_t *f, Agnode_t *t);
 

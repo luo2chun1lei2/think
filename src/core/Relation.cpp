@@ -43,3 +43,7 @@ bool Relation::add_obj(Object *pobj) {
     }
     return true;
 }
+
+bool Relation::perform() {
+    return false;
+}

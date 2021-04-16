@@ -1,6 +1,5 @@
 #include <misc/Graphviz.hpp>
 
-#include <array>
 #include <vector>
 
 #include <misc/Misc.hpp>
@@ -17,6 +16,10 @@ Graphviz::~Graphviz() {
 
 void Graphviz::set_output_filepath(const std::string path) {
     output_file_path = path;
+}
+
+std::string Graphviz::get_output_filepath() {
+    return output_file_path;
 }
 
 bool Graphviz::prepare_graphviz() {
@@ -61,19 +64,24 @@ void Graphviz::finish_graphviz() {
     gvFreeContext(gvc);
 }
 
-Agnode_t * Graphviz::add_node(const std::string str) {
+Agnode_t *Graphviz::add_node(const std::string str, bool is_node) {
     Agnode_t *n;
 
     n = agnode(g, (char *)str.c_str(), 1); // 1 是固定的。
 
     /* 设置节点的属性 */
-    agsafeset(n, "color", "blue", "");
-    agsafeset(n, "shape", "box", "");
+    if (is_node) {
+        agsafeset(n, "color", "blue", "");
+        agsafeset(n, "shape", "box", "");
+    } else {
+        agsafeset(n, "color", "green", "");
+        agsafeset(n, "shape", "diamond", "");
+    }
 
     return n;
 }
 
-Agedge_t * Graphviz::add_edge(const std::string str, Agnode_t *f, Agnode_t *t) {
+Agedge_t *Graphviz::add_edge(const std::string str, Agnode_t *f, Agnode_t *t) {
     Agedge_t *e = agedge(g, f, t, NULL, 1);
 
     agsafeset(e, "label", (char *)str.c_str(), "");

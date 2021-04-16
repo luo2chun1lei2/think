@@ -51,7 +51,7 @@ TEST_CASE("test relation", "[core]") {
 
         REQUIRE(plus.relate({&a, &b}));
         REQUIRE(devide.relate({&plus, &d}));
-        REQUIRE(equal.relate({&c, &devide}));
+        REQUIRE(equal.relate({&devide, &c}));
 
         REQUIRE(plus.get_count_of_objs() == 2);
         REQUIRE(plus.get_obj(0) == &a);
@@ -68,8 +68,8 @@ TEST_CASE("test relation", "[core]") {
         REQUIRE(devide.get_rlt(0) == &equal);
 
         REQUIRE(equal.get_count_of_objs() == 2);
-        REQUIRE(equal.get_obj(0) == &c);
-        REQUIRE(equal.get_obj(1) == &devide);
+        REQUIRE(equal.get_obj(0) == &devide);
+        REQUIRE(equal.get_obj(1) == &c);
 
         REQUIRE(equal.get_count_of_rlts() == 0);
 

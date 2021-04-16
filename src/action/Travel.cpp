@@ -1,7 +1,7 @@
 #include <action/Travel.hpp>
 
-#include <vector>
 #include <algorithm>
+#include <vector>
 
 #include <misc/Misc.hpp>
 
@@ -50,7 +50,7 @@ bool Travel::travel(Object *pobj) {
             waits.insert(waits.end(), rlt->get_rlts().begin(), rlt->get_rlts().end());
 
         } else {
-            if (on_meet_obj(wait)  == false) {
+            if (on_meet_obj(wait) == false) {
                 break;
             }
 

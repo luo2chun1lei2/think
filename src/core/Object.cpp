@@ -77,3 +77,15 @@ std::vector<Object *> Object::get_property(const std::string rlt_name) const {
 
     return results;
 }
+
+bool Object::begin_notify() {
+    return false;
+}
+
+bool Object::notify(Object *obj) {
+    return false;
+}
+
+bool Object::end_notify() {
+    return false;
+}

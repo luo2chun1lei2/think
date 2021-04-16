@@ -3,12 +3,14 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+#include <sstream>
+
 #include <misc/Graphviz.hpp>
 #include <misc/Misc.hpp>
 
 using namespace std;
 
-TEST_CASE("graphviz", "[misc]") {
+TEST_CASE("graphviz", "[misc][block]") {
     SECTION("draw a graphviz") {
         Graphviz output("test", Graphviz::GRAPH_SVG, Graphviz::TYPE_BASIC);
         char path[] = "/tmp/XXXXXX.svg";
@@ -18,11 +20,11 @@ TEST_CASE("graphviz", "[misc]") {
 
         output.set_output_filepath(path);
         LOGI("path=%s\n", path);
-        
-        //REQUIRE(output.output(&model));
+
+        // REQUIRE(output.output(&model));
         output.prepare_graphviz();
-        Agnode_t * f = output.add_node("abc");
-        Agnode_t * t = output.add_node("123");
+        Agnode_t *f = output.add_node("abc", true);
+        Agnode_t *t = output.add_node("123", false);
         output.add_edge("link", f, t);
         output.finish_graphviz();
 
