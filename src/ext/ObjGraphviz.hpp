@@ -2,7 +2,7 @@
 
 #include <core/Object.hpp>
 
-class Graphviz : public Object
+class ObjGraphviz : public Object
 {
 public:
 protected:

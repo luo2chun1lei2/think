@@ -1,6 +1,6 @@
 #include <catch.hpp>
 
-#include <ext/Graphviz.hpp>
+#include <ext/ObjGraphviz.hpp>
 
 TEST_CASE("test graphviz", "[ext]") {
 }
