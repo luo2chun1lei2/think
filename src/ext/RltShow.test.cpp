@@ -7,7 +7,7 @@
 #include <ext/ObjGraphviz.hpp>
 #include <ext/RltShow.hpp>
 
-TEST_CASE("relation show", "[ext]") {
+TEST_CASE("relation show", "[ext][block]") {
     SECTION("equation") {
         // c = (a+b)/2
         // 注意，这里是关系的描述，不是动作，所以“=”是等于，不是赋值。

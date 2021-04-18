@@ -4,7 +4,7 @@
 #include <core/Relation.hpp>
 #include <core/Value.hpp>
 
-#include <action/Travel.hpp>
+#include <ext/Travel.hpp>
 
 #include <vector>
 
@@ -33,7 +33,7 @@ private:
  * Travel是在Object之外的机制，Object构成了关系网（Object-Relation Network)，
  * 然后Travel等外部功能去检索、管理这个关系网。
  */
-TEST_CASE("test trave", "[action]") {
+TEST_CASE("travel", "[ext]") {
 
     /**
      * 建立一个公式。
