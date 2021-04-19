@@ -2,8 +2,8 @@
 
 #include <core/Object.hpp>
 #include <core/Relation.hpp>
-#include <core/Value.hpp>
 
+#include <ext/ObjValue.hpp>
 #include <ext/Travel.hpp>
 
 #include <vector>
@@ -44,8 +44,8 @@ TEST_CASE("travel", "[ext]") {
         Object a("a");
         Object b("b");
         Object c("c");
-        Value d("2");
-        d.set_value(2);
+        ObjValue d("2");
+        d.set_value(Value(2));
 
         Relation plus("+");
         Relation devide("/");

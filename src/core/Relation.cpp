@@ -1,6 +1,6 @@
 #include <core/Relation.hpp>
 
-#include <stdarg.h>
+#include <initializer_list>
 
 #include <misc/Misc.hpp>
 

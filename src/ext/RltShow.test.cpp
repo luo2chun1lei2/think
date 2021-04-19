@@ -2,10 +2,10 @@
 
 #include <core/Object.hpp>
 #include <core/Relation.hpp>
-#include <core/Value.hpp>
 
 #include <ext/ObjGraphviz.hpp>
 #include <ext/RltShow.hpp>
+#include <ext/ObjValue.hpp>
 
 TEST_CASE("relation show", "[ext][block]") {
     SECTION("equation") {
@@ -14,8 +14,8 @@ TEST_CASE("relation show", "[ext][block]") {
         Object a("a");
         Object b("b");
         Object c("c");
-        Value d("2");
-        d.set_value(2);
+        ObjValue d("2");
+        d.set_value(Value(2));
 
         Relation plus("+");
         Relation devide("/");

@@ -5,25 +5,25 @@
 
 using namespace std;
 
-TEST_CASE("test constant variable", "[core]") {
+TEST_CASE("object value", "[ext]") {
 
-    SECTION("ConstVar can be set value.") {
+    SECTION("set value.") {
         Value v;
 
         ObjValue var1("var1");
 
         v = var1.get_value();
-        REQUIRE(v.type() == Value.TYPE_NONE);
+        REQUIRE(v.get_type() == Value::TYPE_NONE);
 
-        var1.set_value(1);
+        var1.set_value(Value(1));
         v = var1.get_value();
-        REQUIRE(v.type() == Value.TYPE_INT);
-        REQUIRE(var1.get_value() == 1);
+        REQUIRE(v.get_type() == Value::TYPE_INT);
+        REQUIRE(std::get<int>(v.get_var()) == 1);
 
-        var1.set_value("hello");
+        var1.set_value(Value("hello"));
         v = var1.get_value();
-        REQUIRE(v.type() == Value.TYPE_STR);
-        REQUIRE(v.get_value() == "hello");
+        REQUIRE(v.get_type() == Value::TYPE_STR);
+        REQUIRE(std::get<std::string>(v.get_var()) == "hello");
     }
 /*
     SECTION("ConstVar with relation") {

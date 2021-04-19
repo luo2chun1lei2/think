@@ -1,7 +1,7 @@
 #include <catch.hpp>
 
 #include <core/Relation.hpp>
-#include <core/Value.hpp>
+#include <ext/ObjValue.hpp>
 
 TEST_CASE("test relation", "[core]") {
 
@@ -42,8 +42,9 @@ TEST_CASE("test relation", "[core]") {
         Object a("a");
         Object b("b");
         Object c("c");
-        Value d("2");
-        d.set_value(2);
+        ObjValue d("2");
+        
+        d.set_value(Value(2));
 
         Relation plus("+");
         Relation devide("/");
@@ -62,7 +63,7 @@ TEST_CASE("test relation", "[core]") {
 
         REQUIRE(devide.get_count_of_objs() == 2);
         REQUIRE(devide.get_obj(0) == &plus);
-        REQUIRE(devide.get_obj(1) == &d);
+        REQUIRE(devide.get_obj(1) == (Object *)&d);
 
         REQUIRE(devide.get_count_of_rlts() == 1);
         REQUIRE(devide.get_rlt(0) == &equal);

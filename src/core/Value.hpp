@@ -9,59 +9,106 @@ public:
     typedef std::variant<int, double, std::string> Variant;
     typedef uint32_t Type;
 
-    const static Type TYPE_NONE = 0;
-    const static Type TYPE_INT = 1;
-    const static Type TYPE_DOUBLE = 2;
-    const static Type TYPE_STR = 3;
+    const static Type TYPE_NONE;
+    const static Type TYPE_INT;
+    const static Type TYPE_DOUBLE;
+    const static Type TYPE_STR;
 
     Value() {
-        this->type = TYPE_NONE;
+        init();
     }
 
     Value(int v) {
+        init();
         set_var(v);
     }
 
     Value(double v) {
+        init();
         set_var(v);
     }
 
     Value(const std::string v) {
+        init();
         set_var(v);
     }
 
     virtual ~Value() {
+        //printf("-->%p\n", this->var);
+        // TODO: 遇到崩溃，先删除！
+        //delete this->var;
     }
 
     Type get_type() {
         return type;
     }
 
+/* 不能设置类型！
     void set_type(Type type) {
         this->type = type;
     }
+    */
 
+   // TODO: 返回指针？
     Variant get_var() {
-        return var;
+        if (var == nullptr) {
+            return Variant();
+        } else {
+            return *var;
+        }
     }
 
+    void set_var(int var) {
+        delete this->var;
+
+        this->type = TYPE_INT;
+        this->var = new Variant(var);
+    }
+
+    void set_var(double var) {
+        delete this->var;
+
+        this->type = TYPE_DOUBLE;
+        this->var = new Variant(var);
+    }
+
+    void set_var(const std::string var) {
+        delete this->var;
+
+        this->type = TYPE_STR;
+        this->var = new Variant(var);
+    }
+
+/*
     void set_var(Variant var) {
-        this->var = var;
-    }
+        if(!this->var) {
+            this->var = new Variant();
+        }
+        *this->var = var;
+    } */
 
-    Value &operator=(const Value &other) {
+    virtual Value &operator=(const Value &other) {
         if (this == &other)
             return *this;
 
         this->type = other.type;
-        this->var = other.var;
+        if (other.var) {
+            this->var = new Variant(*other.var);
+        } else {
+            this->var = nullptr;
+        }
 
         return *this;
     }
 
 protected:
-    static Type type;
-    Variant var;
+    void init() {
+        this->type = TYPE_NONE;
+        this->var = nullptr;
+    }
+
+    Type type;
+    Variant *var;
 
 private:
 };
