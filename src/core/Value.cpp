@@ -24,8 +24,17 @@ Value::Value(const std::string v) {
     set_var(v);
 }
 
+Value::Value(const Value &v) {
+    init();
+    this->type = v.type;
+    if (v.var) {
+        this->var = new Variant(*v.var);
+    } else {
+        this->var = nullptr;
+    }
+}
+
 Value::~Value() {
-    printf("-->%p\n", this->var);
     // TODO: 遇到崩溃，先删除！
     delete this->var;
 }
@@ -71,7 +80,6 @@ void Value::set_var(const std::string var) {
 }
 
 Value &Value::operator=(const Value &other) {
-    printf("=\n");
     if (this == &other)
         return *this;
 

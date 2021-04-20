@@ -8,13 +8,11 @@ using namespace std;
 TEST_CASE("object value", "[ext]") {
     SECTION("crash") {
         ObjValue var1("var1");
-printf("1\n");
+
         var1.set_value(Value(1)); 
-        printf("2\n");
         var1.get_value();
-        printf("3\n");
     }
-/*
+
     SECTION("set value.") {
         Value v;
 
@@ -32,7 +30,7 @@ printf("1\n");
         v = var1.get_value();
         REQUIRE(v.get_type() == Value::TYPE_STR);
         REQUIRE(std::get<std::string>(v.get_var()) == "hello");
-    } */
+    }
     /*
         SECTION("ConstVar with relation") {
             // My age is 18.

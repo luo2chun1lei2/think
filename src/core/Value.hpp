@@ -16,6 +16,8 @@ public:
 
     Value();
 
+    Value(const Value &v);
+
     Value(int v);
 
     Value(double v) ;
