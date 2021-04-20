@@ -54,9 +54,15 @@
 	4. 关系分类，是按照 Relation 的类型，还是Relation的名字 ？
 	   【应该按照类型！ 名字只是形成了"名字路径"(name path)!】
 3. 可以按照关联关系进行系统运转。
-
-`动作    -> OR关系网 -> 运转`
-`Action -> OR-Net  -> Perform`
+	`动作    -> OR关系网 -> 运转`
+	`Action -> OR-Net  -> Perform`
+4. 系统的设计的新思路：
+	1. 系统如果想运转，那么就会改变每个对象的状态，比如是变量的改变值，是数据模块（比如JavaBean）的改变数据模块内的变量，
+		如果是某种实例引用的话，可能传递的是实例的指针。等等情况下，实际上可以将系统的OR-Net分成两层。
+		1. 第一层是由 object-relation 组成的网络，但是object和relation都是一个空壳，只有名字和种类是需要的。
+		2. 第二层是在运转中产生的数据或实例，挂在上面的object或relation中，
+			在运转过程中还会不断的根据relation的要求和object的变化来改变 object-relation 的持有物。
+		综合起来，结构就是 object -> value, Travel all objects to perform.
 
 ## 设计
 因为这个是尝试性的软件，所以主体采用循序渐进的开发方法，每一步都要简单、可以测试、有一定的实用行。
