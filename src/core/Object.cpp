@@ -89,3 +89,10 @@ bool Object::notify(Object *obj) {
 bool Object::end_notify() {
     return false;
 }
+
+Value Object::get_value() {
+    return value;
+}
+void Object::set_value(Value value) {
+    this->value = value;
+}

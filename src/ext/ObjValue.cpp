@@ -9,12 +9,12 @@ ObjValue::ObjValue(const std::string name)
 ObjValue::~ObjValue() {
 }
 
-Value ObjValue::get_value() {
-    return value;
-}
-void ObjValue::set_value(Value value) {
-    this->value = value;
-}
+// Value ObjValue::get_value() {
+//     return value;
+// }
+// void ObjValue::set_value(Value value) {
+//     this->value = value;
+// }
 
 /*
 VarType ObjValue::get_value_type() {

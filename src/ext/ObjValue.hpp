@@ -8,14 +8,14 @@
  * 可以是任何值，比如字符串/整数。
  * 基本的是字符串。
  */
-class ObjValue : public Object, public IValue
+class ObjValue : public Object
 {
 public:
     ObjValue(const std::string name);
 	virtual ~ObjValue();
 
-    virtual Value get_value();
-    virtual void set_value(Value value);
+    // virtual Value get_value();
+    // virtual void set_value(Value value);
 
 /*    
     virtual void set_value(int value);

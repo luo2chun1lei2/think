@@ -4,8 +4,8 @@
 #include <core/Relation.hpp>
 
 #include <ext/ObjGraphviz.hpp>
-#include <ext/RltShow.hpp>
 #include <ext/ObjValue.hpp>
+#include <ext/RltShow.hpp>
 
 TEST_CASE("relation show", "[ext][block]") {
     SECTION("equation") {

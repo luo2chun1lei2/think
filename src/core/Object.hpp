@@ -4,7 +4,7 @@
 #include <vector>
 #include <initializer_list>
 
-//#include <ElementId.hpp>
+#include <core/Value.hpp>
 
 /**
  * 因为下面的Object要用到Relation的指针，所以这里必须预先声明。
@@ -18,7 +18,7 @@ class Relation;
  * 1. 有一个名字，作为ID识别，不过名字是有区域的，需要从root节点一路查找下去才行。
  * 2. 包含多个属性，属性必须是一个关系。
  */
-class Object
+class Object : public IValue
 {
 public:
 
@@ -53,14 +53,22 @@ public:
     virtual bool notify(Object *obj);
     virtual bool end_notify();
 
+	///////////////////////////////////////////////////////
+	// 持有(Hold) ： IValue
+	// TODO: 是否应该将 IValue的实现移动到 Object 类中？
+	virtual Value get_value();
+    virtual void set_value(Value value);
+
 protected:
 
 	std::string name;
 	std::vector<Relation *> relations;
 
+	// get_value & set_value
+	Value value;
+
 private:
 };
-
 
 /**
  * 关系，继承对象。

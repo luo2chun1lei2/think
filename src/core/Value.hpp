@@ -14,92 +14,44 @@ public:
     const static Type TYPE_DOUBLE;
     const static Type TYPE_STR;
 
-    Value() {
-        init();
-    }
+    Value();
 
-    Value(int v) {
-        init();
-        set_var(v);
-    }
+    Value(int v);
 
-    Value(double v) {
-        init();
-        set_var(v);
-    }
+    Value(double v) ;
 
-    Value(const std::string v) {
-        init();
-        set_var(v);
-    }
+    Value(const std::string v);
 
-    virtual ~Value() {
-        //printf("-->%p\n", this->var);
-        // TODO: 遇到崩溃，先删除！
-        //delete this->var;
-    }
+    virtual ~Value();
 
-    Type get_type() {
-        return type;
-    }
+    Type get_type() const;
 
-/* 不能设置类型！
-    void set_type(Type type) {
-        this->type = type;
-    }
-    */
-
-   // TODO: 返回指针？
-    Variant get_var() {
-        if (var == nullptr) {
-            return Variant();
-        } else {
-            return *var;
+    /* 不能设置类型！
+        void set_type(Type type) {
+            this->type = type;
         }
-    }
+        */
 
-    void set_var(int var) {
-        delete this->var;
+    // TODO: 返回指针？
+    Variant get_var() const;
 
-        this->type = TYPE_INT;
-        this->var = new Variant(var);
-    }
+    void set_var(int var);
 
-    void set_var(double var) {
-        delete this->var;
+    void set_var(double var);
 
-        this->type = TYPE_DOUBLE;
-        this->var = new Variant(var);
-    }
+    void set_var(const std::string var) ;
 
-    void set_var(const std::string var) {
-        delete this->var;
+    /*
+        void set_var(Variant var) {
+            if(!this->var) {
+                this->var = new Variant();
+            }
+            *this->var = var;
+        } */
 
-        this->type = TYPE_STR;
-        this->var = new Variant(var);
-    }
+    virtual Value &operator=(const Value &right);
 
-/*
-    void set_var(Variant var) {
-        if(!this->var) {
-            this->var = new Variant();
-        }
-        *this->var = var;
-    } */
-
-    virtual Value &operator=(const Value &other) {
-        if (this == &other)
-            return *this;
-
-        this->type = other.type;
-        if (other.var) {
-            this->var = new Variant(*other.var);
-        } else {
-            this->var = nullptr;
-        }
-
-        return *this;
-    }
+    virtual const Value &operator+=(const Value &right);
 
 protected:
     void init() {

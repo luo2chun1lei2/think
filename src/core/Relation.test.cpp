@@ -43,7 +43,7 @@ TEST_CASE("test relation", "[core]") {
         Object b("b");
         Object c("c");
         ObjValue d("2");
-        
+
         d.set_value(Value(2));
 
         Relation plus("+");

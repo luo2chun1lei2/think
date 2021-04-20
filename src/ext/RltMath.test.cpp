@@ -1,19 +1,21 @@
 #include <catch.hpp>
 
-#include <ext/RltMath.hpp>
 #include <ext/ObjValue.hpp>
+#include <ext/RltMath.hpp>
 
 TEST_CASE("relation add", "[ext]") {
     SECTION("add") {
         ObjValue a("a");
         ObjValue b("b");
-        Relation add("add");
+        RltAdd add("add");
 
         a.set_value(Value(123));
         b.set_value(Value(100));
-        add.perform();
+        add.relate({&a, &b});
+
+        REQUIRE(add.perform());
 
         // TODO: relation implements IValue.
-        //REQUIRE( std::get<int>(add.get_value().get_var()) == 223);    // add = a + b
+        REQUIRE(std::get<int>(add.get_value().get_var()) == 223); // add = a + b
     }
 }

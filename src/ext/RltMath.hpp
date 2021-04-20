@@ -14,6 +14,14 @@ class RltAdd : public Relation
 public:
     RltAdd(const std::string name);
     virtual ~RltAdd();
+
+    virtual Value get_value();
+    virtual void set_value(Value value);
+
+    virtual bool perform();
+
 protected:
+
 private:
+
 };
