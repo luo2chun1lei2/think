@@ -25,9 +25,9 @@ Value::Value(const std::string v) {
 }
 
 Value::~Value() {
-    // printf("-->%p\n", this->var);
+    printf("-->%p\n", this->var);
     // TODO: 遇到崩溃，先删除！
-    // delete this->var;
+    delete this->var;
 }
 
 Value::Type Value::get_type() const {
@@ -71,6 +71,7 @@ void Value::set_var(const std::string var) {
 }
 
 Value &Value::operator=(const Value &other) {
+    printf("=\n");
     if (this == &other)
         return *this;
 
