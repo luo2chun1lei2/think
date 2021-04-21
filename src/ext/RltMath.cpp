@@ -6,36 +6,102 @@ using namespace std;
 
 ///////////////////////////////////////////////////////////
 
-RltAdd::RltAdd(const std::string name)
+RltPlus::RltPlus(const std::string name)
     : Relation(name) {
 }
 
-RltAdd::~RltAdd() {
+RltPlus::~RltPlus() {
 }
 
-bool RltAdd::perform() {
-    // 处理在 get_value 做，还是在get_value 做?
+bool RltPlus::perform() {
+    /* TODO: Plus就按照严格的数学语法来进行，而不是搞一个集合的和。
     for (Object *obj : this->objects) {
         Value v = obj->get_value();
-        // LOGE("%d + %d\n", std::get<int>(this->value.get_var()), std::get<int>(v.get_var()));
+        // LOGE("%d + %d\n", this->value.get_int(), v.get_int());
         this->value += v;
     }
+    */
+    if (this->objects.size() != 2) {
+        return false;
+    }
+
+    this->value = objects[0]->get_value() + objects[1]->get_value();
 
     return true;
 }
 
-Value RltAdd::get_value() {
-    return this->value;
-}
-
-void RltAdd::set_value(Value value) {
+void RltPlus::set_value(Value value) {
     // Cannot set value !
 }
 
 ///////////////////////////////////////////////////////////
 
-///////////////////////////////////////////////////////////
+RltMinus::RltMinus(const std::string name)
+    : Relation(name) {
+}
+
+RltMinus::~RltMinus() {
+}
+
+bool RltMinus::perform() {
+    
+    if (this->objects.size() != 2) {
+        return false;
+    }
+
+    this->value = objects[0]->get_value() - objects[1]->get_value();
+
+    return true;
+}
+
+void RltMinus::set_value(Value value) {
+    // Cannot set value !
+}
 
 ///////////////////////////////////////////////////////////
+
+RltDevide::RltDevide(const std::string name)
+    : Relation(name) {
+}
+
+RltDevide::~RltDevide() {
+}
+
+bool RltDevide::perform() {
+    if (this->objects.size() != 2) {
+        return false;
+    }
+
+    this->value = objects[0]->get_value() / objects[1]->get_value();
+
+    return true;
+}
+
+void RltDevide::set_value(Value value) {
+    // Cannot set value !
+}
+
+///////////////////////////////////////////////////////////
+
+RltMultiple::RltMultiple(const std::string name)
+    : Relation(name) {
+}
+
+RltMultiple::~RltMultiple() {
+}
+
+bool RltMultiple::perform() {
+    if (this->objects.size() != 2) {
+        return false;
+    }
+
+    this->value = objects[0]->get_value() * objects[1]->get_value();
+
+    return true;
+}
+
+void RltMultiple::set_value(Value value) {
+    // Cannot set value !
+}
 
 ///////////////////////////////////////////////////////////

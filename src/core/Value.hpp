@@ -21,12 +21,12 @@ public:
     virtual ~Value();
 
     Value(int v);
-    Value(double v) ;
+    Value(double v);
     Value(const std::string v);
 
     Type get_type() const;
     /* 不能设置类型！ 因为类型是设置具体值时决定的。 */
-    //void set_type(Type type);
+    // void set_type(Type type);
 
     virtual void set_var(Variant var);
     virtual void set_var(int var);
@@ -40,18 +40,31 @@ public:
     virtual std::string get_str() const;
 
     virtual const Value &operator+=(const Value &right);
+    virtual const Value &operator-=(const Value &right);
+    virtual const Value &operator*=(const Value &right);
+    virtual const Value &operator/=(const Value &right);
+
+    friend Value operator+(const Value &lhs, const Value &rhs);
+    friend Value operator-(const Value &lhs, const Value &rhs);
+    friend Value operator*(const Value &lhs, const Value &rhs);
+    friend Value operator/(const Value &lhs, const Value &rhs);
+    friend void var_to_digit(const Value &value, Value::Type & type, Value::Variant **var);
 
 protected:
-    void init() {
-        this->type = TYPE_NONE;
-        this->var = nullptr;
-    }
+    void init();
 
     Type type;
     Variant *var;
 
 private:
 };
+
+void var_to_digit(const Value &value, Value::Type & type, Value::Variant **var);
+Value operator+(const Value &lhs, const Value &rhs);
+Value operator-(const Value &lhs, const Value &rhs);
+Value operator*(const Value &lhs, const Value &rhs);
+Value operator/(const Value &lhs, const Value &rhs);
+
 
 /**
  * @brief 所有可以获取值的类的接口。
@@ -61,16 +74,4 @@ class IValue {
 public:
     virtual void set_value(Value value) = 0;
     virtual Value get_value() = 0;
-    /*
-        virtual VarType get_value_type() = 0;
-
-        virtual void set_value(int value) = 0;
-        virtual int get_value_as_int() = 0;
-
-        virtual void set_value(const std::string value) = 0;
-        virtual std::string get_value_as_str() = 0;
-
-        virtual void set_value(double value) = 0;
-        virtual double get_value_as_double() = 0;
-    */
 };

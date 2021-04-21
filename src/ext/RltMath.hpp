@@ -9,15 +9,15 @@
 
 #include <core/Relation.hpp>
 
-class RltAdd : public Relation
+///////////////////////////////////////////////////////////
+
+class RltPlus : public Relation
 {
 public:
-    RltAdd(const std::string name);
-    virtual ~RltAdd();
+    RltPlus(const std::string name);
+    virtual ~RltPlus();
 
-    virtual Value get_value();
     virtual void set_value(Value value);
-
     virtual bool perform();
 
 protected:
@@ -25,3 +25,58 @@ protected:
 private:
 
 };
+
+///////////////////////////////////////////////////////////
+
+class RltMinus : public Relation {
+public:
+    RltMinus(const std::string name);
+    virtual ~RltMinus();
+
+    virtual void set_value(Value value);
+    virtual bool perform();
+
+protected:
+
+private:
+
+};
+
+///////////////////////////////////////////////////////////
+
+class RltDevide : public Relation
+{
+public:
+    RltDevide(const std::string name);
+    virtual ~RltDevide();
+
+    virtual void set_value(Value value);
+    virtual bool perform();
+
+protected:
+
+private:
+
+};
+
+
+///////////////////////////////////////////////////////////
+
+class RltMultiple : public Relation
+{
+public:
+    RltMultiple(const std::string name);
+    virtual ~RltMultiple();
+
+    virtual void set_value(Value value);
+    virtual bool perform();
+
+protected:
+
+private:
+};
+
+///////////////////////////////////////////////////////////
+
+
+///////////////////////////////////////////////////////////
