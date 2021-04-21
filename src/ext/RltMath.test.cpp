@@ -77,20 +77,27 @@ TEST_CASE("relation add", "[ext]") {
 
         REQUIRE(a.get_value().get_int() == 99);
     }
-/*
     
-    SECTION("Formula") { 
+    SECTION("Formula") {
+        // c = a + b / 5
         ObjValue a("a");
         ObjValue b("b");
-        RltAdd add("add");
+        ObjValue c("c");
+        ObjValue d("5");
+        RltPlus plus("plus");
+        RltDevide devide("devide");
+        RltEqual equal("equal");
 
-        a.set_value(Value(123));
-        b.set_value(Value(100));
-        add.relate({&a, &b});
+        devide.relate({&b, &d});
+        plus.relate({&a, &devide});
+        equal.relate({&c, &plus});
 
-        REQUIRE(add.perform());
+        a.set_value(Value(100));
+        b.set_value(Value(20));
+        d.set_value(Value(5));
+        
+        REQUIRE(equal.perform());
 
-        // TODO: relation implements IValue.
-        REQUIRE(add.get_value().get_int() == 223); // add = a + b
-    } */
+        REQUIRE(c.get_value().get_int() == 104);
+    }
 }
