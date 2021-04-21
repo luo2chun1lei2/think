@@ -15,43 +15,29 @@ public:
     const static Type TYPE_STR;
 
     Value();
-
     Value(const Value &v);
-
-    Value(int v);
-
-    Value(double v) ;
-
-    Value(const std::string v);
+    virtual Value &operator=(const Value &right);
 
     virtual ~Value();
 
-    Type get_type() const;
+    Value(int v);
+    Value(double v) ;
+    Value(const std::string v);
 
-    /* 不能设置类型！
-        void set_type(Type type) {
-            this->type = type;
-        }
-        */
+    Type get_type() const;
+    /* 不能设置类型！ 因为类型是设置具体值时决定的。 */
+    //void set_type(Type type);
+
+    virtual void set_var(Variant var);
+    virtual void set_var(int var);
+    virtual void set_var(double var);
+    virtual void set_var(const std::string var);
 
     // TODO: 返回指针？
     Variant get_var() const;
-
-    void set_var(int var);
-
-    void set_var(double var);
-
-    void set_var(const std::string var) ;
-
-    /*
-        void set_var(Variant var) {
-            if(!this->var) {
-                this->var = new Variant();
-            }
-            *this->var = var;
-        } */
-
-    virtual Value &operator=(const Value &right);
+    virtual int get_int() const;
+    virtual double get_double() const;
+    virtual std::string get_str() const;
 
     virtual const Value &operator+=(const Value &right);
 

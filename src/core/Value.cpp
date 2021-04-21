@@ -44,10 +44,10 @@ Value::Type Value::get_type() const {
 }
 
 /* 不能设置类型！
-    void set_type(Type type) {
-        this->type = type;
-    }
-    */
+void Value::set_type(Value::Type type) {
+    this->type = type;
+}
+*/
 
 // TODO: 返回指针？
 Value::Variant Value::get_var() const {
@@ -79,6 +79,25 @@ void Value::set_var(const std::string var) {
     this->var = new Variant(var);
 }
 
+void Value::set_var(Value::Variant var) {
+    if (!this->var) {
+        this->var = new Variant();
+    }
+    *this->var = var;
+}
+
+int Value::get_int() const {
+    return std::get<int>(*var);
+}
+
+double Value::get_double() const {
+    return std::get<double>(*var);
+}
+
+std::string Value::get_str() const {
+    return std::get<std::string>(*var);
+}
+
 Value &Value::operator=(const Value &other) {
     if (this == &other)
         return *this;
@@ -105,6 +124,7 @@ const Value &Value::operator+=(const Value &right) {
 
     switch (get_type()) {
         case TYPE_NONE: {
+            // TODO: 这里的策略还需要再商量。
             this->type = right.get_type();
             this->var = new Variant(right.get_var());
         }
@@ -116,11 +136,11 @@ const Value &Value::operator+=(const Value &right) {
                     // do nothing
                     break;
                 case TYPE_INT:
-                    this->var = new Variant(std::get<int>(right.get_var()) + std::get<int>(*this->var));
+                    this->var = new Variant(right.get_int() + this->get_int());
                     break;
                 case TYPE_DOUBLE:
                     this->type = TYPE_DOUBLE;
-                    this->var = new Variant(std::get<int>(right.get_var()) + std::get<int>(*this->var));
+                    this->var = new Variant(right.get_int() + get_int());
                     break;
                 case TYPE_STR:
                     //??
@@ -134,10 +154,10 @@ const Value &Value::operator+=(const Value &right) {
                     // do nothing
                     break;
                 case TYPE_INT:
-                    this->var = new Variant(std::get<int>(right.get_var()) + std::get<double>(*this->var));
+                    this->var = new Variant(right.get_int() + get_double());
                     break;
                 case TYPE_DOUBLE:
-                    this->var = new Variant(std::get<double>(right.get_var()) + std::get<double>(*this->var));
+                    this->var = new Variant(right.get_double() + get_double());
                     break;
                 case TYPE_STR:
                     //??

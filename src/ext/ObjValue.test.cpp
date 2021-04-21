@@ -9,7 +9,7 @@ TEST_CASE("object value", "[ext]") {
     SECTION("crash") {
         ObjValue var1("var1");
 
-        var1.set_value(Value(1)); 
+        var1.set_value(Value(1));
         var1.get_value();
     }
 
@@ -21,15 +21,15 @@ TEST_CASE("object value", "[ext]") {
         v = var1.get_value();
         REQUIRE(v.get_type() == Value::TYPE_NONE);
 
-        var1.set_value(Value(1)); 
+        var1.set_value(Value(1));
         v = var1.get_value();
         REQUIRE(v.get_type() == Value::TYPE_INT);
-        REQUIRE(std::get<int>(v.get_var()) == 1);
+        REQUIRE(v.get_int() == 1);
 
         var1.set_value(Value("hello"));
         v = var1.get_value();
         REQUIRE(v.get_type() == Value::TYPE_STR);
-        REQUIRE(std::get<std::string>(v.get_var()) == "hello");
+        REQUIRE(v.get_str() == "hello");
     }
     /*
         SECTION("ConstVar with relation") {

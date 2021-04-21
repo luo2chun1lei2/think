@@ -16,6 +16,6 @@ TEST_CASE("relation add", "[ext]") {
         REQUIRE(add.perform());
 
         // TODO: relation implements IValue.
-        REQUIRE(std::get<int>(add.get_value().get_var()) == 223); // add = a + b
+        REQUIRE(add.get_value().get_int() == 223); // add = a + b
     }
 }
