@@ -105,3 +105,24 @@ void RltMultiple::set_value(Value value) {
 }
 
 ///////////////////////////////////////////////////////////
+
+RltEqual::RltEqual(const std::string name)
+    : Relation(name) {
+}
+
+RltEqual::~RltEqual() {
+}
+
+bool RltEqual::perform() {
+    if (this->objects.size() != 2) {
+        return false;
+    }
+
+    objects[0]->set_value(objects[1]->get_value());
+
+    return true;
+}
+
+void RltEqual::set_value(Value value) {
+    // Cannot set value !
+}

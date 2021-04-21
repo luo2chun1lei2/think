@@ -63,23 +63,22 @@ TEST_CASE("relation add", "[ext]") {
 
         REQUIRE(devide.get_value().get_int() == 5);
     }
-/*
+
     SECTION("equal") {
+        // a = b
         ObjValue a("a");
         ObjValue b("b");
-        RltAdd add("add");
+        RltEqual equal("equal");
 
-        a.set_value(Value(123));
-        b.set_value(Value(100));
-        add.relate({&a, &b});
+        b.set_value(Value(99));
+        equal.relate({&a, &b});
 
-        REQUIRE(add.perform());
+        REQUIRE(equal.perform());
 
-        // TODO: relation implements IValue.
-        REQUIRE(add.get_value().get_int() == 223); // add = a + b
+        REQUIRE(a.get_value().get_int() == 99);
     }
-
-    // expression 是表达式， equation是工程式，Identity是恒等式，Formula是普遍规律的公式。
+/*
+    
     SECTION("Formula") { 
         ObjValue a("a");
         ObjValue b("b");

@@ -2,7 +2,7 @@
 
 /**
  * @brief 数学计算公式相关的关系都放在这里。
- * 
+ * expression 是表达式， equation是工程式，Identity是恒等式，Formula是普遍规律的公式。
  */
 
 #include <string>
@@ -78,5 +78,18 @@ private:
 
 ///////////////////////////////////////////////////////////
 
+class RltEqual : public Relation
+{
+public:
+    RltEqual(const std::string name);
+    virtual ~RltEqual();
+
+    virtual void set_value(Value value);
+    virtual bool perform();
+
+protected:
+
+private:
+};
 
 ///////////////////////////////////////////////////////////
