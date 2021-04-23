@@ -2,68 +2,44 @@
 
 #include <algorithm>
 
-#include <ext/Travel.hpp>
 #include <misc/Misc.hpp>
 
 using namespace std;
 
 ///////////////////////////////////////////////////////////
 
-class MyTravel : public Travel {
-public:
-    MyTravel();
-
-    bool is_end();
-
-    virtual bool travel(Object *pobj);
-
-protected:
-    virtual bool on_meet_obj(Object *pobj);
-
-    virtual bool on_meet_rlt(Relation *prlt);
-
-    vector<Object *> last_oks;
-    vector<Object *> cur_oks;
-
-    Object *target;
-    bool end;
-
-private:
-};
-
-MyTravel::MyTravel() {
+PerformRound::MyTravel::MyTravel(bool log)
+    : Travel(log) {
     end = false;
 }
 
-bool MyTravel::is_end() {
+bool PerformRound::MyTravel::is_end() {
     return end;
 }
 
-bool MyTravel::travel(Object *pobj) {
+bool PerformRound::MyTravel::travel(Object *pobj) {
     target = pobj;
     bool rtn = Travel::travel(pobj);
 
     // 无法再运转更多的对象，所以必须退出。
     if (cur_oks.size() == last_oks.size()) {
+        LOGE("%d=%d\n", cur_oks.size(), last_oks.size());
         end = true;
     } else {
         LOGE("%d=%d\n", cur_oks.size(), last_oks.size());
         last_oks.clear();
-        LOGE("1 %d=%d\n", cur_oks.size(), last_oks.size());
         last_oks.insert(last_oks.end(), cur_oks.begin(), cur_oks.end());
-        LOGE("2 %d=%d\n", cur_oks.size(), last_oks.size());
         cur_oks.clear();
-        LOGE("3 %d=%d\n", cur_oks.size(), last_oks.size());
     }
 
     return rtn;
 }
 
-bool MyTravel::on_meet_obj(Object *pobj) {
+bool PerformRound::MyTravel::on_meet_obj(Object *pobj) {
     return true;
 }
 
-bool MyTravel::on_meet_rlt(Relation *prlt) {
+bool PerformRound::MyTravel::on_meet_rlt(Relation *prlt) {
     vector<Object *> needs;
     if (prlt->perform(needs)) {
         cur_oks.push_back(prlt);
@@ -77,24 +53,27 @@ bool MyTravel::on_meet_rlt(Relation *prlt) {
     return true;
 }
 
+///////////////////////////////////////
+
 PerformRound::PerformRound(int max_round) {
     this->max_round = max_round;
 }
+
 PerformRound::~PerformRound() {
 }
 
 bool PerformRound::perform(Object *pobj) {
 
-    MyTravel my_travel;
+    MyTravel my_travel(false);
     do {
         my_travel.travel(pobj);
     } while (!my_travel.is_end() && (max_round == -1 || --max_round > 0));
 
     if (pobj->get_value().get_type() == Value::TYPE_NONE) {
         return false;
-    } else {
-        return true;
     }
+
+    return true;
 }
 
 ///////////////////////////////////////////////////////////
@@ -154,10 +133,11 @@ bool Perform::perform(Object *pobj) {
         }
 
         // 处理。
-        if (typeid(*wait) == typeid(Relation)) {
+        Relation *prlt = dynamic_cast<Relation *>(wait);
+        if (prlt) {
             // 如果目标是“关系”，那么就查看关系是否可以运转，
             // 如果不能，就将需要的“对象”放入等待队列中。
-            Relation *prlt = (Relation *)wait;
+
             if (on_meet_rlt(prlt) == false) {
                 break;
             }

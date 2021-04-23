@@ -1,7 +1,7 @@
 #include <core/Value.hpp>
 
-#include <stdlib.h>
 #include <exception>
+#include <stdlib.h>
 
 using namespace std;
 
@@ -419,7 +419,7 @@ const Value &Value::operator*=(const Value &right) {
 }
 
 // 将 variant 转成数字计算需要的 int/double 类型。
-void var_to_digit(const Value &value, Value::Type & type, Value::Variant **var) {
+void var_to_digit(const Value &value, Value::Type &type, Value::Variant **var) {
     switch (value.get_type()) {
         case Value::TYPE_NONE:
             type = Value::TYPE_INT;
@@ -451,10 +451,10 @@ Value operator+(const Value &lhs, const Value &rhs) {
     }
 
     Value::Type lvar_type = Value::TYPE_NONE;
-    Value::Variant * lvar = nullptr;
+    Value::Variant *lvar = nullptr;
 
     Value::Type rvar_type = Value::TYPE_NONE;
-    Value::Variant * rvar = nullptr;
+    Value::Variant *rvar = nullptr;
 
     var_to_digit(lhs, lvar_type, &lvar);
     var_to_digit(rhs, rvar_type, &rvar);
@@ -477,7 +477,7 @@ Value operator+(const Value &lhs, const Value &rhs) {
         delete rvar;
 
         return Value(result);
-    } else {    // lvar = rvar = INT
+    } else { // lvar = rvar = INT
         int result = 0;
         result = std::get<int>(*lvar) + std::get<int>(*rvar);
 
@@ -498,10 +498,10 @@ Value operator-(const Value &lhs, const Value &rhs) {
     }
 
     Value::Type lvar_type = Value::TYPE_NONE;
-    Value::Variant * lvar = nullptr;
+    Value::Variant *lvar = nullptr;
 
     Value::Type rvar_type = Value::TYPE_NONE;
-    Value::Variant * rvar = nullptr;
+    Value::Variant *rvar = nullptr;
 
     var_to_digit(lhs, lvar_type, &lvar);
     var_to_digit(rhs, rvar_type, &rvar);
@@ -524,7 +524,7 @@ Value operator-(const Value &lhs, const Value &rhs) {
         delete rvar;
 
         return Value(result);
-    } else {    // lvar = rvar = INT
+    } else { // lvar = rvar = INT
         int result = 0;
         result = std::get<int>(*lvar) - std::get<int>(*rvar);
 
@@ -545,10 +545,10 @@ Value operator*(const Value &lhs, const Value &rhs) {
     }
 
     Value::Type lvar_type = Value::TYPE_NONE;
-    Value::Variant * lvar = nullptr;
+    Value::Variant *lvar = nullptr;
 
     Value::Type rvar_type = Value::TYPE_NONE;
-    Value::Variant * rvar = nullptr;
+    Value::Variant *rvar = nullptr;
 
     var_to_digit(lhs, lvar_type, &lvar);
     var_to_digit(rhs, rvar_type, &rvar);
@@ -571,7 +571,7 @@ Value operator*(const Value &lhs, const Value &rhs) {
         delete rvar;
 
         return Value(result);
-    } else {    // lvar = rvar = INT
+    } else { // lvar = rvar = INT
         int result = 0;
         result = std::get<int>(*lvar) * std::get<int>(*rvar);
 
@@ -592,10 +592,10 @@ Value operator/(const Value &lhs, const Value &rhs) {
     }
 
     Value::Type lvar_type = Value::TYPE_NONE;
-    Value::Variant * lvar = nullptr;
+    Value::Variant *lvar = nullptr;
 
     Value::Type rvar_type = Value::TYPE_NONE;
-    Value::Variant * rvar = nullptr;
+    Value::Variant *rvar = nullptr;
 
     var_to_digit(lhs, lvar_type, &lvar);
     var_to_digit(rhs, rvar_type, &rvar);
@@ -618,7 +618,7 @@ Value operator/(const Value &lhs, const Value &rhs) {
         delete rvar;
 
         return Value(result);
-    } else {    // lvar = rvar = INT
+    } else { // lvar = rvar = INT
         int result = 0;
         result = std::get<int>(*lvar) / std::get<int>(*rvar);
 

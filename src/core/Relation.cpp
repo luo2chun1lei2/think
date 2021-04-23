@@ -44,12 +44,11 @@ bool Relation::add_obj(Object *pobj) {
     return true;
 }
 
-bool Relation::can_perform(const Object * pobj) const {
+bool Relation::can_perform(const Object *pobj) const {
     return false;
 }
 
-std::vector<Object *> Relation::get_objs_need_value() const
-{
+std::vector<Object *> Relation::get_objs_need_value() const {
     return vector<Object *>();
 }
 

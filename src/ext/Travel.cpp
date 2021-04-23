@@ -32,8 +32,12 @@ bool Travel::travel(Object *pobj) {
         }
 
         // process it.
-        if (typeid(*wait) == typeid(Relation)) {
-            Relation *rlt = (Relation *)wait;
+        Relation *rlt = dynamic_cast<Relation *>(wait);
+        if (rlt) {
+
+            if (write_log)
+                LOGI("Rlt:%s\n", rlt->get_name().c_str());
+
             if (on_meet_rlt(rlt) == false) {
                 break;
             }
@@ -50,6 +54,9 @@ bool Travel::travel(Object *pobj) {
             waits.insert(waits.end(), rlt->get_rlts().begin(), rlt->get_rlts().end());
 
         } else {
+            if (write_log)
+                LOGI("Obj:%s\n", wait->get_name().c_str());
+
             if (on_meet_obj(wait) == false) {
                 break;
             }

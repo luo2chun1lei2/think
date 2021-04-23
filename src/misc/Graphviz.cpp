@@ -108,7 +108,8 @@ bool Graphviz::output(const Model *model) {
     // 先处理非Relation的元素。
     for (size_t i = 0; i < count; i++) {
         Element *elm = model->get_elm(i);
-        if (typeid(*elm) != typeid(Relation)) {
+        //Relation * rlt = dynamic_cast<Relation *>elm;
+        if (typeid(*elm) != typeid(Relation)) { // TODO: 类型判断有问题。
 
             string str_name = elm->get_name();
             if (str_name.length() == 0) {

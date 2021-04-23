@@ -31,8 +31,9 @@ bool ObjGraphviz::begin_notify() {
 bool ObjGraphviz::notify(Object *obj) {
 
     // 因为Graphviz的特点，必须是先绘制节点，然后再绘制边。
-    if (typeid(*obj) == typeid(Relation)) {
-        this->notified_relations.push_back((Relation *)obj);
+    Relation *rlt = dynamic_cast<Relation *>(obj);
+    if (rlt) {
+        this->notified_relations.push_back(rlt);
     } else { // type = Object.
         this->notified_objects.push_back(obj);
     }

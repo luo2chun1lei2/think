@@ -39,10 +39,10 @@ TEST_CASE("relation plus/minus/multiple/devide", "[ext]") {
     }
 
     SECTION("multiple") {
-         // devide = a / b;
+        // devide = a / b;
         ObjValue a("a");
         ObjValue b("b");
-        RltMultiple multiple ("multiple"); // 商:quotient
+        RltMultiple multiple("multiple"); // 商:quotient
 
         a.set_value(Value(17));
         b.set_value(Value(40));
@@ -55,10 +55,10 @@ TEST_CASE("relation plus/minus/multiple/devide", "[ext]") {
     }
 
     SECTION("devide") {
-         // devide = a / b;
+        // devide = a / b;
         ObjValue a("a");
         ObjValue b("b");
-        RltDevide devide ("devide"); // 商:quotient
+        RltDevide devide("devide"); // 商:quotient
 
         a.set_value(Value(200));
         b.set_value(Value(40));

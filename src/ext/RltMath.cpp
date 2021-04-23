@@ -51,6 +51,12 @@ bool RltPlus::perform(std::vector<Object *> &need_objs) {
         return false;
     }
 
+    for (Object *obj : objects) {
+        if (obj->get_value().get_type() == Value::TYPE_NONE) {
+            return false;
+        }
+    }
+
     this->value = objects[0]->get_value() + objects[1]->get_value();
 
     return true;
@@ -69,6 +75,12 @@ bool RltMinus::perform(std::vector<Object *> &need_objs) {
 
     if (this->objects.size() != 2) {
         return false;
+    }
+
+    for (Object *obj : objects) {
+        if (obj->get_value().get_type() == Value::TYPE_NONE) {
+            return false;
+        }
     }
 
     this->value = objects[0]->get_value() - objects[1]->get_value();
@@ -120,6 +132,12 @@ bool RltDevide::perform(std::vector<Object *> &need_objs) {
         return false;
     }
 
+    for (Object *obj : objects) {
+        if (obj->get_value().get_type() == Value::TYPE_NONE) {
+            return false;
+        }
+    }
+
     this->value = objects[0]->get_value() / objects[1]->get_value();
 
     return true;
@@ -137,6 +155,12 @@ RltMultiple::~RltMultiple() {
 bool RltMultiple::perform(std::vector<Object *> &need_objs) {
     if (this->objects.size() != 2) {
         return false;
+    }
+
+    for (Object *obj : objects) {
+        if (obj->get_value().get_type() == Value::TYPE_NONE) {
+            return false;
+        }
     }
 
     this->value = objects[0]->get_value() * objects[1]->get_value();
@@ -189,6 +213,10 @@ vector<Object *> RltEqual::get_objs_need_value() const {
 
 bool RltEqual::perform(std::vector<Object *> &need_objs) {
     if (this->objects.size() != 2) {
+        return false;
+    }
+
+    if (objects[1]->get_value().get_type() == Value::TYPE_NONE) {
         return false;
     }
 
