@@ -92,11 +92,29 @@ public:
 
 	///////////////////////////////////////////////////////
 	// Perform
+	// 算法：如果可以获取，就返回true，如果无法获取，就返回false，以及需要的object。
+	// 关系有两种运转，一种是可以“运转”出一个对象，比如 "a=b"；
+	//     还有一种运转自己本身，比如"+(a,b)"。
+
+	/**
+	 * 标识：是否可以获取pobj的值？
+	 * @param pobj 需要关系评估的对象。nullptr:评估自身是否可以获取值。
+	 * true:可以，false：不可以。
+	 */
+	virtual bool can_perform(const Object * pobj) const;
+
+	/**
+	 * 如果可以获取pobj的值，那么还需要哪些对象要值？
+	 * 比如 a=b+c，如果要运转，c设置值了，但是b没有设置值，那么就返回b。
+	 */
+	virtual std::vector<Object *> get_objs_need_value() const;
+
 	/**
      * 运转这个关系。
-     * @return true:成功运转，false:中间出现错误。
+	 * @param need_objs 必须是空的。
+     * @return true:成功运转，false:运转失败，如果need_objs是空，那么就是不支持，如果不为空，就是支持但缺少。
      */
-    virtual bool perform();
+    virtual bool perform(std::vector<Object *> &need_objs);
 
 protected:
 

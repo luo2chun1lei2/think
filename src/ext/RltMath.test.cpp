@@ -3,8 +3,10 @@
 #include <ext/ObjValue.hpp>
 #include <ext/RltMath.hpp>
 
-TEST_CASE("relation add", "[ext]") {
-    SECTION("add") {
+using namespace std;
+
+TEST_CASE("relation plus/minus/multiple/devide", "[ext]") {
+    SECTION("plus") {
         // add = a + b
         ObjValue a("a");
         ObjValue b("b");
@@ -14,12 +16,13 @@ TEST_CASE("relation add", "[ext]") {
         b.set_value(Value(100));
         plus.relate({&a, &b});
 
-        REQUIRE(plus.perform());
+        vector<Object *> needs;
+        REQUIRE(plus.perform(needs));
 
         REQUIRE(plus.get_value().get_int() == 223);
     }
 
-    SECTION("add") {
+    SECTION("minus") {
         // add = a + b
         ObjValue a("a");
         ObjValue b("b");
@@ -29,7 +32,8 @@ TEST_CASE("relation add", "[ext]") {
         b.set_value(Value(100));
         minus.relate({&a, &b});
 
-        REQUIRE(minus.perform());
+        vector<Object *> needs;
+        REQUIRE(minus.perform(needs));
 
         REQUIRE(minus.get_value().get_int() == 23);
     }
@@ -44,7 +48,8 @@ TEST_CASE("relation add", "[ext]") {
         b.set_value(Value(40));
         multiple.relate({&a, &b});
 
-        REQUIRE(multiple.perform());
+        vector<Object *> needs;
+        REQUIRE(multiple.perform(needs));
 
         REQUIRE(multiple.get_value().get_int() == 680);
     }
@@ -59,7 +64,8 @@ TEST_CASE("relation add", "[ext]") {
         b.set_value(Value(40));
         devide.relate({&a, &b});
 
-        REQUIRE(devide.perform());
+        vector<Object *> needs;
+        REQUIRE(devide.perform(needs));
 
         REQUIRE(devide.get_value().get_int() == 5);
     }
@@ -73,31 +79,9 @@ TEST_CASE("relation add", "[ext]") {
         b.set_value(Value(99));
         equal.relate({&a, &b});
 
-        REQUIRE(equal.perform());
+        vector<Object *> needs;
+        REQUIRE(equal.perform(needs));
 
         REQUIRE(a.get_value().get_int() == 99);
-    }
-    
-    SECTION("Formula") {
-        // c = a + b / 5
-        ObjValue a("a");
-        ObjValue b("b");
-        ObjValue c("c");
-        ObjValue d("5");
-        RltPlus plus("plus");
-        RltDevide devide("devide");
-        RltEqual equal("equal");
-
-        devide.relate({&b, &d});
-        plus.relate({&a, &devide});
-        equal.relate({&c, &plus});
-
-        a.set_value(Value(100));
-        b.set_value(Value(20));
-        d.set_value(Value(5));
-        
-        REQUIRE(equal.perform());
-
-        REQUIRE(c.get_value().get_int() == 104);
     }
 }
