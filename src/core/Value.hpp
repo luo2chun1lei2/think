@@ -4,6 +4,11 @@
 #include <string>
 #include <variant>
 
+/**
+ * 可变值，允许设定各种不同类型的值。
+ * 1. 设定时记录值的类型，且可以取出来。
+ * 2. 可以进行数学运算。
+ */
 class Value {
 public:
     typedef std::variant<int, double, std::string> Variant;
@@ -39,6 +44,11 @@ public:
     virtual double get_double() const;
     virtual std::string get_str() const;
 
+    ///////////////////////////////////////////////////////
+    // 数学运算。
+
+    friend void var_to_digit(const Value &value, Value::Type & type, Value::Variant **var);
+
     virtual const Value &operator+=(const Value &right);
     virtual const Value &operator-=(const Value &right);
     virtual const Value &operator*=(const Value &right);
@@ -48,7 +58,6 @@ public:
     friend Value operator-(const Value &lhs, const Value &rhs);
     friend Value operator*(const Value &lhs, const Value &rhs);
     friend Value operator/(const Value &lhs, const Value &rhs);
-    friend void var_to_digit(const Value &value, Value::Type & type, Value::Variant **var);
 
 protected:
     void init();
@@ -68,7 +77,7 @@ Value operator/(const Value &lhs, const Value &rhs);
 
 /**
  * @brief 所有可以获取值的类的接口。
- *
+ * 必须可以设置值和获取值。但是不应要两个都支持。
  */
 class IValue {
 public:

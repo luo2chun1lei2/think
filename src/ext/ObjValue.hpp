@@ -4,9 +4,8 @@
 #include <core/Value.hpp>
 
 /**
- * 带有值对象。
- * 可以是任何值，比如字符串/整数。
- * 基本的是字符串。
+ * 带有值的对象。
+ * 1. 可以是任何值，比如字符串、整数、字符串等。
  */
 class ObjValue : public Object
 {

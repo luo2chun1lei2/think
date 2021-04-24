@@ -3,7 +3,7 @@
 #include <core/Object.hpp>
 
 /**
- * 遍历指定的元素。
+ * 遍历指定的元素的相关所有关系和元素。
  */
 class Travel
 {

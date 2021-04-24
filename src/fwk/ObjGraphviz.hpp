@@ -16,6 +16,9 @@ public:
     ObjGraphviz(const std::string name);
     virtual ~ObjGraphviz();
 
+    ///////////////////////////////////////////////////////
+    // 根据通知，同步
+    
     virtual bool begin_notify();
     virtual bool notify(Object *obj);
     virtual bool end_notify();

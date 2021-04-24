@@ -15,8 +15,10 @@ class Relation;
  * 所有对象的基类。
  * 对象有两个子类：元素和关系。
  * 包含功能：
- * 1. 有一个名字，作为ID识别，不过名字是有区域的，需要从root节点一路查找下去才行。
- * 2. 包含多个属性，属性必须是一个关系。
+ * 1. 有一个名字，作为ID识别，不过名字的作用范围是有区域的，限于连接的对象。
+ * 2. 包含多个关系，这些关系都和此对象有联系。但是并不是说有此关系一定会修改这个对象的状态。
+ * 3. 每个对象都可以读取和设置值，不过并不是所有的对象都可以设置值，或者获取值。
+ * 4. 是 subject-observer 的接受方(observer)。 【空实现】
  */
 class Object : public IValue
 {
@@ -38,25 +40,26 @@ public:
 	virtual bool add_rlt(Relation * rlt);
 	//	virtual void del_rlt(Relation * rlt);
 
-	// get value of property.
+	///////////////////////////////////
+	// Object-Relation Path
+	// get object by relation name and object name.
 	virtual Object * get_property(const std::string rlt_name, const std::string obj_name) const;
-
+	// get objects by relation name.
 	virtual std::vector<Object *> get_property(const std::string rlt_name) const;
 
 	///////////////////////////////////////////////////////
 	// Perform
 	// 算法：如果可以获取，就返回true，如果无法获取，就返回false，以及需要的object。
 
-	/**
-	 * 开始通知。
-	 */
+	// 如果改变，就通知变化了。
+	// TODO: Map 和 数学运算 的做法兼容吗？
 	virtual bool begin_notify();
     virtual bool notify(Object *obj);
     virtual bool end_notify();
 
 	///////////////////////////////////////////////////////
 	// 持有(Hold) ： IValue
-	// TODO: 是否应该将 IValue的实现移动到 Object 类中？
+	// TODO: 是否应该将 IValue的实现移动到 ObjValue 类中？
 	virtual Value get_value();
     virtual void set_value(Value value);
 
@@ -72,7 +75,9 @@ private:
 };
 
 /**
- * 关系，继承对象。
+ * 关系，继承于对象。
+ * 1. 关联若干相关对象，有影响方（affect）和被影响方(affected)。只有具体 Relation 自己知道。
+ * 2. 运转相关函数。
  */
 class Relation: public Object
 {

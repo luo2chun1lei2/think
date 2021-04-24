@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @brief 数学计算公式相关的关系都放在这里。
+ * @brief 数学计算公式相关的关系都放在这里。注意不是运算。
  * expression 是表达式， equation是工程式，Identity是恒等式，Formula是普遍规律的公式。
  */
 

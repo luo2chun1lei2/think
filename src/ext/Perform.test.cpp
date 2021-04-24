@@ -85,7 +85,7 @@ TEST_CASE("Perform", "[ext]") {
 
             a.set_value(Value(100));
 
-            Perform perform;
+            PerformEffectTree perform;
             REQUIRE(perform.perform(&a));
 
             REQUIRE(a.get_value().get_int() == 100);
@@ -106,7 +106,7 @@ TEST_CASE("Perform", "[ext]") {
             a.set_value(Value(100));
             b.set_value(Value(20));
 
-            Perform perform;
+            PerformEffectTree perform;
             REQUIRE(perform.perform(&c));
 
             //REQUIRE(c.get_value().get_int() == 120);

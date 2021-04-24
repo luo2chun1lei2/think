@@ -76,17 +76,17 @@ bool PerformRound::perform(Object *pobj) {
 
 ///////////////////////////////////////////////////////////
 
-Perform::Perform() {
+PerformEffectTree::PerformEffectTree() {
 }
 
-Perform::~Perform() {
+PerformEffectTree::~PerformEffectTree() {
 }
 
-bool Perform::on_meet_obj(Object *pobj) {
+bool PerformEffectTree::on_meet_obj(Object *pobj) {
     return true;
 }
 
-bool Perform::on_meet_rlt(Relation *prlt) {
+bool PerformEffectTree::on_meet_rlt(Relation *prlt) {
     return true;
 }
 
@@ -104,7 +104,7 @@ bool Perform::on_meet_rlt(Relation *prlt) {
  *     1. 无：可以，就运行。
  *     2. 有：不可以，跳转到1，指定对象是“欠缺”的对象。
  */
-bool Perform::perform(Object *pobj) {
+bool PerformEffectTree::perform(Object *pobj) {
     // 记录已经遍历后的对象。
     vector<Object *> dones;
 

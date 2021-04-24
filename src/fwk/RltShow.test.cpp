@@ -30,7 +30,7 @@ TEST_CASE("relation show", "[ext][block]") {
 
         // Add show relation.
         RltShow show("show");
-        show.relate({&c, &graphviz});
+        show.relate({&graphviz, &c});
 
         // Perform.
         REQUIRE(show.perform());

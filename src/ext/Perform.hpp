@@ -4,10 +4,15 @@
 
 #include <ext/Travel.hpp>
 
+class IPerform {
+public:
+    virtual bool perform(Object *pobj) = 0;
+};
+
 /**
  * 通过一轮一轮的循环处理所有的Relation，直到获得对象值，或者OR-Net无改变。
  */
-class PerformRound {
+class PerformRound : public IPerform{
 public:
     PerformRound(int max_round);
     virtual ~PerformRound();
@@ -46,10 +51,14 @@ protected:
 private:
 };
 
-class Perform {
+/**
+ * 通过分析对象相关的关系，找到关联影响树后，进行处理。
+ * 效率高。
+ */
+class PerformEffectTree : IPerform {
 public:
-    Perform();
-    virtual ~Perform();
+    PerformEffectTree();
+    virtual ~PerformEffectTree();
 
     /**
      * 根据pobj的关联关系，运转得到pobj的状态。
