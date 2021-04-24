@@ -74,66 +74,69 @@ TEST_CASE("PerformRound", "[ext]") {
 }
 
 TEST_CASE("Perform", "[ext]") {
-    /*
-        SECTION("Formula1") {
-            // a = b
-            ObjValue a("a");
-            ObjValue b("b");
 
-            RltEqual equal("equal");
+    SECTION("Formula1") {
+        // a = b
+        ObjValue a("a");
+        ObjValue b("b");
 
-            equal.relate({&a, &b});
+        RltEqual equal("equal");
 
-            a.set_value(Value(100));
+        equal.relate({&a, &b});
 
-            PerformEffectTree perform;
-            REQUIRE(perform.perform(&a));
+        a.set_value(Value(100));
 
-            REQUIRE(a.get_value().get_int() == 100);
-        }
+        PerformEffectTree perform;
+        REQUIRE(perform.perform(&a));
 
-        SECTION("Formula2") {
-            // c = a + b
-            ObjValue a("a");
-            ObjValue b("b");
-            ObjValue c("c");
+        REQUIRE(a.get_value().get_int() == 100);
+    }
 
-            RltPlus plus("plus");
-            RltEqual equal("equal");
+    SECTION("Formula2") {
+        // c = a + b
+        ObjValue a("a");
+        ObjValue b("b");
+        ObjValue c("c");
 
-            plus.relate({&a, &b});
-            equal.relate({&c, &plus});
+        RltPlus plus("plus");
 
-            a.set_value(Value(100));
-            b.set_value(Value(20));
+        plus.relate({&c, &a, &b});
 
-            PerformEffectTree perform;
-            REQUIRE(perform.perform(&c));
+        a.set_value(Value(100));
+        b.set_value(Value(20));
 
-            //REQUIRE(c.get_value().get_int() == 120);
-        }
-    */
-    /*
-SECTION("Formula3") {
-    // c = a + b / 5
-    ObjValue a("a");
-    ObjValue b("b");
-    ObjValue c("c");
-    ObjValue d("5");
-    RltPlus plus("plus");
-    RltDevide devide("devide");
-    RltEqual equal("equal");
+        PerformEffectTree perform;
+        REQUIRE(perform.perform(&c));
 
-    devide.relate({&b, &d});
-    plus.relate({&a, &devide});
-    equal.relate({&c, &plus});
+        REQUIRE(c.get_value().get_type() == Value::TYPE_INT);
+        REQUIRE(c.get_value().get_int() == 120);
+    }
 
-    a.set_value(Value(100));
-    b.set_value(Value(20));
-    d.set_value(Value(5));
+    SECTION("Formula3") {
+        // c = b + a / 5
+        ObjValue a("a");
+        ObjValue b("b");
+        ObjValue c("c");
+        ObjValue v5("5");
+        ObjValue tmp1("tmp1");
+        ObjValue tmp2("tmp2");
 
-    REQUIRE(equal.perform());
+        RltPlus plus("plus");
+        RltDevide devide("devide");
+        RltEqual equal("equal");
 
-    REQUIRE(c.get_value().get_int() == 104);
-} */
+        devide.relate({&tmp1, &a, &v5});
+        plus.relate({&tmp2, &b, &tmp1});
+        equal.relate({&c, &tmp2});
+
+        a.set_value(Value(100));
+        b.set_value(Value(20));
+        v5.set_value(Value(5));
+
+        PerformEffectTree perform;
+        REQUIRE(perform.perform(&c));
+
+        REQUIRE(c.get_value().get_type() == Value::TYPE_INT);
+        REQUIRE(c.get_value().get_int() == 40);
+    }
 }
