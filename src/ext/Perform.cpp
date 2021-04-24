@@ -23,10 +23,8 @@ bool PerformRound::MyTravel::travel(Object *pobj) {
 
     // 无法再运转更多的对象，所以必须退出。
     if (cur_oks.size() == last_oks.size()) {
-        LOGE("%d=%d\n", cur_oks.size(), last_oks.size());
         end = true;
     } else {
-        LOGE("%d=%d\n", cur_oks.size(), last_oks.size());
         last_oks.clear();
         last_oks.insert(last_oks.end(), cur_oks.begin(), cur_oks.end());
         cur_oks.clear();
