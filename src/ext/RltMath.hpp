@@ -9,17 +9,29 @@
 
 #include <core/Relation.hpp>
 
+class RltMathOperation : public Relation
+{
+public:
+    RltMathOperation(const std::string name);
+    virtual ~RltMathOperation();
+
+    virtual void set_value(Value value);
+
+    virtual std::vector<Object *> get_objs_need_value() const;
+    virtual bool perform(std::vector<Object *> &need_objs) = 0;
+
+protected:
+private:
+};
+
 ///////////////////////////////////////////////////////////
 
-class RltPlus : public Relation {
+class RltPlus : public RltMathOperation {
 public:
     RltPlus(const std::string name);
     virtual ~RltPlus();
 
-    virtual void set_value(Value value);
-
     virtual bool can_perform(const Object *pobj) const;
-    virtual std::vector<Object *> get_objs_need_value() const;
     virtual bool perform(std::vector<Object *> &need_objs);
 
 protected:
@@ -28,13 +40,11 @@ private:
 
 ///////////////////////////////////////////////////////////
 
-class RltMinus : public Relation {
+class RltMinus : public RltMathOperation {
 public:
     RltMinus(const std::string name);
     virtual ~RltMinus();
 
-    virtual void set_value(Value value);
-
     //virtual bool can_perform(const Object *pobj) const;
     //virtual std::vector<Object *> get_objs_need_value() const;
     virtual bool perform(std::vector<Object *> &need_objs);
@@ -45,15 +55,12 @@ private:
 
 ///////////////////////////////////////////////////////////
 
-class RltDevide : public Relation {
+class RltDevide : public RltMathOperation {
 public:
     RltDevide(const std::string name);
     virtual ~RltDevide();
 
-    virtual void set_value(Value value);
-
     virtual bool can_perform(const Object *pobj) const;
-    virtual std::vector<Object *> get_objs_need_value() const;
     virtual bool perform(std::vector<Object *> &need_objs);
 
 protected:
@@ -62,12 +69,10 @@ private:
 
 ///////////////////////////////////////////////////////////
 
-class RltMultiple : public Relation {
+class RltMultiple : public RltMathOperation {
 public:
     RltMultiple(const std::string name);
     virtual ~RltMultiple();
-
-    virtual void set_value(Value value);
 
     //virtual bool can_perform(const Object *pobj) const;
     //virtual std::vector<Object *> get_objs_need_value() const;
@@ -79,12 +84,10 @@ private:
 
 ///////////////////////////////////////////////////////////
 
-class RltEqual : public Relation {
+class RltEqual : public RltMathOperation {
 public:
     RltEqual(const std::string name);
     virtual ~RltEqual();
-
-    virtual void set_value(Value value);
 
     virtual bool can_perform(const Object *pobj) const;
     virtual std::vector<Object *> get_objs_need_value() const;

@@ -31,10 +31,8 @@ TEST_CASE("PerformRound", "[ext]") {
         ObjValue c("c");
 
         RltPlus plus("plus");
-        RltEqual equal("equal");
 
-        plus.relate({&a, &b});
-        equal.relate({&c, &plus});
+        plus.relate({&c, &a, &b});
 
         a.set_value(Value(100));
         b.set_value(Value(20));
@@ -47,28 +45,31 @@ TEST_CASE("PerformRound", "[ext]") {
     }
 
     SECTION("Formula3") {
-        // c = a + b / 5
+        // c = b + a / 5
         ObjValue a("a");
         ObjValue b("b");
         ObjValue c("c");
-        ObjValue d("5");
+        ObjValue v5("5");
+        ObjValue tmp1("tmp1");
+        ObjValue tmp2("tmp2");
+
         RltPlus plus("plus");
         RltDevide devide("devide");
         RltEqual equal("equal");
 
-        devide.relate({&b, &d});
-        plus.relate({&a, &devide});
-        equal.relate({&c, &plus});
+        devide.relate({&tmp1, &a, &v5});
+        plus.relate({&tmp2, &b, &tmp1});
+        equal.relate({&c, &tmp2});
 
         a.set_value(Value(100));
         b.set_value(Value(20));
-        d.set_value(Value(5));
+        v5.set_value(Value(5));
 
         PerformRound perform(-1);
         REQUIRE(perform.perform(&c));
 
         REQUIRE(c.get_value().get_type() == Value::TYPE_INT);
-        REQUIRE(c.get_value().get_int() == 104);
+        REQUIRE(c.get_value().get_int() == 40);
     }
 }
 

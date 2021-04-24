@@ -7,67 +7,71 @@ using namespace std;
 
 TEST_CASE("relation plus/minus/multiple/devide", "[ext]") {
     SECTION("plus") {
-        // add = a + b
+        // c = a + b
         ObjValue a("a");
         ObjValue b("b");
+        ObjValue c("c");
         RltPlus plus("add");
 
         a.set_value(Value(123));
         b.set_value(Value(100));
-        plus.relate({&a, &b});
+        plus.relate({&c, &a, &b});
 
         vector<Object *> needs;
         REQUIRE(plus.perform(needs));
 
-        REQUIRE(plus.get_value().get_int() == 223);
+        REQUIRE(c.get_value().get_int() == 223);
     }
 
     SECTION("minus") {
-        // add = a + b
+        // c = a - b
         ObjValue a("a");
         ObjValue b("b");
+        ObjValue c("c");
         RltMinus minus("minus");
 
         a.set_value(Value(123));
         b.set_value(Value(100));
-        minus.relate({&a, &b});
+        minus.relate({&c, &a, &b});
 
         vector<Object *> needs;
         REQUIRE(minus.perform(needs));
 
-        REQUIRE(minus.get_value().get_int() == 23);
+        REQUIRE(c.get_value().get_int() == 23);
     }
 
     SECTION("multiple") {
-        // devide = a / b;
+        // c = a * b;
         ObjValue a("a");
         ObjValue b("b");
+        ObjValue c("c");
         RltMultiple multiple("multiple"); // 商:quotient
 
         a.set_value(Value(17));
         b.set_value(Value(40));
-        multiple.relate({&a, &b});
+        multiple.relate({&c, &a, &b});
 
         vector<Object *> needs;
         REQUIRE(multiple.perform(needs));
 
-        REQUIRE(multiple.get_value().get_int() == 680);
+        REQUIRE(c.get_value().get_int() == 680);
     }
 
     SECTION("devide") {
-        // devide = a / b;
+        // c = a / b;
         ObjValue a("a");
         ObjValue b("b");
+        ObjValue c("c");
         RltDevide devide("devide"); // 商:quotient
 
         a.set_value(Value(200));
         b.set_value(Value(40));
-        devide.relate({&a, &b});
+        devide.relate({&c, &a, &b});
 
         vector<Object *> needs;
         REQUIRE(devide.perform(needs));
 
-        REQUIRE(devide.get_value().get_int() == 5);
+        REQUIRE(c.get_value().get_int() == 5);
     }
 
     SECTION("equal") {
