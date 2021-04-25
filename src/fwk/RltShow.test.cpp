@@ -3,8 +3,8 @@
 #include <core/Object.hpp>
 #include <core/Relation.hpp>
 
-#include <fwk/ObjGraphviz.hpp>
 #include <ext/ObjValue.hpp>
+#include <fwk/ObjGraphviz.hpp>
 #include <fwk/RltShow.hpp>
 
 TEST_CASE("relation show", "[ext][block]") {
