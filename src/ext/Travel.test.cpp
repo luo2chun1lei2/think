@@ -90,7 +90,7 @@ TEST_CASE("travel", "[ext]") {
         /**
          * 遍历某个对象相关的关系和对象。
          */
-        SECTION("Trave all objects with one object.") {
+        SECTION("Travel all objects with one object.") {
             MyTravel travel;
 
             travel.travel(&a);

@@ -33,8 +33,8 @@ TEST_CASE("Tree", "[misc]") {
 
         SECTION("TravelPreorder") {
             vector<string> path;
-            TreeNode<string>::travelByPreorder(
-                &node_1, [&path](TreeNode<string> *node) { path.push_back(node->get_data()); });
+            TreeNode<string>::travelByPreorder(&node_1,
+                                               [&path](TreeNode<string> *node) { path.push_back(node->get_data()); });
 
             REQUIRE(path.size() == 8);
             REQUIRE(path[0] == "1");
@@ -49,8 +49,8 @@ TEST_CASE("Tree", "[misc]") {
 
         SECTION("TravelPostorder") {
             vector<string> path;
-            TreeNode<string>::travelByPostorder(
-                &node_1, [&path](TreeNode<string> *node) { path.push_back(node->get_data()); });
+            TreeNode<string>::travelByPostorder(&node_1,
+                                                [&path](TreeNode<string> *node) { path.push_back(node->get_data()); });
 
             REQUIRE(path.size() == 8);
             REQUIRE(path[0] == "1.1.1");

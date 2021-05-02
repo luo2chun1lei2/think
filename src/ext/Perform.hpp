@@ -12,7 +12,7 @@ public:
 /**
  * 通过一轮一轮的循环处理所有的Relation，直到获得对象值，或者OR-Net无改变。
  */
-class PerformRound : public IPerform{
+class PerformRound : public IPerform {
 public:
     PerformRound(int max_round);
     virtual ~PerformRound();
@@ -53,12 +53,12 @@ private:
 
 /**
  * 通过分析对象相关的关系，找到关联影响树后，进行处理。
- * 效率高。
+ * 找到*被影响*【不是影响的顺序！】顺序后，开始处理影响，效率高。
  */
-class PerformEffectTree : IPerform {
+class PerformAffectedTree : IPerform {
 public:
-    PerformEffectTree();
-    virtual ~PerformEffectTree();
+    PerformAffectedTree();
+    virtual ~PerformAffectedTree();
 
     /**
      * 根据pobj的关联关系，运转得到pobj的状态。
@@ -66,6 +66,7 @@ public:
     virtual bool perform(Object *pobj);
 
 protected:
+    // TODO: need ？
     // If return false, travel will be broken.
     virtual bool on_meet_obj(Object *pobj);
     // If return false, travel will be broken.

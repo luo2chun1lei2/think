@@ -2,7 +2,9 @@
 
 #include <algorithm>
 
+#include <ext/Travel.hpp>
 #include <misc/Misc.hpp>
+#include <misc/Tree.hpp>
 
 using namespace std;
 
@@ -76,19 +78,53 @@ bool PerformRound::perform(Object *pobj) {
 
 ///////////////////////////////////////////////////////////
 
-PerformEffectTree::PerformEffectTree() {
+PerformAffectedTree::PerformAffectedTree() {
 }
 
-PerformEffectTree::~PerformEffectTree() {
+PerformAffectedTree::~PerformAffectedTree() {
 }
 
-bool PerformEffectTree::on_meet_obj(Object *pobj) {
+bool PerformAffectedTree::on_meet_obj(Object *pobj) {
     return true;
 }
 
-bool PerformEffectTree::on_meet_rlt(Relation *prlt) {
+bool PerformAffectedTree::on_meet_rlt(Relation *prlt) {
     return true;
 }
+
+class Travel1 : public Travel {
+public:
+    Travel1(TreeNode<Object *> *root_node)
+        : root_node(root_node) {
+        last_rlt = nullptr;
+        last_obj = nullptr;
+    }
+
+protected:
+    virtual bool on_meet_obj(Object *pobj) {
+        if (last_rlt == nullptr) {
+            // 根节点。
+            root_node->set_data(pobj);
+            last_obj = root_node;
+        } else {
+            last_obj = new TreeNode<Object *>(pobj);
+            last_rlt->add_sub(last_obj);
+        }
+        return true;
+    }
+
+    virtual bool on_meet_rlt(Relation *prlt) {
+        last_rlt = new TreeNode<Object *>(prlt);
+        last_obj->add_sub(last_rlt);
+        return true;
+    }
+
+private:
+    TreeNode<Object *> *last_rlt;
+    TreeNode<Object *> *last_obj;
+
+    TreeNode<Object *> *root_node;
+};
 
 /**
  * 原理：
@@ -108,109 +144,31 @@ bool PerformEffectTree::on_meet_rlt(Relation *prlt) {
  * 1. 按照深度遍历方法，从根节点开始找到叶子，然后回退，碰到关系就运转。
  *   如果失败，就打出关联的Path。
  */
-bool PerformEffectTree::perform(Object *pobj) {
-    // 记录已经遍历后的对象。
-    vector<Object *> dones;
+bool PerformAffectedTree::perform(Object *pobj) {
+    // 根据相关性得到Tree。
+    TreeNode<Object *> tree_root;
+    Travel1 travel(&tree_root);
+    travel.travel(pobj);
 
-    // 记录还没有遍历的对象。
-    vector<Object *> waits;
+    // 用Tree分析“执行路径”。
+    vector<Object *> path;
+    TreeNode<Object *>::travelByPostorder(&tree_root,
+                                          [&path](TreeNode<Object *> *node) { path.push_back(node->get_data()); });
 
-    waits.push_back(pobj);
-
-    vector<Object *> affect_tree;
-
-    ///////////////////////////////////
-    // 形成影响树(Affect Tree)。
-    do {
-        // 没有需要修剪的对象，就可以退出。
-        if (waits.empty()) {
-            break;
-        }
-
-        // 得到需要处理的对象。
-        Object *wait = waits.back();
-        waits.pop_back();
-
-        // LOGE("pop %s\n", typeid(*wait).name());
-
-        // 如果之前已经处理过了，就忽略。
-        if (std::find(dones.begin(), dones.end(), wait) != dones.end()) {
-            continue;
-        }
-
-        // 处理。
-        Relation *prlt = dynamic_cast<Relation *>(wait);
-        if (prlt) {
-            // 如果目标是“关系”，那么就查看关系是否可以运转，
-            // 如果不能，就将需要的“对象”放入等待队列中。
-
-            if (on_meet_rlt(prlt) == false) {
-                break;
-            }
-
-            for (Relation *prlt : wait->get_rlts()) {
-                vector<Object *> needs;
-
-                if (!prlt->can_perform(wait)) {
-                    // 这个关系无法运转wait对象，所以放弃！
-                    continue;
-                }
-
-                if (prlt->perform(needs)) {
-                    // 这个关系可以运转得到结果！
-                } else {
-                    // 这个关系无法运转！
-                    if (needs.size() == 0) {
-                        // 无法运转是因为“不能”，跳过。
-                    } else {
-                        // 无法运转是因为有内部对象欠缺，加入栈，看是探索对象！
-                        waits.insert(waits.end(), needs.begin(), needs.end());
-                    }
-                }
-            }
-
-            // vector<Object *> needs;
-            // if (prlt->perform(needs)) {
-            //     // 处理完成！
-            // } else
-
-            // // for( auto o : rlt->get_objects()) {
-            // //     LOGE("insert o: %s\n", o->get_name().c_str());
-            // // }
-            // waits.insert(waits.end(), rlt->get_objects().begin(), rlt->get_objects().end());
-
-            // // for( auto o : rlt->get_rlts()) {
-            // //     LOGE("insert r: %s\n", o->get_name().c_str());
-            // // }
-            // // Relation is also a object, so it has relations.
-            // waits.insert(waits.end(), rlt->get_rlts().begin(), rlt->get_rlts().end());
-
+    // 最后根据路径来计算。
+    for (Object *obj : path) {
+        Relation *rlt = dynamic_cast<Relation *>(obj);
+        if (rlt) {
+            vector<Object *> needs;
+            // TODO: 返回值
+            rlt->perform(needs);
         } else {
-            // 如果是“对象”，就看是否有值。
-            // 如果没有，就看是否通过关联的关系获取！
-            if (on_meet_obj(wait) == false) {
-                break;
-            }
-
-            if (wait->get_value().get_type() != Value::TYPE_NONE) {
-                // 有值，返回！
-            }
-
-            // 把对象的所有关系都压栈，然后放入到等待队列中。
-            waits.insert(waits.end(), wait->get_rlts().begin(), wait->get_rlts().end());
-
-            // for( auto o : wait->get_rlts()) {
-            //     LOGE("insert r: %s\n", o->get_name().c_str());
-            // }
+            // TODO: 检查object
         }
+    }
 
-        // 如果处理过了，就放入到处理过的队列中。
-        dones.push_back(wait);
-
-    } while (true);
-
-    ///////////////////////////////////
-    // 遍历影响树
+    // 回收资源
+    tree_root.clean_children(true, false);
 
     return true;
 }
