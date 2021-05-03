@@ -30,6 +30,7 @@ public:
     Value(const std::string v);
 
     Type get_type() const;
+
     /* 不能设置类型！ 因为类型是设置具体值时决定的。 */
     // void set_type(Type type);
 
@@ -38,7 +39,6 @@ public:
     virtual void set_var(double var);
     virtual void set_var(const std::string var);
 
-    // TODO: 返回指针？
     Variant get_var() const;
     virtual int get_int() const;
     virtual double get_double() const;

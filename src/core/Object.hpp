@@ -19,6 +19,8 @@ class Relation;
  * 2. 包含多个关系，这些关系都和此对象有联系。但是并不是说有此关系一定会修改这个对象的状态。
  * 3. 每个对象都可以读取和设置值，不过并不是所有的对象都可以设置值，或者获取值。
  * 4. 是 subject-observer 的接受方(observer)。 【空实现】
+ * 
+ * 【IValue是说目前所有的对象都有的特性】
  */
 class Object : public IValue
 {
@@ -59,7 +61,8 @@ public:
 
 	///////////////////////////////////////////////////////
 	// 持有(Hold) ： IValue
-	// TODO: 是否应该将 IValue的实现移动到 ObjValue 类中？
+	// 数值的部分，作为整个Object的共通逻辑，而不是只有值对象。
+	// 后面如果开发出了类型，那么这里可以再思考。
 	virtual Value get_value();
     virtual void set_value(Value value);
 

@@ -45,7 +45,6 @@ Value::Value(const Value &v) {
 }
 
 Value::~Value() {
-    // TODO: 遇到崩溃，先删除！
     delete this->var;
 }
 
@@ -53,13 +52,6 @@ Value::Type Value::get_type() const {
     return type;
 }
 
-/* 不能设置类型！
-void Value::set_type(Value::Type type) {
-    this->type = type;
-}
-*/
-
-// TODO: 返回指针？
 Value::Variant Value::get_var() const {
     if (var == nullptr) {
         return Variant();
