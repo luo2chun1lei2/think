@@ -1,72 +1,42 @@
-#include <getopt.h>
 #include <stdio.h>
 #include <stdlib.h>
 
+#include <app/ParseArgs.hpp>
+#include <app/Process.hpp>
+#include <app/Interview.hpp>
+
 #include <misc/Misc.hpp>
 
-/*
-#include <Interview.hpp>
-#include <Process.hpp>
-*/
-
-static const char *_sopts = "hi";
-extern char *optarg;
-static const struct option _lopts[] = {
-    {"help", no_argument, 0, 'h'}, {"interactive", no_argument, 0, 'i'}, {0, 0, 0, 0}};
-
-static const char *usage = "Usage: %s [options] <script path>\n"
-                           "  <script path>   execute script by given path.\n"
-                           "options:\n"
-                           "  -h, --help            prints this message and exit.\n"
-                           "  -i, --interactive     run into interactive mode.\n"
-                           "\n";
-
-static void print_usage_and_exit(const char *prog, int code) {
-    LOGE(usage, prog);
-    exit(code);
-}
+using namespace std;
 
 int main(int argc, char *argv[]) {
     // LOGI("start think...\n");
 
-    int c;
-    int oidx = 0;
-
-    bool enter_interactive = false;
-    const char *script_path = NULL;
-
-    while (1) {
-        c = getopt_long(argc, argv, _sopts, _lopts, &oidx);
-        if (c == -1)
-            break; /* done */
-
-        switch (c) {
-            case 'h':
-                print_usage_and_exit(argv[0], EXIT_SUCCESS);
-                break;
-            case 'i':
-                enter_interactive = true;
-                break;
-            default:
-                print_usage_and_exit(argv[0], EXIT_FAILURE);
-                break;
-        }
+    MainControl control;
+    if (!parse_command_args(&control, argc, argv)) {
+        exit(1);
     }
 
-    // 非option的参数，就是脚本的路径。
-    // TODO 目前只支持一个，且最后一个。
-    if (optind < argc) {
-        while (optind < argc)
-            script_path = argv[optind++];
+    /**
+     * 目前的设计: 我想通过脚本，生成不同的 Process（负责不同的脚本解析），
+     * 但是想要设定不同的Process，那么就需要分析脚本的设定，这个就有矛盾，因为Process就是分析脚本的。
+     * 全部由Process解析，但是Process可以组合。
+     * Script File  -- pipe --> Process         -- pipe --> DM
+     *              -- pipe --> Special Process -- pipe --> DM
+     * Interview    -- pipe -->
+     */
+
+    ProcessCmdLine process;
+
+    // TODO: Script files -> Process
+    for (string script_path : control.script_pathes) {
+        process.exec_script(script_path);
     }
 
-    /*
-        exec_script(script_path);
-
-        if (enter_interactive) {
-            Interview interview;
-            interview.loop();
-        }
-    */
+    // TODO: Interview -> Process
+    if (control.enter_interactive) {
+        Interview interview(&process);
+        interview.loop();
+    }
     return 0;
 }
