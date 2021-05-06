@@ -1,4 +1,5 @@
 #include <app/Process.hpp>
+#include <misc/Graphviz.hpp>
 
 #include <stdlib.h>
 #include <unistd.h>
@@ -76,11 +77,12 @@ bool ProcessCmdLine::exec(const std::string cmd) {
         Model *model = new Model(name);
         this->set_model(model);
         return true;
-        /*
-            } else if (start_str == "Output") {
-                // output model.
-                return output_graphviz(name, parse);
-        */
+
+    } else if (start_str == "Output") {
+        // output model.
+        // TODO: 这里当做动作！
+        return output_graphviz(name, parse);
+
     } else if (start_str == "Object") {
 
         model->add_obj(name, Properties());
@@ -95,7 +97,7 @@ bool ProcessCmdLine::exec(const std::string cmd) {
     } else if (start_str == "Relation") {
         // Create a relation.
         // Relation *rlt = new Relation(name);
-        if( !model->add_rlt(name, Properties())) {
+        if (!model->add_rlt(name, Properties())) {
             LOGE("Cannot add relation(%s).\n", name.c_str());
             return false;
         }
@@ -152,29 +154,28 @@ bool ProcessCmdLine::exec(const std::string cmd) {
     return false;
 }
 
-/*
 bool ProcessCmdLine::output_graphviz(const string name, ParseCommandLineWithProperties &parse) {
 
     string str_option = parse.get_prop_value("option");
     string str_type = parse.get_prop_value("type");
 
-    OutputGraphviz *output = nullptr;
+    Graphviz *output = nullptr;
 
-    OutputGraphviz::Type type;
+    Graphviz::Type type;
     if (str_type == "basic") {
-        type = OutputGraphviz::TYPE_BASIC;
+        type = Graphviz::TYPE_BASIC;
     } else if (str_type == "list") {
-        type = OutputGraphviz::TYPE_LIST;
+        type = Graphviz::TYPE_LIST;
     } else if (str_type == "call") {
-        type = OutputGraphviz::TYPE_CALL;
+        type = Graphviz::TYPE_CALL;
     } else if (str_type == "layout") {
-        type = OutputGraphviz::TYPE_LAYOUT;
+        type = Graphviz::TYPE_LAYOUT;
     } else {
-        type = OutputGraphviz::TYPE_BASIC;
+        type = Graphviz::TYPE_BASIC;
     }
 
     if (str_option == "text") {
-        output = new OutputGraphviz(name, OutputGraphviz::GRAPH_TEXT, type);
+        output = new Graphviz(name, Graphviz::GRAPH_TEXT, type);
 
         // 生成临时文件。
         char path[] = "/tmp/XXXXXX.txt";
@@ -187,7 +188,7 @@ bool ProcessCmdLine::output_graphviz(const string name, ParseCommandLineWithProp
 
         // 设定临时文件路径。
         output->set_output_filepath(path);
-        output->output(this->model);
+        //output->output(this->model);
 
         // 显示graphviz内部的绘制脚本，而不是dot本身的脚本。
         ostringstream stream;
@@ -195,7 +196,7 @@ bool ProcessCmdLine::output_graphviz(const string name, ParseCommandLineWithProp
         auto cmd = stream.str();
         system(cmd.c_str());
     } else { // SVG is default。
-        output = new OutputGraphviz(name, OutputGraphviz::GRAPH_SVG, type);
+        output = new Graphviz(name, Graphviz::GRAPH_SVG, type);
 
         // 生成临时文件。
         char path[] = "/tmp/XXXXXX.svg";
@@ -208,7 +209,7 @@ bool ProcessCmdLine::output_graphviz(const string name, ParseCommandLineWithProp
 
         // 设定临时文件路径。
         output->set_output_filepath(path);
-        output->output(this->model);
+        //output->output(this->model);
 
         // 执行显示图片的命令，system必须退出才行。
         ostringstream stream;
@@ -219,7 +220,7 @@ bool ProcessCmdLine::output_graphviz(const string name, ParseCommandLineWithProp
 
     return true;
 }
-*/
+
 bool ProcessCmdLine::init_all_properties(string obj_name, ParseCommandLineWithProperties::Properties properties) {
 
     for (pair<string, string> one : properties) {

@@ -69,7 +69,7 @@ protected:
 
 	// 根据来自commandline的properties设置elm的内部属性。
 	bool init_all_properties(std::string obj_name, ParseCommandLineWithProperties::Properties properties);
-/*	bool output_graphviz(const std::string name, ParseCommandLineWithProperties &parse);
-*/
+	bool output_graphviz(const std::string name, ParseCommandLineWithProperties &parse);
+
 private:
 };

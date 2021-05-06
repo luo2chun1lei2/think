@@ -4,7 +4,6 @@
 
 #Process name=process type=basic
 Model name=mdl
-#Output name=out type=graphviz
 
 Object name=罗某 age=28
 Object name=罗妻 age=25
@@ -30,3 +29,5 @@ Relation name=母女 relate=罗女,罗妻
 Relation name=夫妻 relate=罗女,罗某
 Relation name=夫妻 relate=罗母,罗父
 Relation name=夫妻 relate=罗奶,罗爷
+
+Output name=out type=graphviz
