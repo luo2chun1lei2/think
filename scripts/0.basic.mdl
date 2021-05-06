@@ -6,25 +6,27 @@
 Model name=mdl
 #Output name=out type=graphviz
 
-Object name="罗某" age=28
-Object name="罗妻" age=25
-Object name="罗父" age=52
-Object name="罗母" age=51
-Object name="罗爷" age=78
-Object name="罗奶" age=72
-Object name="罗子" age=3
-Object name="罗女" age=1
+Object name=罗某 age=28
+Object name=罗妻 age=25
+Object name=罗父 age=52
+Object name=罗母 age=51
+Object name=罗爷 age=78
+Object name=罗奶 age=72
+Object name=罗子 age=3
+Object name=罗女 age=1
 
-Relation name="父子" from="罗爷" to="罗父"
-Relation name="父子" from="罗父" to="罗某"
-Relation name="父子" from="罗某" to="罗子"
+#Relation name=父子 relate=a,b
 
-Relation name="母子" from="罗奶" to="罗母"
-Relation name="母子" from="罗母" to="罗某"
-Relation name="母子" from="罗妻" to="罗子"
+Relation name=父子 relate=罗父,罗爷
+Relation name=父子 relate=罗某,罗父
+Relation name=父子 relate=罗子,罗某
 
-Relation name="母女" from="罗妻" to="罗女"
+Relation name=母子 relate=罗母,罗奶
+Relation name=母子 relate=罗某,罗母
+Relation name=母子 relate=罗子,罗妻
 
-Relation name="夫妻" from="罗某" to="罗女"
-Relation name="夫妻" from="罗父" to="罗母"
-Relation name="夫妻" from="罗爷" to="罗奶"
+Relation name=母女 relate=罗女,罗妻
+
+Relation name=夫妻 relate=罗女,罗某
+Relation name=夫妻 relate=罗母,罗父
+Relation name=夫妻 relate=罗奶,罗爷

@@ -21,14 +21,14 @@ bool CombineLine::add(std::string line, std::string &all) {
 // ElementType格式等于 property_name
 // property_name :
 // 是两种情况，一种是用双引号来括起来文字，什么文字都可以。另外一种是"汉字\字母\数\_"组成的无空格字符串。 比如：  abc123
-// or "a b c 1 2 3" or abc_123 property_value:
-// 是两种情况，一种是用双引号括起来的文字，另外一种是表达式，可以是“汉字\字母\数\.\_”，目前不允许运算符号“+-*/%”等。
+// or "a b c 1 2 3" or abc_123 property_value, 或者 a,b,c
+// 是两种情况，一种是用双引号括起来的文字，另外一种是表达式，可以是“汉字\字母\数\.\_，”，目前不允许运算符号“+-*/%”等。
 // 比如：  abc123  or "a b c 1 2 3" or abc_123 or abc.123
 // \u4e00-\u9fa5 是中文。
 // 区分名字和值，是不同的表达式。
 
 #define PROP_NAME "(\"([^\"])+\"|[\u4e00-\u9fa5a-zA-Z0-9_]+)"
-#define PROP_VALUE "(\"([^\"])+\"|[\u4e00-\u9fa5a-zA-Z0-9\\._]+)"
+#define PROP_VALUE "(\"([^\"])+\"|[\u4e00-\u9fa5a-zA-Z0-9\\.,_]+)"
 
 bool ParseCommandLineWithProperties::parse_match(const std::string cmdline) {
     string pattern = "^[[:space:]]*" PROP_NAME "([[:space:]]+" PROP_NAME "=" PROP_VALUE ")*[[:space:]]*$";
@@ -155,4 +155,17 @@ bool ParseExpr::parse(const std::string expr) {
 
 ParseExpr::Path ParseExpr::get_path() {
     return path;
+}
+
+std::vector<std::string> split_str(const std::string s, const string &delimiters) {
+    vector<string> tokens;
+    string::size_type lastPos = s.find_first_not_of(delimiters, 0);
+    string::size_type pos = s.find_first_of(delimiters, lastPos);
+    while (string::npos != pos || string::npos != lastPos) {
+        tokens.push_back(s.substr(lastPos, pos - lastPos));
+        lastPos = s.find_first_not_of(delimiters, pos);
+        pos = s.find_first_of(delimiters, lastPos);
+    }
+
+    return tokens;
 }

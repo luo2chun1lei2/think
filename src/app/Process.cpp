@@ -69,18 +69,18 @@ bool ProcessCmdLine::exec(const std::string cmd) {
         return false;
     }
 
-    //ParseCommandLineWithProperties::Properties properties = parse.get_all_properties_except_name();
+    // ParseCommandLineWithProperties::Properties properties = parse.get_all_properties_except_name();
 
     if (start_str == "Model") {
         // Create a model
         Model *model = new Model(name);
         this->set_model(model);
         return true;
-/*
-    } else if (start_str == "Output") {
-        // output model.
-        return output_graphviz(name, parse);
-*/
+        /*
+            } else if (start_str == "Output") {
+                // output model.
+                return output_graphviz(name, parse);
+        */
     } else if (start_str == "Object") {
 
         model->add_obj(name, Properties());
@@ -91,74 +91,60 @@ bool ProcessCmdLine::exec(const std::string cmd) {
         }
 
         return true;
-/*
+
     } else if (start_str == "Relation") {
         // Create a relation.
-        Relation *rlt = new Relation(name);
+        // Relation *rlt = new Relation(name);
+        if( !model->add_rlt(name, Properties())) {
+            LOGE("Cannot add relation(%s).\n", name.c_str());
+            return false;
+        }
 
-        if (!init_all_properties(rlt, properties)) {
+        if (!init_all_properties(name, properties)) {
             LOGE("Cannot initialize properties of relation(%s).\n", name.c_str());
             return false;
         }
 
-        string from_str = parse.get_prop_value("from");
-        if (from_str == "") {
-            LOGE("Relation(%s) hasn't from.\n", name.c_str());
+        // get relate
+        string relate_str = parse.get_prop_value("relate");
+        if (relate_str == "") {
+            LOGE("Relation(%s) doesn't set relation.\n", relate_str.c_str());
             return false;
         }
 
-        vector<Element *> from_elms = model->find_elm(from_str);
-        if (from_elms.size() == 0) {
-            LOGE("Relation(%s) cannot find from(%s).\n", name.c_str(), from_str.c_str());
-            return false;
+        vector<string> obj_names = split_str(relate_str, ",");
+
+        for (string o : obj_names) {
+            if (!model->have_obj_by_name(o)) {
+                LOGE("Relation(%s) cannot find related object(%s).\n", name.c_str(), o.c_str());
+                return false;
+            }
         }
 
-        if (from_elms.size() > 1) {
-            LOGE("Relation(%s) finds multiple from(%s).\n", name.c_str(), from_str.c_str());
-            return false;
-        }
+        // set relation between objects and relation.
+        model->relate(name, obj_names);
 
-        string to_str = parse.get_prop_value("to");
-        if (to_str == "") {
-            LOGE("Relation(%s) hasn't to.\n", name.c_str());
-            return false;
-        }
-
-        vector<Element *> to_elms = model->find_elm(to_str);
-        if (to_elms.size() == 0) {
-            LOGE("Relation(%s) cannot find to(%s).\n", name.c_str(), to_str.c_str());
-            return false;
-        }
-
-        if (to_elms.size() > 1) {
-            LOGE("Relation(%s) finds multiple to(%s).\n", name.c_str(), to_str.c_str());
-            return false;
-        }
-
-        rlt->relate(from_elms[0], to_elms[0]);
-
-        model->add_elm(rlt);
         return true;
+        /*
+            } else if (start_str == "Query") {
+                // TODO: 生成一个查询对象，应该是临时的？或者是永久的？
+                Query *query = new Query(name);
 
-    } else if (start_str == "Query") {
-        // TODO: 生成一个查询对象，应该是临时的？或者是永久的？
-        Query *query = new Query(name);
+                string expr = parse.get_prop_value("value");
 
-        string expr = parse.get_prop_value("value");
+                Element *elm = query->query(model, expr);
+                // TODO: 这里用日志直接输出，有点不好吧？
 
-        Element *elm = query->query(model, expr);
-        // TODO: 这里用日志直接输出，有点不好吧？
-
-        string result = "error";
-        if (elm) {
-            result = elm->get_value();
-        }
-        LOGI("%s\n", result.c_str());
-        return true;
-    } else if (start_str == "Clear") {
-        // TODO: no impl，感觉没有必要！
-        return false;
-        */
+                string result = "error";
+                if (elm) {
+                    result = elm->get_value();
+                }
+                LOGI("%s\n", result.c_str());
+                return true;
+            } else if (start_str == "Clear") {
+                // TODO: no impl，感觉没有必要！
+                return false;
+                */
     }
 
     LOGE("Unknown(%s) element or operation.\n", start_str.c_str());
@@ -246,5 +232,3 @@ bool ProcessCmdLine::init_all_properties(string obj_name, ParseCommandLineWithPr
 
     return true;
 }
-
-

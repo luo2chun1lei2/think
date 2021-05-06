@@ -46,8 +46,8 @@ void Interview::loop() {
     size_t line_n;
     while (getline(&line, &line_n, stdin) != -1) {
         size_t l = strlen(line);
-        if ( line[l-1] == '\n' ) {
-            line[l-1] = '\0';
+        if (line[l - 1] == '\n') {
+            line[l - 1] = '\0';
         }
         is_quit = parse_input(line);
 

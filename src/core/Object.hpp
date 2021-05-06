@@ -92,6 +92,7 @@ public:
 	///////////////////////////////////////////////////////
 	// Object-Relation Net
 	virtual bool relate(std::initializer_list<Object *> il);
+	virtual bool relate(std::vector<Object *> objs);
 	virtual size_t get_count_of_objs();
 	virtual Object * get_obj(uint32_t index);
 	virtual bool add_obj(Object * pobj);
