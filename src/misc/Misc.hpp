@@ -54,6 +54,16 @@ public:
 	virtual Properties get_properties() {
 		return properties;
 	}
+
+	virtual Properties get_all_properties_except_name() {
+		Properties no_names;
+		for(auto one : properties) {
+			if (one.first != "name") {
+				no_names.push_back(one);
+			}
+		}
+		return no_names;
+	}
 	
 	virtual std::string get_prop_value(const std::string prop_key);
 	

@@ -3,36 +3,48 @@
 /**
  * @file
  * @brief 处理脚本等事物。
- * 
  */
 
 #include <string>
 
-class ProcessCmdLine
+#include <misc/Misc.hpp>
+#include <app/Model.hpp>
+
+/**
+ * 根据外部传入的命令，执行
+ */
+class Process
+{
+public:
+	virtual bool exec(const std::string cmd) = 0;
+protected:
+private:
+};
+
+class ProcessCmdLine : public Process
 {
 public:
 	ProcessCmdLine() {
-		//model = nullptr;
+		model = nullptr;
 	}
 
-/*
 	// model被内部管理，外部不负责删除。
 	ProcessCmdLine(Model *model) {
 		this->model = model;
 	}
-*/	
+
 	virtual ~ProcessCmdLine() {
-		// if (model) {
-		// 	delete model;
-		// }
+		if (model) {
+		 	delete model;
+		}
 	}
-	/*
+	
 	// model被内部管理，外部不负责删除。
 	virtual void set_model(Model *model) {
 		if (this->model)
 			delete this->model;
 		this->model = model;
-	} */
+	}
 
     /**
      * @brief 处理一个脚本文件。
@@ -51,13 +63,13 @@ public:
 	virtual bool exec(const std::string cmd);
 	
 protected:
-/*
+
 	// 当前只有一个model。
 	Model *model;
 
 	// 根据来自commandline的properties设置elm的内部属性。
-	bool init_all_properties(Element * elm, ParseCommandLineWithProperties::Properties properties);
-	bool output_graphviz(const std::string name, ParseCommandLineWithProperties &parse);
+	bool init_all_properties(std::string obj_name, ParseCommandLineWithProperties::Properties properties);
+/*	bool output_graphviz(const std::string name, ParseCommandLineWithProperties &parse);
 */
 private:
 };

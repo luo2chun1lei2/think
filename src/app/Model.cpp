@@ -4,28 +4,76 @@
 
 using namespace std;
 
-#if 0
-Model::Model(const std::string name)
-    : Element(name) {
+
+Model::Model(const std::string name) {
 }
 
 Model::~Model() {
-    elms.clear();
+    _objs.clear();
 }
 
-bool Model::add_elm(Element *elm) {
-    if (elm == nullptr) {
+bool Model::add_obj(std::string name, Properties properties) {
+//bool add_elm(Element *elm) {
+    Object * found = find_obj_by_name(name);
+    if (!found) {
         return false;
     }
 
-    if (find_elm(elm->get_id()) != nullptr) {
-        return false;
-    }
+    add_obj(found);
 
-    elms.push_back(elm);
+    // TODO: properties 没有管！
 
     return true;
 }
+
+bool Model::add_obj(Object * obj)
+{
+    if (obj == nullptr) {
+        return false;
+    }
+    _objs.push_back(obj);
+    return true;
+}
+
+Object * Model::find_obj_by_name(const std::string name) const
+{
+    vector<Object *> found;
+    for (auto o : _objs) {
+        if (o->get_name() == name) {
+            found.push_back(o);
+        }
+    }
+
+    // TODO: 多个对象的问题！
+    if (found.empty()) {
+        return nullptr;
+    } else {
+        return found[0];
+    }
+}
+
+bool Model::add_prop_of_obj(std::string obj_name, std::string rlt_name, std::string to_name) {
+//bool Model::set_property_of_elm(Element *from, const std::string rlt_name, const std::string value) {
+
+    Object * found = find_obj_by_name(obj_name);
+    if (!found) {
+        return false;
+    }
+
+    // 创建 value, name=""就当做是匿名的！
+    Object *obj = new Object(to_name);
+    add_obj(obj);
+
+    // 创建Relation
+    Relation *rlt = new Relation(rlt_name);
+    rlt->relate({obj, found});
+    add_obj(rlt);
+
+    return true;
+}
+
+#if 0
+
 
 Element *Model::get_elm(uint32_t no) const {
     if (no >= elms.size()) {
@@ -50,14 +98,7 @@ Element *Model::find_elm(const ElementId id) const {
 }
 
 vector<Element *> Model::find_elm(const std::string name) const {
-    vector<Element *> found;
-    for (auto e : elms) {
-        if (e->get_name() == name) {
-            found.push_back(e);
-        }
-    }
-
-    return found;
+    
 }
 
 int Model::index_of(const ElementId id) const {
@@ -95,18 +136,6 @@ std::vector<Element *> Model::get_property_of_elm(const std::string elm_name, co
 bool Model::set_property_of_elm(const std::string elm_name, const std::string rlt_name, const Element *to) {
     // NO IMPL
     return false;
-}
-
-bool Model::set_property_of_elm(Element *from, const std::string rlt_name, const std::string value) {
-    // 创建 value, name=""就当做是匿名的！
-    Element *elm = new Element("");
-    elm->set_value(value);
-    add_elm(elm);
-
-    // 创建Relation
-    Relation *rlt = new Relation(rlt_name);
-    rlt->relate(from, elm);
-    add_elm(rlt);
 }
 
 #endif
