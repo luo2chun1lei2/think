@@ -14,20 +14,19 @@ Object name=罗奶 age=72
 Object name=罗子 age=3
 Object name=罗女 age=1
 
-#Relation name=父子 relate=a,b
+# TODO: relation的名字必须是不同的，为什么？
+Relation name=父子1 relate=罗父,罗爷
+Relation name=父子2 relate=罗某,罗父
+Relation name=父子3 relate=罗子,罗某
 
-Relation name=父子 relate=罗父,罗爷
-Relation name=父子 relate=罗某,罗父
-Relation name=父子 relate=罗子,罗某
+Relation name=母子1 relate=罗母,罗奶
+Relation name=母子2 relate=罗某,罗母
+Relation name=母子3 relate=罗子,罗妻
 
-Relation name=母子 relate=罗母,罗奶
-Relation name=母子 relate=罗某,罗母
-Relation name=母子 relate=罗子,罗妻
+Relation name=母女1 relate=罗女,罗妻
 
-Relation name=母女 relate=罗女,罗妻
-
-Relation name=夫妻 relate=罗女,罗某
-Relation name=夫妻 relate=罗母,罗父
-Relation name=夫妻 relate=罗奶,罗爷
+Relation name=夫妻1 relate=罗女,罗某
+Relation name=夫妻2 relate=罗母,罗父
+Relation name=夫妻3 relate=罗奶,罗爷
 
 Output name=out type=graphviz

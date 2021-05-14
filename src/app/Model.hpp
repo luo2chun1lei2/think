@@ -67,6 +67,8 @@ public:
 	// virtual bool set_property_of_elm(const std::string elm_name, const std::string rlt_name, const Element *to);
 	// virtual bool set_property_of_elm(Element *from, const std::string rlt_name, const std::string value);
 
+	virtual std::vector<Object *> get_objs();
+
 
 protected:
 	virtual Object * find_obj_by_name(const std::string name) const;

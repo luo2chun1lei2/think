@@ -1,5 +1,6 @@
 #include <app/Process.hpp>
 #include <misc/Graphviz.hpp>
+#include <fwk/ObjGraphviz.hpp>
 
 #include <stdlib.h>
 #include <unistd.h>
@@ -175,6 +176,7 @@ bool ProcessCmdLine::output_graphviz(const string name, ParseCommandLineWithProp
     }
 
     if (str_option == "text") {
+        /*
         output = new Graphviz(name, Graphviz::GRAPH_TEXT, type);
 
         // 生成临时文件。
@@ -194,8 +196,17 @@ bool ProcessCmdLine::output_graphviz(const string name, ParseCommandLineWithProp
         ostringstream stream;
         stream << "cat " << path;
         auto cmd = stream.str();
-        system(cmd.c_str());
+        system(cmd.c_str()); */
+
+        ObjGraphviz graphviz("output");
+        graphviz.begin_notify();
+        for(Object * obj : this->model->get_objs()) {
+            graphviz.notify(obj);
+        }
+        graphviz.end_notify();
+
     } else { // SVG is default。
+/*
         output = new Graphviz(name, Graphviz::GRAPH_SVG, type);
 
         // 生成临时文件。
@@ -209,13 +220,22 @@ bool ProcessCmdLine::output_graphviz(const string name, ParseCommandLineWithProp
 
         // 设定临时文件路径。
         output->set_output_filepath(path);
-        //output->output(this->model);
+        
+        // 根据模型产生图片。
+        output->output(this->model);
 
         // 执行显示图片的命令，system必须退出才行。
         ostringstream stream;
         stream << "eog " << path;
         auto cmd = stream.str();
         system(cmd.c_str());
+*/
+        ObjGraphviz graphviz("output");
+        graphviz.begin_notify();
+        for(Object * obj : this->model->get_objs()) {
+            graphviz.notify(obj);
+        }
+        graphviz.end_notify();
     }
 
     return true;

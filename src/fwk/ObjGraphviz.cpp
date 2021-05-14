@@ -1,5 +1,7 @@
 #include <fwk/ObjGraphviz.hpp>
 
+#include <misc/Misc.hpp>
+
 #include <stdlib.h>
 #include <unistd.h>
 
@@ -56,7 +58,7 @@ bool ObjGraphviz::end_notify() {
     for (Relation *rlt : notified_relations) {
 
         if (rlt->get_objects().size() < 2) {
-            // Cannot draw a edge if it has only ONE edge.
+            LOGE("Cannot draw a edge(%s) if it has only ONE edge.\n", rlt->get_name().c_str());
             return false;
         }
 
@@ -72,7 +74,7 @@ bool ObjGraphviz::end_notify() {
     }
 
     graphviz->finish_graphviz();
-
+LOGI("HERE\n");
     // 执行显示图片的命令，system必须退出才行。
     ostringstream stream;
     stream << "eog " << graphviz->get_output_filepath();

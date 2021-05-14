@@ -11,6 +11,10 @@ Model::~Model() {
     _objs.clear();
 }
 
+std::vector<Object *> Model::get_objs() {
+    return _objs;
+}
+
 bool Model::add_obj(std::string name, Properties properties) {
     // bool add_elm(Element *elm) {
     // Object *found = find_obj_by_name(name);

@@ -19,8 +19,11 @@ public:
     ///////////////////////////////////////////////////////
     // 根据通知，同步
     
+    // 通知开始
     virtual bool begin_notify();
+    // 通知都有哪些对象。
     virtual bool notify(Object *obj);
+    // 通知结束，绘制并显示结果。
     virtual bool end_notify();
 
 protected:
