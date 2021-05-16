@@ -5,7 +5,9 @@
 #include <app/ParseArgs.hpp>
 #include <app/Process.hpp>
 
-#include <fwk/FileLine.hpp>
+#include <fwk/ObjFile.hpp>
+#include <fwk/ObjProcessor.hpp>
+#include <fwk/RltPipe.hpp>
 
 #include <misc/Misc.hpp>
 
@@ -29,17 +31,33 @@ int main(int argc, char *argv[]) {
      * Interview    -- pipe -->
      */
 
-    ProcessCmdLine process;
+    /*
+        ProcessCmdLine process;
 
-    // TODO: Script files -> Process
-    for (string script_path : control.script_pathes) {
-        process.exec_script(script_path);
-    }
+        // TODO: Script files -> Process
+        for (string script_path : control.script_pathes) {
+            process.exec_script(script_path);
+        }
 
-    // TODO: Interview -> Process
-    if (control.enter_interactive) {
-        Interview interview(&process);
-        interview.loop();
-    }
+        // TODO: Interview -> Process
+        if (control.enter_interactive) {
+            Interview interview(&process);
+            interview.loop();
+        }
+        */
+
+    FileLine line("File");
+    RltPipeLine pipe("pipe");
+    ObjProcessorLine process("process");
+
+    pipe.relate({&line, &process});
+
+    std::vector<Object *> need_objs;
+    pipe.perform(need_objs);
+
+    // TODO: 切换成 “交互模式”，两种方案
+    // 1. relate重新换成新的关联
+    // 2. from可以有两个!
+
     return 0;
 }

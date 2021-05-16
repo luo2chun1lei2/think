@@ -25,8 +25,7 @@ bool Relation::relate(initializer_list<Object *> il) {
     return true;
 }
 
-bool Relation::relate(std::vector<Object *> objs)
-{
+bool Relation::relate(std::vector<Object *> objs) {
     for (auto beg = objs.begin(); beg != objs.end(); ++beg) {
         if (add_obj(*beg) == false) {
             LOGE("Cannot add object into relation.");

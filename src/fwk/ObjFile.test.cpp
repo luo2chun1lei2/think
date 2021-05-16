@@ -1,13 +1,14 @@
 #include <catch.hpp>
 
-#include <fwk/FileLine.hpp>
+#include <fwk/ObjFile.hpp>
+#include <fwk/ObjProcessor.hpp>
+#include <fwk/RltPipe.hpp>
 
-TEST_CASE("FileLine", "[fwk]")
-{
+TEST_CASE("FileLine", "[fwk]") {
     SECTION("read") {
         FileLine line("File");
         RltPipeLine pipe("pipe");
-        ObjProcessLine process("process");
+        ObjProcessorLine process("process");
 
         REQUIRE(pipe.relate({&line, &process}));
 

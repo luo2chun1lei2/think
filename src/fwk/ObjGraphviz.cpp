@@ -74,7 +74,7 @@ bool ObjGraphviz::end_notify() {
     }
 
     graphviz->finish_graphviz();
-LOGI("HERE\n");
+    LOGI("HERE\n");
     // 执行显示图片的命令，system必须退出才行。
     ostringstream stream;
     stream << "eog " << graphviz->get_output_filepath();

@@ -22,7 +22,7 @@ bool Model::add_obj(std::string name, Properties properties) {
     //     return false;
     // }
 
-    Object * found = new Object(name);
+    Object *found = new Object(name);
     add_obj(found);
 
     // TODO: properties 没有管！
@@ -36,7 +36,7 @@ bool Model::add_rlt(std::string name, Properties properties) {
     //     return false;
     // }
 
-    Relation * one = new Relation(name);
+    Relation *one = new Relation(name);
     add_rlt(one);
 
     // TODO: properties 没有管！
@@ -147,7 +147,7 @@ bool Model::relate(const std::string rlt_name, std::vector<std::string> obj_name
 // }
 
 // vector<Element *> Model::find_elm(const std::string name) const {
-    
+
 // }
 
 // int Model::index_of(const ElementId id) const {

@@ -1,6 +1,6 @@
 #include <app/Process.hpp>
-#include <misc/Graphviz.hpp>
 #include <fwk/ObjGraphviz.hpp>
+#include <misc/Graphviz.hpp>
 
 #include <stdlib.h>
 #include <unistd.h>
@@ -200,39 +200,39 @@ bool ProcessCmdLine::output_graphviz(const string name, ParseCommandLineWithProp
 
         ObjGraphviz graphviz("output");
         graphviz.begin_notify();
-        for(Object * obj : this->model->get_objs()) {
+        for (Object *obj : this->model->get_objs()) {
             graphviz.notify(obj);
         }
         graphviz.end_notify();
 
     } else { // SVG is default。
-/*
-        output = new Graphviz(name, Graphviz::GRAPH_SVG, type);
-
-        // 生成临时文件。
-        char path[] = "/tmp/XXXXXX.svg";
-        int fd = mkstemps(path, 4);
-        if (fd == -1) {
-            LOGE("Cannot open temp file.\n");
-            return false;
-        }
-        close(fd);
-
-        // 设定临时文件路径。
-        output->set_output_filepath(path);
-        
-        // 根据模型产生图片。
-        output->output(this->model);
-
-        // 执行显示图片的命令，system必须退出才行。
-        ostringstream stream;
-        stream << "eog " << path;
-        auto cmd = stream.str();
-        system(cmd.c_str());
-*/
+             /*
+                     output = new Graphviz(name, Graphviz::GRAPH_SVG, type);
+     
+                     // 生成临时文件。
+                     char path[] = "/tmp/XXXXXX.svg";
+                     int fd = mkstemps(path, 4);
+                     if (fd == -1) {
+                         LOGE("Cannot open temp file.\n");
+                         return false;
+                     }
+                     close(fd);
+     
+                     // 设定临时文件路径。
+                     output->set_output_filepath(path);
+     
+                     // 根据模型产生图片。
+                     output->output(this->model);
+     
+                     // 执行显示图片的命令，system必须退出才行。
+                     ostringstream stream;
+                     stream << "eog " << path;
+                     auto cmd = stream.str();
+                     system(cmd.c_str());
+             */
         ObjGraphviz graphviz("output");
         graphviz.begin_notify();
-        for(Object * obj : this->model->get_objs()) {
+        for (Object *obj : this->model->get_objs()) {
             graphviz.notify(obj);
         }
         graphviz.end_notify();

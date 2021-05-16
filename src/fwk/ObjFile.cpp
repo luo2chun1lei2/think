@@ -1,6 +1,4 @@
-#include <fwk/FileLine.hpp>
-
-#include <ext/ObjValue.hpp>
+#include <fwk/ObjFile.hpp>
 
 #include <misc/Misc.hpp>
 
@@ -77,56 +75,4 @@ const std::string FileLine::get_line(int index, bool &is_end, bool &is_error) {
 
     // TODO: 没有fclose
     // fclose(fp);
-}
-
-///////////////////////////////////////////////////////////
-RltPipeLine::RltPipeLine(const std::string name)
-    : Relation(name) {
-}
-
-RltPipeLine::~RltPipeLine() {
-}
-
-bool RltPipeLine::perform(std::vector<Object *> &need_objs) {
-    // TODO: 怎么避免强制类型转换?
-    FileLine *from = dynamic_cast<FileLine *>(this->objects[0]);
-    Object *to = this->objects[1];
-
-    to->begin_notify();
-
-    bool is_error;
-    bool is_end;
-    do {
-        is_error = false;
-        is_end = false;
-        string line = from->get_line(-1, is_end, is_error);
-
-        ObjValue objLine("command");
-        objLine.set_value(Value(line));
-        to->notify(&objLine);
-
-    } while (is_end == false);
-
-    to->end_notify();
-}
-
-///////////////////////////////////////////////////////////
-ObjProcessLine::ObjProcessLine(const std::string name)
-    : Object(name) {
-}
-ObjProcessLine::~ObjProcessLine() {
-}
-
-bool ObjProcessLine::begin_notify() {
-    return true;
-}
-
-bool ObjProcessLine::notify(Object *obj) {
-
-    return true;
-}
-
-// 注意下面的绘制：Object 和 Relation 都是Node，然后之间用节点相连。
-bool ObjProcessLine::end_notify() {
-    return true;
 }
