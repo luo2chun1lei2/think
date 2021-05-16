@@ -5,6 +5,8 @@
 #include <app/ParseArgs.hpp>
 #include <app/Process.hpp>
 
+#include <fwk/FileLine.hpp>
+
 #include <misc/Misc.hpp>
 
 using namespace std;
