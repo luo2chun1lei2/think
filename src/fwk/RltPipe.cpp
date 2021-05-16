@@ -32,7 +32,7 @@ bool RltPipeLine::perform(std::vector<Object *> &need_objs) {
         objLine.set_value(Value(line));
         to->notify(&objLine);
 
-    } while (is_end == false);
+    } while (is_end == false && is_error == false);
 
     to->end_notify();
 }

@@ -17,10 +17,18 @@ bool ObjProcessorLine::begin_notify() {
 }
 
 bool ObjProcessorLine::notify(Object *obj) {
+    ObjValue *objValue = dynamic_cast<ObjValue *>(obj);
+
+    Value v = objValue->get_value();
+    if (v.get_type() != v.TYPE_STR) {
+        LOGE("Input value is string, is %d.\n", v.get_type());
+        return false;
+    }
+    LOGI("==>%s\n", v.get_str().c_str());
+
     return true;
 }
 
-// 注意下面的绘制：Object 和 Relation 都是Node，然后之间用节点相连。
 bool ObjProcessorLine::end_notify() {
     return true;
 }

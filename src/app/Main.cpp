@@ -46,11 +46,15 @@ int main(int argc, char *argv[]) {
         }
         */
 
-    FileLine line("File");
+    FileLine file("File");
+    for (string script_path : control.script_pathes) {
+        // TODO: 目前不支持多个from。
+        file.set_path(script_path);
+    }
     RltPipeLine pipe("pipe");
     ObjProcessorLine process("process");
-
-    pipe.relate({&line, &process});
+    
+    pipe.relate({&file, &process});
 
     std::vector<Object *> need_objs;
     pipe.perform(need_objs);
