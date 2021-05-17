@@ -18,16 +18,16 @@ void RltMathOperation::set_value(Value value) {
 std::vector<Object *> RltMathOperation::get_objs_need_value() const {
     vector<Object *> found;
 
-    if (this->objects.size() != 3) {
+    if (this->_from_objs.size() != 2 || this->_to_objs.size() != 1) {
         throw exception();
     }
 
-    if (objects[1]->get_value().get_type() == Value::TYPE_NONE) {
-        found.push_back(objects[0]);
+    if (_from_objs[0]->get_value().get_type() == Value::TYPE_NONE) {
+        found.push_back(_from_objs[0]);
     }
 
-    if (objects[2]->get_value().get_type() == Value::TYPE_NONE) {
-        found.push_back(objects[1]);
+    if (_from_objs[1]->get_value().get_type() == Value::TYPE_NONE) {
+        found.push_back(_from_objs[1]);
     }
 
     return found;
@@ -54,20 +54,17 @@ bool RltPlus::perform(std::vector<Object *> &need_objs) {
         this->value += v;
     }
     */
-    if (this->objects.size() != 3) {
+    if (this->_from_objs.size() != 2 || this->_to_objs.size() != 1) {
         return false;
     }
 
-    for (Object *obj : objects) {
-        if (obj == objects[0]) {
-            continue;
-        }
+    for (Object *obj : _from_objs) {
         if (obj->get_value().get_type() == Value::TYPE_NONE) {
             return false;
         }
     }
 
-    objects[0]->set_value(objects[1]->get_value() + objects[2]->get_value());
+    _to_objs[0]->set_value(_from_objs[0]->get_value() + _from_objs[1]->get_value());
 
     return true;
 }
@@ -83,20 +80,17 @@ RltMinus::~RltMinus() {
 
 bool RltMinus::perform(std::vector<Object *> &need_objs) {
 
-    if (this->objects.size() != 3) {
+    if (this->_from_objs.size() != 2 || this->_to_objs.size() != 1) {
         return false;
     }
 
-    for (Object *obj : objects) {
-        if (obj == objects[0]) {
-            continue;
-        }
+    for (Object *obj : _from_objs) {
         if (obj->get_value().get_type() == Value::TYPE_NONE) {
             return false;
         }
     }
 
-    objects[0]->set_value(objects[1]->get_value() - objects[2]->get_value());
+    _to_objs[0]->set_value(_from_objs[0]->get_value() - _from_objs[1]->get_value());
 
     return true;
 }
@@ -115,20 +109,17 @@ bool RltDevide::can_perform(const Object *pobj) const {
 }
 
 bool RltDevide::perform(std::vector<Object *> &need_objs) {
-    if (this->objects.size() != 3) {
+    if (this->_from_objs.size() != 2 || this->_to_objs.size() != 1) {
         return false;
     }
 
-    for (Object *obj : objects) {
-        if (obj == objects[0]) {
-            continue;
-        }
+    for (Object *obj : _from_objs) {
         if (obj->get_value().get_type() == Value::TYPE_NONE) {
             return false;
         }
     }
 
-    objects[0]->set_value(objects[1]->get_value() / objects[2]->get_value());
+    _to_objs[0]->set_value(_from_objs[0]->get_value() / _from_objs[1]->get_value());
 
     return true;
 }
@@ -143,20 +134,17 @@ RltMultiple::~RltMultiple() {
 }
 
 bool RltMultiple::perform(std::vector<Object *> &need_objs) {
-    if (this->objects.size() != 3) {
+    if (this->_from_objs.size() != 2 || this->_to_objs.size() != 1) {
         return false;
     }
 
-    for (Object *obj : objects) {
-        if (obj == objects[0]) {
-            continue;
-        }
+    for (Object *obj : _from_objs) {
         if (obj->get_value().get_type() == Value::TYPE_NONE) {
             return false;
         }
     }
 
-    objects[0]->set_value(objects[1]->get_value() * objects[2]->get_value());
+    _to_objs[0]->set_value(_from_objs[0]->get_value() * _from_objs[1]->get_value());
 
     return true;
 }
@@ -171,11 +159,11 @@ RltEqual::~RltEqual() {
 }
 
 bool RltEqual::can_perform(const Object *pobj) const {
-    if (this->objects.size() != 2) {
+    if (this->_from_objs.size() < 1) {
         throw exception();
     }
 
-    if (objects[0] == pobj) {
+    if (_to_objs[0] == pobj) {
         return true;
     } else {
         return false;
@@ -185,27 +173,27 @@ bool RltEqual::can_perform(const Object *pobj) const {
 vector<Object *> RltEqual::get_objs_need_value() const {
     vector<Object *> found;
 
-    if (this->objects.size() != 2) {
+    if (this->_from_objs.size() < 1) {
         throw exception();
     }
 
-    if (objects[1]->get_value().get_type() == Value::TYPE_NONE) {
-        found.push_back(objects[1]);
+    if (_from_objs[0]->get_value().get_type() == Value::TYPE_NONE) {
+        found.push_back(_from_objs[0]);
     }
 
     return found;
 }
 
 bool RltEqual::perform(std::vector<Object *> &need_objs) {
-    if (this->objects.size() != 2) {
+    if (this->_from_objs.size() < 1 || this->_to_objs.size() < 1) {
         return false;
     }
 
-    if (objects[1]->get_value().get_type() == Value::TYPE_NONE) {
+    if (_from_objs[0]->get_value().get_type() == Value::TYPE_NONE) {
         return false;
     }
 
-    objects[0]->set_value(objects[1]->get_value());
+    _to_objs[0]->set_value(_from_objs[0]->get_value());
 
     return true;
 }

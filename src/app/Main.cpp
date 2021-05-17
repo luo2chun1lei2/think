@@ -53,7 +53,7 @@ int main(int argc, char *argv[]) {
     RltPipeLine pipe("pipe");
     ObjProcessorLine process("process");
 
-    pipe.relate({&file, &process});
+    pipe.relate({&file}, {&process});
 
     std::vector<Object *> need_objs;
     pipe.perform(need_objs);

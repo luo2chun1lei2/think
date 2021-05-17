@@ -57,17 +57,25 @@ bool ObjGraphviz::end_notify() {
 
     for (Relation *rlt : notified_relations) {
 
-        if (rlt->get_objects().size() < 2) {
+        if (rlt->get_from_objs().size() < 1 || rlt->get_to_objs().size() < 1) {
             LOGE("Cannot draw a edge(%s) if it has only ONE edge.\n", rlt->get_name().c_str());
             return false;
         }
 
-        // edge is from "rlt" to all own objects.
         Agnode_t *rlt_node = obj_nodes[rlt];
 
-        for (Object *to : rlt->get_objects()) {
+        // edge is from "rlt" to "to" objects.
+        for (Object *to : rlt->get_to_objs()) {
             Agnode_t *to_node = obj_nodes[to];
             Agedge_t *edge1 = graphviz->add_edge("", rlt_node, to_node);
+
+            // rlt_edges[rlt] = edge;
+        }
+
+        // edge is from "from" to "rlt" objects.
+        for (Object *from : rlt->get_from_objs()) {
+            Agnode_t *from_node = obj_nodes[from];
+            Agedge_t *edge1 = graphviz->add_edge("", from_node, rlt_node);
 
             // rlt_edges[rlt] = edge;
         }

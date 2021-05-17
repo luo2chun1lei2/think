@@ -45,13 +45,15 @@ bool Travel::travel(Object *pobj) {
             // for( auto o : rlt->get_objects()) {
             //     LOGE("insert o: %s\n", o->get_name().c_str());
             // }
-            waits.insert(waits.end(), rlt->get_objects().begin(), rlt->get_objects().end());
+            waits.insert(waits.end(), rlt->get_from_objs().begin(), rlt->get_from_objs().end());
+            waits.insert(waits.end(), rlt->get_to_objs().begin(), rlt->get_to_objs().end());
 
             // for( auto o : rlt->get_rlts()) {
             //     LOGE("insert r: %s\n", o->get_name().c_str());
             // }
             // Relation is also a object, so it has relations.
-            waits.insert(waits.end(), rlt->get_rlts().begin(), rlt->get_rlts().end());
+            waits.insert(waits.end(), rlt->get_from_rlts().begin(), rlt->get_from_rlts().end());
+            waits.insert(waits.end(), rlt->get_to_rlts().begin(), rlt->get_to_rlts().end());
 
         } else {
             if (write_log)
@@ -64,7 +66,8 @@ bool Travel::travel(Object *pobj) {
             // for( auto o : wait->get_rlts()) {
             //     LOGE("insert r: %s\n", o->get_name().c_str());
             // }
-            waits.insert(waits.end(), wait->get_rlts().begin(), wait->get_rlts().end());
+            waits.insert(waits.end(), wait->get_from_rlts().begin(), wait->get_from_rlts().end());
+            waits.insert(waits.end(), wait->get_to_rlts().begin(), wait->get_to_rlts().end());
         }
 
         // record than it has been processed.

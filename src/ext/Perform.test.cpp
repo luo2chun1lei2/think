@@ -5,7 +5,7 @@
 #include <ext/RltMath.hpp>
 
 TEST_CASE("PerformRound", "[ext]") {
-
+#if 0
     SECTION("Formula1") {
         // a = b
         ObjValue a("a");
@@ -138,4 +138,6 @@ TEST_CASE("Perform", "[ext]") {
         REQUIRE(c.get_value().get_type() == Value::TYPE_INT);
         REQUIRE(c.get_value().get_int() == 40);
     }
+
+#endif 
 }

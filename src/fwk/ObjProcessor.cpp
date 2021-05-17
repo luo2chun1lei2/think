@@ -113,15 +113,30 @@ bool ObjProcessorLine::exec(const std::string cmd) {
         }
 
         // get relate
-        string relate_str = parse.get_prop_value("relate");
-        if (relate_str == "") {
-            LOGE("Relation(%s) doesn't set relation.\n", relate_str.c_str());
+        string relate_from_str = parse.get_prop_value("relate_from");
+        if (relate_from_str == "") {
+            LOGE("Relation(%s) doesn't set relation.\n", relate_from_str.c_str());
             return false;
         }
 
-        vector<string> obj_names = split_str(relate_str, ",");
+        vector<string> obj_from_names = split_str(relate_from_str, ",");
 
-        for (string o : obj_names) {
+        for (string o : obj_from_names) {
+            if (!_model->have_obj_by_name(o)) {
+                LOGE("Relation(%s) cannot find related object(%s).\n", name.c_str(), o.c_str());
+                return false;
+            }
+        }
+
+        string relate_to_str = parse.get_prop_value("relate_to");
+        if (relate_to_str == "") {
+            LOGE("Relation(%s) doesn't set relation.\n", relate_to_str.c_str());
+            return false;
+        }
+
+        vector<string> obj_to_names = split_str(relate_to_str, ",");
+
+        for (string o : obj_to_names) {
             if (!_model->have_obj_by_name(o)) {
                 LOGE("Relation(%s) cannot find related object(%s).\n", name.c_str(), o.c_str());
                 return false;
@@ -129,7 +144,7 @@ bool ObjProcessorLine::exec(const std::string cmd) {
         }
 
         // set relation between objects and relation.
-        _model->relate(name, obj_names);
+        _model->relate(name, obj_from_names, obj_to_names);
 
         return true;
         /*

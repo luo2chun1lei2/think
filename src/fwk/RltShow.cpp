@@ -35,15 +35,15 @@ private:
 
 // TODO: 是传递整个OR-Net，还是一个一个传递？
 bool RltShow::perform() {
-    if (this->objects.size() != 2) {
+    if (this->_from_objs.size() < 1 || this->_to_objs.size() < 1) {
         LOGE("Show needs two objects.\n");
         return false;
     }
 
     MyTravel travel;
 
-    Object *to = this->objects[0];
-    Object *from = this->objects[1];
+    Object *to = this->_from_objs[0];
+    Object *from = this->_to_objs[1];
 
     travel.travel(from);
 

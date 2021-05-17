@@ -86,7 +86,7 @@ bool Model::add_prop_of_obj(std::string obj_name, std::string rlt_name, std::str
 
     // 创建Relation
     Relation *rlt = new Relation(rlt_name);
-    rlt->relate({obj, found});
+    rlt->relate({obj}, {found});
     add_obj(rlt);
 
     return true;
@@ -102,24 +102,36 @@ bool Model::have_obj_by_name(const std::string name) const {
     return false;
 }
 
-bool Model::relate(const std::string rlt_name, std::vector<std::string> obj_names) {
+bool Model::relate(const std::string rlt_name, std::vector<std::string> from_obj_names,
+std::vector<std::string> to_obj_names) {
     Relation *rlt = dynamic_cast<Relation *>(find_obj_by_name(rlt_name));
     if (rlt == nullptr) {
         LOGE("Related object(%s) doesn't exist.\n", rlt_name.c_str());
         return false;
     }
 
-    vector<Object *> objs_list;
+    vector<Object *> from_objs;
+    vector<Object *> to_objs;
 
-    for (auto obj_name = obj_names.begin(); obj_name != obj_names.end(); ++obj_name) {
+    for (auto obj_name = from_obj_names.begin(); obj_name != from_obj_names.end(); ++obj_name) {
         Object *obj = find_obj_by_name(*obj_name);
         if (obj == nullptr) {
             LOGE("Related object(%s) doesn't exist.\n", (*obj_name).c_str());
             return false;
         }
-        objs_list.push_back(obj);
+        from_objs.push_back(obj);
     }
-    rlt->relate(objs_list);
+
+    for (auto obj_name = to_obj_names.begin(); obj_name != to_obj_names.end(); ++obj_name) {
+        Object *obj = find_obj_by_name(*obj_name);
+        if (obj == nullptr) {
+            LOGE("Related object(%s) doesn't exist.\n", (*obj_name).c_str());
+            return false;
+        }
+        to_objs.push_back(obj);
+    }
+
+    rlt->relate(from_objs, to_objs);
 
     return true;
 }

@@ -6,6 +6,7 @@
 using namespace std;
 
 TEST_CASE("relation plus/minus/multiple/devide", "[ext]") {
+#if 0
     SECTION("plus") {
         // c = a + b
         ObjValue a("a");
@@ -88,4 +89,5 @@ TEST_CASE("relation plus/minus/multiple/devide", "[ext]") {
 
         REQUIRE(a.get_value().get_int() == 99);
     }
+#endif
 }

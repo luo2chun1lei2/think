@@ -16,8 +16,8 @@ RltPipeLine::~RltPipeLine() {
 
 bool RltPipeLine::perform(std::vector<Object *> &need_objs) {
     // TODO: 怎么避免强制类型转换?
-    FileLine *from = dynamic_cast<FileLine *>(this->objects[0]);
-    Object *to = this->objects[1];
+    FileLine *from = dynamic_cast<FileLine *>(_from_objs[0]);
+    Object *to = _to_objs[0];
 
     to->begin_notify();
 

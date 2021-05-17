@@ -12,20 +12,32 @@ std::string Object::get_name() const {
     return this->name;
 }
 
-size_t Object::get_count_of_rlts() {
-    return relations.size();
+size_t Object::get_count_of_from_rlts() {
+    return _from_rlts.size();
 }
 
-Relation *Object::get_rlt(uint32_t index) {
-    return relations[index];
+size_t Object::get_count_of_to_rlts() {
+    return _to_rlts.size();
 }
 
-const std::vector<Relation *> &Object::get_rlts() const {
-    return relations;
+Relation *Object::get_from_rlt(uint32_t index) {
+    return _from_rlts[index];
 }
 
-bool Object::contain_rlt(Relation *rlt) const {
-    for (auto r : relations) {
+Relation *Object::get_to_rlt(uint32_t index) {
+    return _to_rlts[index];
+}
+
+const std::vector<Relation *> &Object::get_from_rlts() const {
+    return _from_rlts;
+}
+
+const std::vector<Relation *> &Object::get_to_rlts() const {
+    return _to_rlts;
+}
+
+bool Object::contain_from_rlt(Relation *rlt) const {
+    for (auto r : _from_rlts) {
         if (r == rlt) {
             return true;
         }
@@ -34,25 +46,50 @@ bool Object::contain_rlt(Relation *rlt) const {
     return false;
 }
 
-bool Object::add_rlt(Relation *rlt) {
+bool Object::contain_to_rlt(Relation *rlt) const {
+    for (auto r : _to_rlts) {
+        if (r == rlt) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+bool Object::add_from_rlt(Relation *rlt) {
     if (rlt == nullptr) {
         return false;
     }
 
-    if (contain_rlt(rlt)) {
+    if (contain_from_rlt(rlt)) {
         // Has contained it.
         return false;
     }
 
-    relations.push_back(rlt);
+    _from_rlts.push_back(rlt);
+
+    return true;
+}
+
+bool Object::add_to_rlt(Relation *rlt) {
+    if (rlt == nullptr) {
+        return false;
+    }
+
+    if (contain_to_rlt(rlt)) {
+        // Has contained it.
+        return false;
+    }
+
+    _to_rlts.push_back(rlt);
 
     return true;
 }
 
 Object *Object::get_property(const std::string rlt_name, const std::string obj_name) const {
-    for (auto r : this->relations) {
+    for (auto r : this->_from_rlts) {
         if (r->get_name() == rlt_name) {
-            for (auto o : r->get_objects()) {
+            for (auto o : r->get_to_objs()) {
                 if (o != this && o->get_name() == obj_name) {
                     return o;
                 }
@@ -65,9 +102,9 @@ Object *Object::get_property(const std::string rlt_name, const std::string obj_n
 
 std::vector<Object *> Object::get_property(const std::string rlt_name) const {
     vector<Object *> results;
-    for (auto r : this->relations) {
+    for (auto r : this->_from_rlts) {
         if (r->get_name() == rlt_name) {
-            for (auto o : r->get_objects()) {
+            for (auto o : r->get_to_objs()) {
                 if (o != this) {
                     results.push_back(o);
                 }

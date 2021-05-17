@@ -21,9 +21,9 @@ TEST_CASE("test object", "[core]") {
         Object obj1("obj1");
         Relation rlt1("rlt1");
 
-        REQUIRE(obj1.get_count_of_rlts() == 0);
-        obj1.add_rlt(&rlt1);
-        REQUIRE(obj1.get_count_of_rlts() == 1);
+        REQUIRE(obj1.get_count_of_from_rlts() == 0);
+        obj1.add_from_rlt(&rlt1);
+        REQUIRE(obj1.get_count_of_from_rlts() == 1);
     }
 
     SECTION("Ger property by relation.") {
@@ -31,7 +31,7 @@ TEST_CASE("test object", "[core]") {
         Object obj2("obj2");
         Relation rlt1("rlt1");
 
-        REQUIRE(rlt1.relate({&obj1, &obj2}));
+        REQUIRE(rlt1.relate({&obj2}, {&obj1}));
 
         vector<Object *> found = obj1.get_property("rlt1");
         REQUIRE(found.size() == 1);
