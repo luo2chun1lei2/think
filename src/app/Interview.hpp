@@ -2,6 +2,10 @@
 
 #include <app/Process.hpp>
 
+/**
+ * 交互界面。
+ * 进入界面后，可以将输入的一行文字，发出去。
+ */
 class Interview
 {
 public:

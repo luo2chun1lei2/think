@@ -6,6 +6,9 @@
 #include <string>
 #include <graphviz/gvc.h>
 
+/**
+ * 显示一个 Graphviz 图形。
+ */
 class Graphviz
 {
 public:

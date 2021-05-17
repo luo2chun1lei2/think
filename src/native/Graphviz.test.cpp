@@ -5,8 +5,8 @@
 
 #include <sstream>
 
-#include <misc/Graphviz.hpp>
 #include <misc/Misc.hpp>
+#include <native/Graphviz.hpp>
 
 using namespace std;
 

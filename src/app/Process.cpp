@@ -1,6 +1,5 @@
 #include <app/Process.hpp>
 #include <fwk/ObjGraphviz.hpp>
-#include <misc/Graphviz.hpp>
 
 #include <stdlib.h>
 #include <unistd.h>

@@ -26,7 +26,7 @@ int Interview::do_inner_cmd(const char *line) {
 
 /**
  * parse the input line.
- * @return isquit ?
+ * @return is quit ?
  */
 int Interview::parse_input(const char *line) {
     // 所有以 “!" 开始的单词都是内部的命令。

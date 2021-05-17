@@ -11,7 +11,7 @@
 #include <app/Model.hpp>
 
 /**
- * 根据外部传入的命令，执行
+ * 根据外部传入的命令，执行。
  */
 class Process
 {

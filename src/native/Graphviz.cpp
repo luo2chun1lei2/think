@@ -1,4 +1,4 @@
-#include <misc/Graphviz.hpp>
+#include <native/Graphviz.hpp>
 
 #include <vector>
 

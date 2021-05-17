@@ -5,7 +5,7 @@
 #include <vector>
 #include <map>
 
-#include <misc/Graphviz.hpp>
+#include <native/Graphviz.hpp>
 
 /**
  * 显示OR-Net为Graphviz。
