@@ -55,20 +55,6 @@ const std::string FileLine::get_line(int index, bool &is_end, bool &is_error) {
         return "";
     }
 
-    /* TODO: 需要过滤。
-    // LOGI("read line:%s\n", buf);
-    if (buf[0] == '#') {
-        // TODO: 注释忽略，但是算法过于简单。
-        continue;
-    }
-
-    // TODO: 排除空行，这个实现逻辑也不准确。
-    if (buf[0] == '\n') { // 仅仅有一个'\n'
-        continue;
-    }
-    */
-
-    // TODO: return;
     string result = buf;
     free(buf);
     return result;

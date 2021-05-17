@@ -49,6 +49,16 @@ bool ObjProcessorLine::end_notify() {
 // TODO: 函数过大了，应该拆分。
 bool ObjProcessorLine::exec(const std::string cmd) {
 
+    if (cmd[0] == '#') {
+        // TODO: 注释忽略，但是算法过于简单。
+        return true;
+    }
+
+    // TODO: 排除空行，这个实现逻辑也不准确。
+    if (cmd[0] == '\n' || cmd.length() == 0) { // 仅仅有一个'\n'
+        return true;
+    }
+
     ParseCommandLineWithProperties parse;
 
     if (!parse.parse(cmd)) {
