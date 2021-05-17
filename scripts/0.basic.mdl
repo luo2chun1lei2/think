@@ -25,7 +25,7 @@ Relation name=母子3 relate=罗子,罗妻
 
 Relation name=母女1 relate=罗女,罗妻
 
-Relation name=夫妻1 relate=罗女,罗某
+Relation name=夫妻1 relate=罗妻,罗某
 Relation name=夫妻2 relate=罗母,罗父
 Relation name=夫妻3 relate=罗奶,罗爷
 

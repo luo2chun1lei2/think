@@ -164,8 +164,6 @@ bool ObjProcessorLine::output_graphviz(const string name, ParseCommandLineWithPr
     string str_option = parse.get_prop_value("option");
     string str_type = parse.get_prop_value("type");
 
-    Graphviz *output = nullptr;
-
     Graphviz::Type type;
     if (str_type == "basic") {
         type = Graphviz::TYPE_BASIC;
@@ -249,6 +247,10 @@ bool ObjProcessorLine::init_all_properties(string obj_name, ParseCommandLineWith
 
     for (pair<string, string> one : properties) {
         if (one.first == "name") {
+            continue;
+        }
+
+        if (one.first == "relate") {
             continue;
         }
 
