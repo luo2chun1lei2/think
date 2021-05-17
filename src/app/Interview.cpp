@@ -7,6 +7,7 @@
 
 using namespace std;
 
+#if 0
 void Interview::show_help(void) {
     LOGI("help/h: show help information.\n");
     LOGI("quit/q: quit from console.\n");
@@ -60,3 +61,5 @@ void Interview::loop() {
         }
     }
 }
+
+#endif

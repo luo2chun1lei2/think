@@ -1,6 +1,6 @@
 #include <catch.hpp>
 
-#include <app/Model.hpp>
+#include <fwk/Model.hpp>
 
 #if 0
 TEST_CASE("test model", "[model]") {

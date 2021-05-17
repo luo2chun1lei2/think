@@ -3,7 +3,6 @@
 
 #include <app/Interview.hpp>
 #include <app/ParseArgs.hpp>
-#include <app/Process.hpp>
 
 #include <fwk/ObjFile.hpp>
 #include <fwk/ObjProcessor.hpp>

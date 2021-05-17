@@ -1,7 +1,8 @@
 #pragma once
 
-#include <app/Process.hpp>
+//#include <app/Process.hpp>
 
+#if 0
 /**
  * 交互界面。
  * 进入界面后，可以将输入的一行文字，发出去。
@@ -25,3 +26,5 @@ private:
     ProcessCmdLine * process;
 
 };
+
+#endif
