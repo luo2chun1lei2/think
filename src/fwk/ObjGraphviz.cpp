@@ -55,6 +55,7 @@ bool ObjGraphviz::end_notify() {
         obj_nodes[rlt] = node;
     }
 
+    // 绘制 relation，也涉及到了关联对象。
     for (Relation *rlt : notified_relations) {
 
         if (rlt->get_from_objs().size() < 1 || rlt->get_to_objs().size() < 1) {

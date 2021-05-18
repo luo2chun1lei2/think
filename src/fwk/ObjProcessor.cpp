@@ -144,6 +144,7 @@ bool ObjProcessorLine::exec(const std::string cmd) {
         }
 
         // set relation between objects and relation.
+        //printf("%s->%s\n", obj_from_names[0].c_str(), obj_to_names[0].c_str());
         _model->relate(name, obj_from_names, obj_to_names);
 
         return true;
@@ -193,28 +194,6 @@ bool ObjProcessorLine::output_graphviz(const string name, ParseCommandLineWithPr
     }
 
     if (str_option == "text") {
-        /*
-        output = new Graphviz(name, Graphviz::GRAPH_TEXT, type);
-
-        // 生成临时文件。
-        char path[] = "/tmp/XXXXXX.txt";
-        int fd = mkstemps(path, 4);
-        if (fd == -1) {
-            LOGE("Cannot open temp file.\n");
-            return false;
-        }
-        close(fd);
-
-        // 设定临时文件路径。
-        output->set_output_filepath(path);
-        //output->output(this->model);
-
-        // 显示graphviz内部的绘制脚本，而不是dot本身的脚本。
-        ostringstream stream;
-        stream << "cat " << path;
-        auto cmd = stream.str();
-        system(cmd.c_str()); */
-
         ObjGraphviz graphviz("output");
         graphviz.begin_notify();
         for (Object *obj : this->_model->get_objs()) {
@@ -223,30 +202,6 @@ bool ObjProcessorLine::output_graphviz(const string name, ParseCommandLineWithPr
         graphviz.end_notify();
 
     } else { // SVG is default。
-             /*
-                     output = new Graphviz(name, Graphviz::GRAPH_SVG, type);
-     
-                     // 生成临时文件。
-                     char path[] = "/tmp/XXXXXX.svg";
-                     int fd = mkstemps(path, 4);
-                     if (fd == -1) {
-                         LOGE("Cannot open temp file.\n");
-                         return false;
-                     }
-                     close(fd);
-     
-                     // 设定临时文件路径。
-                     output->set_output_filepath(path);
-     
-                     // 根据模型产生图片。
-                     output->output(this->model);
-     
-                     // 执行显示图片的命令，system必须退出才行。
-                     ostringstream stream;
-                     stream << "eog " << path;
-                     auto cmd = stream.str();
-                     system(cmd.c_str());
-             */
         ObjGraphviz graphviz("output");
         graphviz.begin_notify();
         for (Object *obj : this->_model->get_objs()) {
@@ -274,45 +229,3 @@ bool ObjProcessorLine::init_all_properties(string obj_name, ParseCommandLineWith
 
     return true;
 }
-
-/* 不用了，改成逐行
-bool ProcessCmdLine::exec_script(std::string script_path) {
-    ProcessCmdLine process;
-    if (script_path.empty()) {
-        // 什么都不用执行，就当做正常结束。
-        return true;
-    }
-
-    // TODO: 脚本的读取，需要单独抽取出来做成函数。
-    FILE *fp = fopen(script_path.c_str(), "r");
-    if (!fp) {
-        LOGE("Cannot open file(%s)\n", script_path);
-        return false;
-    }
-
-    char *buf = NULL;
-    size_t buf_size = 0;
-    while (getline(&buf, &buf_size, fp) != -1) {
-        // LOGI("read line:%s\n", buf);
-        if (buf[0] == '#') {
-            // TODO: 注释忽略，但是算法过于简单。
-            continue;
-        }
-
-        // TODO: 排除空行，这个实现逻辑也不准确。
-        if (buf[0] == '\n') { // 仅仅有一个'\n'
-            continue;
-        }
-
-        process.exec(buf);
-
-        free(buf);
-        buf = NULL;
-        buf_size = 0;
-    }
-
-    fclose(fp);
-
-    return true;
-}
-*/

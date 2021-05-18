@@ -15,18 +15,18 @@ Object name=罗子 age=3
 Object name=罗女 age=1
 
 # TODO: relation的名字必须是不同的，为什么？
-Relation name=父子1 relate_from=罗父 relate_to=罗爷
-Relation name=父子2 relate_from=罗某 relate_to=罗父
-Relation name=父子3 relate_from=罗子 relate_to=罗某
+Relation name=父子1 relate_from=罗爷 relate_to=罗父
+Relation name=父子2 relate_from=罗父 relate_to=罗某
+Relation name=父子3 relate_from=罗某 relate_to=罗子
 
-Relation name=母子1 relate_from=罗母 relate_to=罗奶
-Relation name=母子2 relate_from=罗某 relate_to=罗母
-Relation name=母子3 relate_from=罗子 relate_to=罗妻
+Relation name=母子1 relate_from=罗奶 relate_to=罗母
+Relation name=母子2 relate_from=罗母 relate_to=罗某
+Relation name=母子3 relate_from=罗妻 relate_to=罗子
 
-Relation name=母女1 relate_from=罗女 relate_to=罗妻
+Relation name=母女1 relate_from=罗妻 relate_to=罗女
 
-Relation name=夫妻1 relate_from=罗妻 relate_to=罗某
-Relation name=夫妻2 relate_from=罗母 relate_to=罗父
-Relation name=夫妻3 relate_from=罗奶 relate_to=罗爷
+Relation name=夫妻1 relate_from=罗某 relate_to=罗妻
+Relation name=夫妻2 relate_from=罗父 relate_to=罗母
+Relation name=夫妻3 relate_from=罗爷 relate_to=罗奶
 
 Output name=out type=graphviz

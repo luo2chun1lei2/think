@@ -86,7 +86,7 @@ bool Model::add_prop_of_obj(std::string obj_name, std::string rlt_name, std::str
 
     // 创建Relation
     Relation *rlt = new Relation(rlt_name);
-    rlt->relate({obj}, {found});
+    rlt->relate({found}, {obj});
     add_obj(rlt);
 
     return true;
