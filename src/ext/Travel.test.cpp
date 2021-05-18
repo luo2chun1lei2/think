@@ -6,6 +6,8 @@
 #include <ext/ObjValue.hpp>
 #include <ext/Travel.hpp>
 
+#include <misc/Misc.hpp>
+
 #include <vector>
 
 using namespace std;
@@ -14,6 +16,18 @@ class MyTravel : public Travel {
 public:
     vector<Object *> objs;
     vector<Relation *> rlts;
+
+    virtual void print() {
+        for(Object *obj : objs) {
+            printf("%s ", obj->get_name().c_str());
+        }
+        printf("\n");
+
+        for(Relation *rlt : rlts) {
+            printf("%s ", rlt->get_name().c_str());
+        }
+        printf("\n");
+    }
 
 protected:
     virtual bool on_meet_obj(Object *pobj) {
@@ -35,10 +49,67 @@ private:
  */
 TEST_CASE("travel", "[ext]") {
 
+    SECTION("simple example.") {
+        // c = (a+b)/2
+        // 注意，这里是关系的描述，不是动作，所以“=”是等于，不是赋值。
+        Object a("a");
+        Object b("b");
+        Object c("c");
+
+        Relation ab("a->b");
+        Relation bc("b->c");
+
+        REQUIRE(ab.relate({&a}, {&b}));
+        REQUIRE(bc.relate({&b}, {&c}));
+#if 0
+        SECTION("Travel by all.") {
+            MyTravel travel;
+
+            travel.travel(&b, TRAVEL_BY_ALL);
+
+            REQUIRE(travel.objs.size() == 3);
+            REQUIRE(std::find(travel.objs.begin(), travel.objs.end(), &a) != travel.objs.end());
+            REQUIRE(std::find(travel.objs.begin(), travel.objs.end(), &b) != travel.objs.end());
+            REQUIRE(std::find(travel.objs.begin(), travel.objs.end(), &c) != travel.objs.end());
+
+            REQUIRE(travel.rlts.size() == 2);
+            REQUIRE(std::find(travel.rlts.begin(), travel.rlts.end(), &ab) != travel.rlts.end());
+            REQUIRE(std::find(travel.rlts.begin(), travel.rlts.end(), &bc) != travel.rlts.end());
+        }
+#endif
+        SECTION("Travel by from.") {
+            MyTravel travel;
+
+            travel.travel(&b, TRAVEL_BY_FROM);
+            travel.print();
+
+            REQUIRE(travel.objs.size() == 2);
+            REQUIRE(std::find(travel.objs.begin(), travel.objs.end(), &b) != travel.objs.end());
+            REQUIRE(std::find(travel.objs.begin(), travel.objs.end(), &c) != travel.objs.end());
+
+            REQUIRE(travel.rlts.size() == 1);
+            REQUIRE(std::find(travel.rlts.begin(), travel.rlts.end(), &bc) != travel.rlts.end());
+        }
+
+        SECTION("Travel by to.") {
+            MyTravel travel;
+
+            travel.travel(&a, TRAVEL_BY_TO);
+            travel.print();
+
+            REQUIRE(travel.objs.size() == 2);
+            REQUIRE(std::find(travel.objs.begin(), travel.objs.end(), &b) != travel.objs.end());
+            REQUIRE(std::find(travel.objs.begin(), travel.objs.end(), &a) != travel.objs.end());
+
+            REQUIRE(travel.rlts.size() == 1);
+            REQUIRE(std::find(travel.rlts.begin(), travel.rlts.end(), &ab) != travel.rlts.end());
+        }
+    }
+
     /**
-     * 建立一个公式。
+     * 分析一个公式。
      */
-    SECTION("Create a equation.") {
+    SECTION("equation.") {
         // c = (a+b)/2
         // 注意，这里是关系的描述，不是动作，所以“=”是等于，不是赋值。
         Object a("a");
@@ -94,10 +165,48 @@ TEST_CASE("travel", "[ext]") {
         /**
          * 遍历某个对象相关的关系和对象。
          */
-        SECTION("Travel all objects with one object.") {
+        SECTION("Travel by all.") {
             MyTravel travel;
 
-            travel.travel(&a);
+            travel.travel(&b, TRAVEL_BY_ALL);
+
+            REQUIRE(travel.objs.size() == 6);
+            REQUIRE(std::find(travel.objs.begin(), travel.objs.end(), &a) != travel.objs.end());
+            REQUIRE(std::find(travel.objs.begin(), travel.objs.end(), &b) != travel.objs.end());
+            REQUIRE(std::find(travel.objs.begin(), travel.objs.end(), &c) != travel.objs.end());
+            REQUIRE(std::find(travel.objs.begin(), travel.objs.end(), &v_2) != travel.objs.end());
+            REQUIRE(std::find(travel.objs.begin(), travel.objs.end(), &sum) != travel.objs.end());
+            REQUIRE(std::find(travel.objs.begin(), travel.objs.end(), &quotient) != travel.objs.end());
+
+            REQUIRE(travel.rlts.size() == 3);
+            REQUIRE(std::find(travel.rlts.begin(), travel.rlts.end(), &plus) != travel.rlts.end());
+            REQUIRE(std::find(travel.rlts.begin(), travel.rlts.end(), &devide) != travel.rlts.end());
+            REQUIRE(std::find(travel.rlts.begin(), travel.rlts.end(), &equal) != travel.rlts.end());
+        }
+
+        SECTION("Travel by from.") {
+            MyTravel travel;
+
+            travel.travel(&a, TRAVEL_BY_FROM);
+
+            REQUIRE(travel.objs.size() == 6);
+            REQUIRE(std::find(travel.objs.begin(), travel.objs.end(), &a) != travel.objs.end());
+            REQUIRE(std::find(travel.objs.begin(), travel.objs.end(), &b) != travel.objs.end());
+            REQUIRE(std::find(travel.objs.begin(), travel.objs.end(), &c) != travel.objs.end());
+            REQUIRE(std::find(travel.objs.begin(), travel.objs.end(), &v_2) != travel.objs.end());
+            REQUIRE(std::find(travel.objs.begin(), travel.objs.end(), &sum) != travel.objs.end());
+            REQUIRE(std::find(travel.objs.begin(), travel.objs.end(), &quotient) != travel.objs.end());
+
+            REQUIRE(travel.rlts.size() == 3);
+            REQUIRE(std::find(travel.rlts.begin(), travel.rlts.end(), &plus) != travel.rlts.end());
+            REQUIRE(std::find(travel.rlts.begin(), travel.rlts.end(), &devide) != travel.rlts.end());
+            REQUIRE(std::find(travel.rlts.begin(), travel.rlts.end(), &equal) != travel.rlts.end());
+        }
+
+        SECTION("Travel by to.") {
+            MyTravel travel;
+
+            travel.travel(&c, TRAVEL_BY_TO);
 
             REQUIRE(travel.objs.size() == 6);
             REQUIRE(std::find(travel.objs.begin(), travel.objs.end(), &a) != travel.objs.end());

@@ -2,7 +2,7 @@
 
 #include <fwk/Model.hpp>
 
-#if 0
+#if 0 // 旧的测试用例
 TEST_CASE("test model", "[model]") {
     Element elm0("elm0"); // not in model.
     Element elm1("elm1");

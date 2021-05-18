@@ -7,7 +7,23 @@
 
 using namespace std;
 
-bool Travel::travel(Object *pobj) {
+static void trace(int line, vector<Object *> objs)
+{
+    printf("trace: L%d\n", line);
+    for( auto o : objs) {
+        printf("  obj: %s\n", o->get_name().c_str());
+    }
+}
+
+static void trace(int line, vector<Relation *> objs)
+{
+    printf("trace: L%d\n", line);
+    for( auto o : objs) {
+        printf("  rlt: %s\n", o->get_name().c_str());
+    }
+}
+
+bool Travel::travel(Object *pobj, TravelMode travel_mode) {
     // 记录已经遍历后的对象。
     vector<Object *> dones;
 
@@ -42,18 +58,24 @@ bool Travel::travel(Object *pobj) {
                 break;
             }
 
-            // for( auto o : rlt->get_objects()) {
-            //     LOGE("insert o: %s\n", o->get_name().c_str());
-            // }
-            waits.insert(waits.end(), rlt->get_from_objs().begin(), rlt->get_from_objs().end());
-            waits.insert(waits.end(), rlt->get_to_objs().begin(), rlt->get_to_objs().end());
+            if (travel_mode == TRAVEL_BY_ALL || travel_mode == TRAVEL_BY_TO) {
+                trace(__LINE__, rlt->get_from_objs());
+                waits.insert(waits.end(), rlt->get_from_objs().begin(), rlt->get_from_objs().end());
+            }
+            if (travel_mode == TRAVEL_BY_ALL || travel_mode == TRAVEL_BY_FROM) {
+                trace(__LINE__, rlt->get_to_objs());
+                waits.insert(waits.end(), rlt->get_to_objs().begin(), rlt->get_to_objs().end());
+            }
 
-            // for( auto o : rlt->get_rlts()) {
-            //     LOGE("insert r: %s\n", o->get_name().c_str());
-            // }
             // Relation is also a object, so it has relations.
-            waits.insert(waits.end(), rlt->get_from_rlts().begin(), rlt->get_from_rlts().end());
-            waits.insert(waits.end(), rlt->get_to_rlts().begin(), rlt->get_to_rlts().end());
+            if (travel_mode == TRAVEL_BY_ALL || travel_mode == TRAVEL_BY_FROM) {
+                trace(__LINE__, rlt->get_from_rlts());
+                waits.insert(waits.end(), rlt->get_from_rlts().begin(), rlt->get_from_rlts().end());
+            }
+            if (travel_mode == TRAVEL_BY_ALL || travel_mode == TRAVEL_BY_TO) {
+                trace(__LINE__, rlt->get_to_rlts());
+                waits.insert(waits.end(), rlt->get_to_rlts().begin(), rlt->get_to_rlts().end());
+            }
 
         } else {
             if (write_log)
@@ -66,8 +88,14 @@ bool Travel::travel(Object *pobj) {
             // for( auto o : wait->get_rlts()) {
             //     LOGE("insert r: %s\n", o->get_name().c_str());
             // }
-            waits.insert(waits.end(), wait->get_from_rlts().begin(), wait->get_from_rlts().end());
-            waits.insert(waits.end(), wait->get_to_rlts().begin(), wait->get_to_rlts().end());
+            if (travel_mode == TRAVEL_BY_ALL || travel_mode == TRAVEL_BY_TO) {
+                trace(__LINE__, wait->get_from_rlts());
+                waits.insert(waits.end(), wait->get_from_rlts().begin(), wait->get_from_rlts().end());
+            }
+            if (travel_mode == TRAVEL_BY_ALL || travel_mode == TRAVEL_BY_FROM) {
+                trace(__LINE__, wait->get_to_rlts());
+                waits.insert(waits.end(), wait->get_to_rlts().begin(), wait->get_to_rlts().end());
+            }
         }
 
         // record than it has been processed.
