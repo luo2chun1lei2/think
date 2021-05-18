@@ -7,6 +7,8 @@
 
 using namespace std;
 
+#ifdef TRACE
+
 static void trace(int line, vector<Object *> objs)
 {
     printf("trace: L%d\n", line);
@@ -22,6 +24,10 @@ static void trace(int line, vector<Relation *> objs)
         printf("  rlt: %s\n", o->get_name().c_str());
     }
 }
+#else
+static void trace(int line, vector<Object *> objs) {}
+static void trace(int line, vector<Relation *> objs) {}
+#endif
 
 bool Travel::travel(Object *pobj, TravelMode travel_mode) {
     // 记录已经遍历后的对象。
@@ -49,7 +55,7 @@ bool Travel::travel(Object *pobj, TravelMode travel_mode) {
 
         // process it.
         Relation *rlt = dynamic_cast<Relation *>(wait);
-        if (rlt) {
+        if (rlt) { // 如果是关系的话，
 
             if (write_log)
                 LOGI("Rlt:%s\n", rlt->get_name().c_str());
@@ -58,6 +64,7 @@ bool Travel::travel(Object *pobj, TravelMode travel_mode) {
                 break;
             }
 
+            // 需要处理关系涉及到的对象
             if (travel_mode == TRAVEL_BY_ALL || travel_mode == TRAVEL_BY_TO) {
                 trace(__LINE__, rlt->get_from_objs());
                 waits.insert(waits.end(), rlt->get_from_objs().begin(), rlt->get_from_objs().end());
@@ -67,7 +74,7 @@ bool Travel::travel(Object *pobj, TravelMode travel_mode) {
                 waits.insert(waits.end(), rlt->get_to_objs().begin(), rlt->get_to_objs().end());
             }
 
-            // Relation is also a object, so it has relations.
+            // 关系本身也是一个对象，所以需要加入和它相关的关系。
             if (travel_mode == TRAVEL_BY_ALL || travel_mode == TRAVEL_BY_FROM) {
                 trace(__LINE__, rlt->get_from_rlts());
                 waits.insert(waits.end(), rlt->get_from_rlts().begin(), rlt->get_from_rlts().end());
@@ -77,7 +84,7 @@ bool Travel::travel(Object *pobj, TravelMode travel_mode) {
                 waits.insert(waits.end(), rlt->get_to_rlts().begin(), rlt->get_to_rlts().end());
             }
 
-        } else {
+        } else { // 如果是对象的话，
             if (write_log)
                 LOGI("Obj:%s\n", wait->get_name().c_str());
 
@@ -85,14 +92,12 @@ bool Travel::travel(Object *pobj, TravelMode travel_mode) {
                 break;
             }
 
-            // for( auto o : wait->get_rlts()) {
-            //     LOGE("insert r: %s\n", o->get_name().c_str());
-            // }
-            if (travel_mode == TRAVEL_BY_ALL || travel_mode == TRAVEL_BY_TO) {
+            // 对象
+            if (travel_mode == TRAVEL_BY_ALL || travel_mode == TRAVEL_BY_FROM) {
                 trace(__LINE__, wait->get_from_rlts());
                 waits.insert(waits.end(), wait->get_from_rlts().begin(), wait->get_from_rlts().end());
             }
-            if (travel_mode == TRAVEL_BY_ALL || travel_mode == TRAVEL_BY_FROM) {
+            if (travel_mode == TRAVEL_BY_ALL || travel_mode == TRAVEL_BY_TO) {
                 trace(__LINE__, wait->get_to_rlts());
                 waits.insert(waits.end(), wait->get_to_rlts().begin(), wait->get_to_rlts().end());
             }
