@@ -265,7 +265,7 @@ bool ObjProcessorLine::init_all_properties(string obj_name, ParseCommandLineWith
             continue;
         }
 
-        if (one.first == "relate") {
+        if (one.first == "relate_from" || one.first == "relate_to") {
             continue;
         }
 
