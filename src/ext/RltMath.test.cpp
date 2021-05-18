@@ -6,7 +6,7 @@
 using namespace std;
 
 TEST_CASE("relation plus/minus/multiple/devide", "[ext]") {
-#if 0
+
     SECTION("plus") {
         // c = a + b
         ObjValue a("a");
@@ -16,7 +16,7 @@ TEST_CASE("relation plus/minus/multiple/devide", "[ext]") {
 
         a.set_value(Value(123));
         b.set_value(Value(100));
-        plus.relate({&c, &a, &b});
+        plus.relate({&a, &b}, {&c});
 
         vector<Object *> needs;
         REQUIRE(plus.perform(needs));
@@ -33,7 +33,7 @@ TEST_CASE("relation plus/minus/multiple/devide", "[ext]") {
 
         a.set_value(Value(123));
         b.set_value(Value(100));
-        minus.relate({&c, &a, &b});
+        minus.relate({&a, &b}, {&c});
 
         vector<Object *> needs;
         REQUIRE(minus.perform(needs));
@@ -50,7 +50,7 @@ TEST_CASE("relation plus/minus/multiple/devide", "[ext]") {
 
         a.set_value(Value(17));
         b.set_value(Value(40));
-        multiple.relate({&c, &a, &b});
+        multiple.relate({&a, &b}, {&c});
 
         vector<Object *> needs;
         REQUIRE(multiple.perform(needs));
@@ -67,7 +67,7 @@ TEST_CASE("relation plus/minus/multiple/devide", "[ext]") {
 
         a.set_value(Value(200));
         b.set_value(Value(40));
-        devide.relate({&c, &a, &b});
+        devide.relate({&a, &b}, {&c});
 
         vector<Object *> needs;
         REQUIRE(devide.perform(needs));
@@ -82,12 +82,12 @@ TEST_CASE("relation plus/minus/multiple/devide", "[ext]") {
         RltEqual equal("equal");
 
         b.set_value(Value(99));
-        equal.relate({&a, &b});
+        equal.relate({&b}, {&a});
 
         vector<Object *> needs;
         REQUIRE(equal.perform(needs));
 
         REQUIRE(a.get_value().get_int() == 99);
     }
-#endif
+
 }

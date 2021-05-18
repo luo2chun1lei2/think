@@ -34,7 +34,7 @@ private:
  * 然后Travel等外部功能去检索、管理这个关系网。
  */
 TEST_CASE("travel", "[ext]") {
-#if 0
+
     /**
      * 建立一个公式。
      */
@@ -43,49 +43,53 @@ TEST_CASE("travel", "[ext]") {
         // 注意，这里是关系的描述，不是动作，所以“=”是等于，不是赋值。
         Object a("a");
         Object b("b");
+        Object sum("sum");
+        ObjValue v_2("2");
+        Object quotient("quotient");
         Object c("c");
-        ObjValue d("2");
-        d.set_value(Value(2));
+        
+        v_2.set_value(Value(2));
 
         Relation plus("+");
         Relation devide("/");
         Relation equal("=");
 
-        REQUIRE(plus.relate({&a, &b}));
-        REQUIRE(devide.relate({&plus, &d}));
-        REQUIRE(equal.relate({&c, &devide}));
+        REQUIRE(plus.relate({&a, &b}, {&sum}));
+        REQUIRE(devide.relate({&sum, &v_2}, {&quotient}));
+        REQUIRE(equal.relate({&quotient}, {&c}));
 
-        REQUIRE(plus.get_count_of_objs() == 2);
-        REQUIRE(plus.get_obj(0) == &a);
-        REQUIRE(plus.get_obj(1) == &b);
+        REQUIRE(plus.get_count_of_from_objs() == 2);
+        REQUIRE(plus.get_count_of_to_objs() == 1);
+        REQUIRE(plus.get_from_obj(0) == &a);
+        REQUIRE(plus.get_from_obj(1) == &b);
+        REQUIRE(plus.get_to_obj(0) == &sum);
 
-        REQUIRE(plus.get_count_of_rlts() == 1);
-        REQUIRE(plus.get_rlt(0) == &devide);
+        REQUIRE(devide.get_count_of_from_objs() == 2);
+        REQUIRE(devide.get_count_of_to_objs() == 1);
+        REQUIRE(devide.get_from_obj(0) == &sum);
+        REQUIRE(devide.get_from_obj(1) == &v_2);
+        REQUIRE(devide.get_to_obj(0) == &quotient);
 
-        REQUIRE(devide.get_count_of_objs() == 2);
-        REQUIRE(devide.get_obj(0) == &plus);
-        REQUIRE(devide.get_obj(1) == &d);
+        REQUIRE(equal.get_count_of_from_objs() == 1);
+        REQUIRE(equal.get_count_of_to_objs() == 1);
+        REQUIRE(equal.get_from_obj(0) == &quotient);
+        REQUIRE(equal.get_to_obj(0) == &c);
 
-        REQUIRE(devide.get_count_of_rlts() == 1);
-        REQUIRE(devide.get_rlt(0) == &equal);
+        REQUIRE(a.get_count_of_from_rlts() == 1);
+        REQUIRE(a.get_count_of_to_rlts() == 0);
+        REQUIRE(a.get_from_rlt(0) == &plus);
 
-        REQUIRE(equal.get_count_of_objs() == 2);
-        REQUIRE(equal.get_obj(0) == &c);
-        REQUIRE(equal.get_obj(1) == &devide);
+        REQUIRE(b.get_count_of_from_rlts() == 1);
+        REQUIRE(b.get_count_of_to_rlts() == 0);
+        REQUIRE(b.get_from_rlt(0) == &plus);
 
-        REQUIRE(equal.get_count_of_rlts() == 0);
+        REQUIRE(v_2.get_count_of_from_rlts() == 1);
+        REQUIRE(v_2.get_count_of_to_rlts() == 0);
+        REQUIRE(v_2.get_from_rlt(0) == &devide);
 
-        REQUIRE(a.get_count_of_rlts() == 1);
-        REQUIRE(a.get_rlt(0) == &plus);
-
-        REQUIRE(b.get_count_of_rlts() == 1);
-        REQUIRE(b.get_rlt(0) == &plus);
-
-        REQUIRE(c.get_count_of_rlts() == 1);
-        REQUIRE(c.get_rlt(0) == &equal);
-
-        REQUIRE(d.get_count_of_rlts() == 1);
-        REQUIRE(d.get_rlt(0) == &devide);
+        REQUIRE(c.get_count_of_from_rlts() == 0);
+        REQUIRE(c.get_count_of_to_rlts() == 1);
+        REQUIRE(c.get_to_rlt(0) == &equal);
 
         /**
          * 遍历某个对象相关的关系和对象。
@@ -95,11 +99,13 @@ TEST_CASE("travel", "[ext]") {
 
             travel.travel(&a);
 
-            REQUIRE(travel.objs.size() == 4);
+            REQUIRE(travel.objs.size() == 6);
             REQUIRE(std::find(travel.objs.begin(), travel.objs.end(), &a) != travel.objs.end());
             REQUIRE(std::find(travel.objs.begin(), travel.objs.end(), &b) != travel.objs.end());
             REQUIRE(std::find(travel.objs.begin(), travel.objs.end(), &c) != travel.objs.end());
-            REQUIRE(std::find(travel.objs.begin(), travel.objs.end(), &d) != travel.objs.end());
+            REQUIRE(std::find(travel.objs.begin(), travel.objs.end(), &v_2) != travel.objs.end());
+            REQUIRE(std::find(travel.objs.begin(), travel.objs.end(), &sum) != travel.objs.end());
+            REQUIRE(std::find(travel.objs.begin(), travel.objs.end(), &quotient) != travel.objs.end());
 
             REQUIRE(travel.rlts.size() == 3);
             REQUIRE(std::find(travel.rlts.begin(), travel.rlts.end(), &plus) != travel.rlts.end());
@@ -107,5 +113,5 @@ TEST_CASE("travel", "[ext]") {
             REQUIRE(std::find(travel.rlts.begin(), travel.rlts.end(), &equal) != travel.rlts.end());
         }
     }
-#endif
+
 }
