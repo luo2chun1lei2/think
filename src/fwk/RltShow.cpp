@@ -42,8 +42,8 @@ bool RltShow::perform() {
 
     MyTravel travel;
 
-    Object *to = this->_from_objs[0];
-    Object *from = this->_to_objs[1];
+    Object *to = this->_to_objs[0];
+    Object *from = this->_from_objs[0];
 
     travel.travel(from);
 
