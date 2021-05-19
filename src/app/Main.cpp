@@ -10,6 +10,8 @@
 
 #include <misc/Misc.hpp>
 
+#include <vector>
+
 using namespace std;
 
 int main(int argc, char *argv[]) {
@@ -45,15 +47,20 @@ int main(int argc, char *argv[]) {
         }
         */
 
-    FileLine file("File");
+    std::vector<Object *> files;
     for (string script_path : control.script_pathes) {
-        // TODO: 目前不支持多个from。
-        file.set_path(script_path);
+        FileLine *pfile = new FileLine("File");
+        pfile->set_path(script_path);
+        files.push_back(pfile);
     }
-    RltPipeLine pipe("pipe");
-    ObjProcessorLine process("process");
 
-    pipe.relate({&file}, {&process});
+    std::vector<Object *> processes;
+
+    ObjProcessorLine process("process");
+    processes.push_back(&process);
+
+    RltPipeLine pipe("pipe");
+    pipe.relate(files, processes);
 
     std::vector<Object *> need_objs;
     pipe.perform(need_objs);

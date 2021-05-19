@@ -1,0 +1,32 @@
+# think 0.basic.mdl
+# 基础的脚本，仅仅创建最简单的模型，没有类型和组合。
+# 用regex来分析
+
+#Process name=process type=basic
+Model name=mdl
+
+Object name=罗某 age=28
+Object name=罗妻 age=25
+Object name=罗父 age=52
+Object name=罗母 age=51
+Object name=罗爷 age=78
+Object name=罗奶 age=72
+Object name=罗子 age=3
+Object name=罗女 age=1
+
+# TODO: relation的名字必须是不同的，为什么？
+Relation name=父子1 relate_from=罗爷 relate_to=罗父
+Relation name=父子2 relate_from=罗父 relate_to=罗某
+Relation name=父子3 relate_from=罗某 relate_to=罗子
+
+Relation name=母子1 relate_from=罗奶 relate_to=罗母
+Relation name=母子2 relate_from=罗母 relate_to=罗某
+Relation name=母子3 relate_from=罗妻 relate_to=罗子
+
+Relation name=母女1 relate_from=罗妻 relate_to=罗女
+
+Relation name=夫妻1 relate_from=罗某 relate_to=罗妻
+Relation name=夫妻2 relate_from=罗父 relate_to=罗母
+Relation name=夫妻3 relate_from=罗爷 relate_to=罗奶
+
+Output name=out type=graphviz

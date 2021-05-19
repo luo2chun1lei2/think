@@ -1,7 +1,6 @@
 #include <fwk/RltPipe.hpp>
 
 #include <ext/ObjValue.hpp>
-#include <fwk/ObjFile.hpp>
 
 #include <misc/Misc.hpp>
 
@@ -15,8 +14,18 @@ RltPipeLine::~RltPipeLine() {
 }
 
 bool RltPipeLine::perform(std::vector<Object *> &need_objs) {
+
+	for(Object *obj : _from_objs) {
+		if(!exec_one(dynamic_cast<FileLine *>(obj)) ) {
+			return false;
+		}
+	}
+	return true;
+}
+
+bool RltPipeLine::exec_one(FileLine * file_line) {
     // TODO: 怎么避免强制类型转换?
-    FileLine *from = dynamic_cast<FileLine *>(_from_objs[0]);
+    FileLine *from = file_line;
     Object *to = _to_objs[0];
 
     to->begin_notify();

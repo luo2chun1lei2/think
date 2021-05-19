@@ -34,3 +34,7 @@ GSYMS
 GTAGS
 out/
 .vscode/
+
+.project
+.cproject
+.settings/

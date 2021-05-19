@@ -1,10 +1,11 @@
 #pragma once
 
-#include <core/Object.hpp>
+#include <stdio.h>
 
 #include <string>
 
-#include <stdio.h>
+#include <core/Object.hpp>
+#include <fwk/ObjFile.hpp>
 
 /**
  * @brief 将From的一行一行的数据传递到To中。
@@ -16,5 +17,6 @@ public:
     virtual ~RltPipeLine();
     virtual bool perform(std::vector<Object *> &need_objs);
 protected:
+    virtual bool exec_one(FileLine * file_line);
 private:
 };
