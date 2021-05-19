@@ -11,6 +11,9 @@ FileLine::FileLine(const std::string name)
 }
 
 FileLine::~FileLine() {
+	if(_fp) {
+	    fclose(_fp);
+	}
 }
 
 bool FileLine::begin_notify() {
@@ -58,7 +61,4 @@ const std::string FileLine::get_line(int index, bool &is_end, bool &is_error) {
     string result = buf;
     free(buf);
     return result;
-
-    // TODO: 没有fclose
-    // fclose(fp);
 }

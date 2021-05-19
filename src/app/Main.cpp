@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include <app/Interview.hpp>
 #include <app/ParseArgs.hpp>
 
+#include <fwk/ObjInterview.hpp>
 #include <fwk/ObjFile.hpp>
 #include <fwk/ObjProcessor.hpp>
 #include <fwk/RltPipe.hpp>
@@ -53,6 +53,7 @@ int main(int argc, char *argv[]) {
         pfile->set_path(script_path);
         files.push_back(pfile);
     }
+    files.push_back(new ObjInterview("interview"));
 
     std::vector<Object *> processes;
 

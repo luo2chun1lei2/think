@@ -1,6 +1,7 @@
 #pragma once
 
 #include <core/Object.hpp>
+#include <fwk/ILine.hpp>
 
 #include <string>
 
@@ -12,7 +13,7 @@
  * 2. 需要设定文件的路径。
  * @property path:<string>
  */
-class FileLine : public Object
+class FileLine : public Object, public ILine
 {
 public:
     FileLine(const std::string name);

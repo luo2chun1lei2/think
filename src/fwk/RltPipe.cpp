@@ -16,32 +16,36 @@ RltPipeLine::~RltPipeLine() {
 bool RltPipeLine::perform(std::vector<Object *> &need_objs) {
 
 	for(Object *obj : _from_objs) {
-		if(!exec_one(dynamic_cast<FileLine *>(obj)) ) {
+		// TODO: 怎么避免强制类型转换?
+		if(!exec_one(dynamic_cast<ILine *>(obj)) ) {
 			return false;
 		}
 	}
 	return true;
 }
 
-bool RltPipeLine::exec_one(FileLine * file_line) {
-    // TODO: 怎么避免强制类型转换?
-    FileLine *from = file_line;
-    Object *to = _to_objs[0];
+bool RltPipeLine::exec_one(ILine * pline) {
 
-    to->begin_notify();
+    for(Object *to : _to_objs) {
+    	to->begin_notify();
+    }
 
     bool is_error;
     bool is_end;
     do {
         is_error = false;
         is_end = false;
-        string line = from->get_line(-1, is_end, is_error);
+        string line = pline->get_line(-1, is_end, is_error);
 
         ObjValue objLine("command");
         objLine.set_value(Value(line));
-        to->notify(&objLine);
+        for(Object *to : _to_objs) {
+        	to->notify(&objLine);
+        }
 
     } while (is_end == false && is_error == false);
 
-    to->end_notify();
+    for(Object *to : _to_objs) {
+    	to->end_notify();
+    }
 }
