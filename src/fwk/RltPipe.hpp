@@ -17,6 +17,7 @@ public:
     virtual ~RltPipeLine();
     virtual bool perform(std::vector<Object *> &need_objs);
 protected:
-    virtual bool exec_one(ILine * pline);
+    virtual bool exec_one_obj(ILine * pline);
+    virtual bool exec_one_line(std::string str_line);
 private:
 };
