@@ -86,6 +86,18 @@ bool Object::add_to_rlt(Relation *rlt) {
     return true;
 }
 
+void Object::add_property(const std::string rlt_name, const std::string obj_name, const Value value)
+{
+	Relation * rlt = new Relation(rlt_name);
+	// 这里不知道“值对象”！
+	Object * to = new Object(obj_name);
+
+	// TODO: 这里有的问题，怎么设值？
+	to->set_value(value);
+
+	rlt->relate({this}, {to});
+}
+
 Object *Object::get_property(const std::string rlt_name, const std::string obj_name) const {
     for (auto r : this->_from_rlts) {
         if (r->get_name() == rlt_name) {
@@ -113,6 +125,16 @@ std::vector<Object *> Object::get_property(const std::string rlt_name) const {
     }
 
     return results;
+}
+
+void Object::set_property(const std::string rlt_name, const std::string obj_name, const Value value)
+{
+	Object * found_obj = get_property(rlt_name, obj_name);
+	if (found_obj) {
+		found_obj->set_value(value);
+	} else {
+		add_property(rlt_name, obj_name, value);
+	}
 }
 
 bool Object::begin_notify() {

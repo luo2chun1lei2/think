@@ -45,17 +45,21 @@ public:
     virtual bool contain_from_rlt(Relation *rlt) const;
 	virtual bool contain_to_rlt(Relation *rlt) const;
 
-    // Only add a relation to this object.
+    // Add a relation from this object.
     virtual bool add_from_rlt(Relation *rlt);
+    // Add a relation to this object.
 	virtual bool add_to_rlt(Relation *rlt);
     //	virtual void del_rlt(Relation * rlt);
 
     ///////////////////////////////////
     // Object-Relation Path
+	virtual void add_property(const std::string rlt_name, const std::string obj_name, const Value value);
     // get object by relation name and object name.
     virtual Object *get_property(const std::string rlt_name, const std::string obj_name) const;
     // get objects by relation name.
     virtual std::vector<Object *> get_property(const std::string rlt_name) const;
+
+    virtual void set_property(const std::string rlt_name, const std::string obj_name, const Value value);
 
     ///////////////////////////////////////////////////////
     // Perform

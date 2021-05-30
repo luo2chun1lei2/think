@@ -18,6 +18,7 @@ TEST_CASE("test object", "[core]") {
     }
 
     SECTION("Add a relation.") {
+    	// rlt2 -> obj1 -> rlt1
         Object obj1("obj1");
         Relation rlt1("rlt1");
         Relation rlt2("rlt2");
@@ -36,7 +37,7 @@ TEST_CASE("test object", "[core]") {
         REQUIRE(prlt->get_name() == "rlt2");
     }
 
-    SECTION("Ger property by relation.") {
+    SECTION("Get property by relation.") {
         Object obj1("obj1");
         Object obj2("obj2");
         Relation rlt1("rlt1");

@@ -15,8 +15,8 @@
 using namespace std;
 
 int main(int argc, char *argv[]) {
-    // LOGI("start think...\n");
 
+	// TODO: 这个Control并没有真正的控制程序!
     MainControl control;
     if (!parse_command_args(&control, argc, argv)) {
         exit(1);
@@ -31,21 +31,6 @@ int main(int argc, char *argv[]) {
      *              -- pipe --> Special Process -- pipe --> DM
      * Interview    -- pipe -->
      */
-
-    /*
-        ProcessCmdLine process;
-
-        // TODO: Script files -> Process
-        for (string script_path : control.script_pathes) {
-            process.exec_script(script_path);
-        }
-
-        // TODO: Interview -> Process
-        if (control.enter_interactive) {
-            Interview interview(&process);
-            interview.loop();
-        }
-        */
 
     std::vector<Object *> files;
     for (string script_path : control.script_pathes) {
@@ -65,10 +50,6 @@ int main(int argc, char *argv[]) {
 
     std::vector<Object *> need_objs;
     pipe.perform(need_objs);
-
-    // TODO: 切换成 “交互模式”，两种方案
-    // 1. relate重新换成新的关联
-    // 2. from可以有两个!
 
     return 0;
 }
