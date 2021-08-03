@@ -31,35 +31,42 @@ public:
     ///////////////////////////////////////////////////////
     // Object-Relation Net
 
+    // 每个对象都有一个名字，但是并不是全局唯一，需要由容器来决定。
     virtual std::string get_name() const;
 
+    // 对象的from关系数目。
     virtual size_t get_count_of_from_rlts();
-	virtual size_t get_count_of_to_rlts();
-
     virtual const std::vector<Relation *> &get_from_rlts() const;
-	virtual const std::vector<Relation *> &get_to_rlts() const;
-    
-	virtual Relation *get_from_rlt(uint32_t index);
-	virtual Relation *get_to_rlt(uint32_t index);
-
+    virtual Relation *get_from_rlt(uint32_t index);
     virtual bool contain_from_rlt(Relation *rlt) const;
-	virtual bool contain_to_rlt(Relation *rlt) const;
-
-    // Add a relation from this object.
+    // Add a "from" relation of this object.
     virtual bool add_from_rlt(Relation *rlt);
-    // Add a relation to this object.
+
+    // 对象的 to 关系数目。
+	virtual size_t get_count_of_to_rlts();
+	virtual const std::vector<Relation *> &get_to_rlts() const;
+	virtual Relation *get_to_rlt(uint32_t index);
+	virtual bool contain_to_rlt(Relation *rlt) const;
+    // Add a "to" relation of this object.
 	virtual bool add_to_rlt(Relation *rlt);
+    
+    // TODO: 删除还没有实现。
     //	virtual void del_rlt(Relation * rlt);
 
     ///////////////////////////////////
+    // 属性: obj1 -- rlt --> obj2 = obj1.rlt = obj2
     // Object-Relation Path
+
+    // 在此对象上，添加一个属性。
 	virtual void add_property(const std::string rlt_name, const std::string obj_name, const Value value);
+
+    // 在此对象上，设定一个属性的值，如果属性并不存在，就添加。
+    virtual void set_property(const std::string rlt_name, const std::string obj_name, const Value value);
+
     // get object by relation name and object name.
     virtual Object *get_property(const std::string rlt_name, const std::string obj_name) const;
     // get objects by relation name.
     virtual std::vector<Object *> get_property(const std::string rlt_name) const;
-
-    virtual void set_property(const std::string rlt_name, const std::string obj_name, const Value value);
 
     ///////////////////////////////////////////////////////
     // Perform
