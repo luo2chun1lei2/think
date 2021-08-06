@@ -729,6 +729,20 @@ relation是两个对象之间的关系，可以是运转的，也可以是逻辑
 	`Action -> OR-Net  -> Perform`
 
 名字是否也做成“property”？
+value也是property 吗？
+1. object type：对象的类型，是面对think语言的人看到的类型。
+2. object type 分成两种，
+	一种是正常的，可以通过属性来设置。
+	一种是内建的，比如value等。内建的实现无法通过属性来实现，因为会无限延展对象的概念。
+	比如value，无法通过 object --value--> ? 来实现。因为 “？” 对象本身。
+	list 和 set 都可以通过 property来实现（当做抽象object container）：
+		container --member--> values & container.type = list/set/array
+
+
+为了适应以后脚本也能创建object的新类型的需要，
+object只有property，而所有衍生的类都是动态类型继承。
+object -> capabilities -> inherit class's field and method !
+field 是属性，那么method是什么？
 
 
 ```

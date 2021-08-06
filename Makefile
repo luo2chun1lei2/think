@@ -27,7 +27,8 @@ TARGET_PATH := ${OUT}/${TARGET}
 TEST_TARGET := ${TARGET}.test
 TEST_TARGET_PATH := ${OUT}/${TEST_TARGET}
 
-SUB_DIRS = $(shell find ${SRC_ROOT_DIR} -type d)
+#SUB_DIRS = $(shell find ${SRC_ROOT_DIR} -type d)
+SUB_DIRS = ./src/misc ./src/core ./src/test
 
 MAIN_OBJ := ${MAIN}.o
 TEST_SRC := $(foreach dir, $(SUB_DIRS), $(wildcard $(dir)/*.test.cpp))
@@ -59,7 +60,7 @@ ${OUT}/%.o:${SRC_ROOT_DIR}/%.cpp ${HEADS}
 build_exe: prepare ${OBJS}
 	${CPP_C} ${OBJS} ${LD_FLAGS} -o ${TARGET_PATH}
 
-build_test: build_exe prepare ${TEST_OBJS} $(filter-out ${OUT}/${MAIN_OBJ}, ${OBJS})
+build_test: ${OBJS} prepare ${TEST_OBJS} $(filter-out ${OUT}/${MAIN_OBJ}, ${OBJS})
 	${CPP_C} ${TEST_OBJS} $(filter-out ${OUT}/${MAIN_OBJ}, ${OBJS}) ${TEST_LD_FLAGS} -o ${TEST_TARGET_PATH}
 
 all: build_test
