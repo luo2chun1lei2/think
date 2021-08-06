@@ -4,9 +4,14 @@
 
 using namespace std;
 
-TEST_CASE("test log", "[misc]") {
-    LOGE("error message.\n");
-    LOGI("information message.\n");
+// 日志就简单的测试了，不追求奇怪的设计。
+TEST_CASE("test log", "[misc][new]") {
+    #define LOG_LVL LOG_W
+    LOGD("debug message.\n");       // not print
+    LOGI("information message.\n"); // not print
+    LOGW("waring message.\n");      // print
+    LOGE("error message.\n");       // print
+    #define LOG_LVL LOG_I
 }
 
 TEST_CASE("test combine line", "[misc]") {

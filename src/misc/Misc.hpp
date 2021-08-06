@@ -6,10 +6,19 @@
 #include <string>
 #include <vector>
 
-#define LOGE(fmt, ...) {fprintf(stderr, "E:%s:%d ", __FILE__, __LINE__); fprintf(stderr, fmt, ##__VA_ARGS__);}
-#define LOGW(fmt, ...) {fprintf(stdout, "W:%s:%d ", __FILE__, __LINE__); fprintf(stdout, fmt, ##__VA_ARGS__);}
-#define LOGI(fmt, ...) {fprintf(stdout, "I:%s:%d ", __FILE__, __LINE__); fprintf(stdout, fmt, ##__VA_ARGS__);}
-#define LOGD(fmt, ...) {fprintf(stdout, "D:%s:%d ", __FILE__, __LINE__); fprintf(stdout, fmt, ##__VA_ARGS__);}
+// 最基本的、简单的日志输出，即使当系统OR出现错误，也可以输出。
+#define LOG_D 1
+#define LOG_I 2
+#define LOG_W 3
+#define LOG_E 4
+
+// 当前缺省的日志等级，此等级以上都可以输出。
+#define LOG_LVL LOG_I
+
+#define LOGE(fmt, ...) while(LOG_LVL <= LOG_E) {fprintf(stderr, "E:%s:%d ", __BASE_FILE__, __LINE__); fprintf(stderr, fmt, ##__VA_ARGS__);break;}
+#define LOGW(fmt, ...) while(LOG_LVL <= LOG_W) {fprintf(stdout, "W:%s:%d ", __BASE_FILE__, __LINE__); fprintf(stdout, fmt, ##__VA_ARGS__);break;}
+#define LOGI(fmt, ...) while(LOG_LVL <= LOG_I) {fprintf(stdout, "I:%s:%d ", __BASE_FILE__, __LINE__); fprintf(stdout, fmt, ##__VA_ARGS__);break;}
+#define LOGD(fmt, ...) while(LOG_LVL <= LOG_D) {fprintf(stdout, "D:%s:%d ", __BASE_FILE__, __LINE__); fprintf(stdout, fmt, ##__VA_ARGS__);break;}
 
 /**
  * 在脚本或者命令行时，会出现多行写一个命令的时候，未完成的行后面用”\“来标记，

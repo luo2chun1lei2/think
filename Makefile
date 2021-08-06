@@ -87,6 +87,9 @@ test: build_test
 auto_test: build_test
 	@${TEST_TARGET_PATH} ~[block] ${ARGS}
 
+new_test: build_test
+	@${TEST_TARGET_PATH} [new] ${ARGS}
+
 # 使用clang-format，配置参数在 .clang-format文件中。
 # ident工具对于c++语法解析的不正确。
 format:
