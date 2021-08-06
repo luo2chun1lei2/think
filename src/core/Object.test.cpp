@@ -4,7 +4,13 @@
 
 using namespace std;
 
-TEST_CASE("test object", "[core]") {
+/**
+ * Object具有名字。
+ * Object可以设置relation。
+ * Object的relation像一个property。
+ */
+
+TEST_CASE("test object", "[core][new]") {
 
     SECTION("Object has a name.") {
         Object obj1("obj1");
@@ -47,5 +53,8 @@ TEST_CASE("test object", "[core]") {
         vector<Object *> found = obj1.get_property("rlt1");
         REQUIRE(found.size() == 1);
         REQUIRE(found[0] == &obj2);
+
+        Object * found1 = obj1.get_property("rlt1", "obj2");
+        REQUIRE(found1 == &obj2);
     }
 }

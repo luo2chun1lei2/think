@@ -728,6 +728,8 @@ relation是两个对象之间的关系，可以是运转的，也可以是逻辑
 	`动作    -> OR关系网 -> 运转`
 	`Action -> OR-Net  -> Perform`
 
+名字是否也做成“property”？
+
 
 ```
 ┌┬┐

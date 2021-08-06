@@ -3,7 +3,13 @@
 #include <core/Relation.hpp>
 #include <ext/ObjValue.hpp>
 
-TEST_CASE("test relation", "[core]") {
+/**
+ * Relation自己也可以有名字。
+ * Relation可以当做object来使用。
+ * Relation可以设置多个对象的关联。
+ */
+
+TEST_CASE("test relation", "[core][new]") {
 
     SECTION("Relations have name.") {
         Relation rlt1("rlt1");
@@ -38,7 +44,7 @@ TEST_CASE("test relation", "[core]") {
         delete rlt1;
     }
 
-    SECTION("Relation is combined object.") {
+    SECTION("Create a OR-Net.") {
         // c = (a+b)/2
         // 注意，这里是关系的描述，不是动作，所以“=”是等于，不是赋值。
         Object a("a");

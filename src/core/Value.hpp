@@ -1,13 +1,17 @@
 #pragma once
 
-// 需要支持C++17.
 #include <string>
+
+// 需要支持C++17.
 #include <variant>
 
 /**
- * 可变值，允许设定各种不同类型的值。
+ * 值，允许设定各种不同类型的值。
+ * 不是Object的一种。
+ * TODO: 是否应该变成 dynamic class 来实现？
  * 1. 设定时记录值的类型，且可以取出来。
  * 2. 可以进行数学运算。
+ * 3. 可以进行不同类型之间的转化，如果无法转换，就返回错误。
  */
 class Value {
 public:

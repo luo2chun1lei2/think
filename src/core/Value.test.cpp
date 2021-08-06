@@ -2,7 +2,11 @@
 
 #include <core/Value.hpp>
 
-TEST_CASE("Value", "[core]") {
+/**
+ * Value 是一个不定类型的值。
+ */
+
+TEST_CASE("Value", "[core][new]") {
 
     SECTION("init") {
         Value v;
