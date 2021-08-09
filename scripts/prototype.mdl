@@ -1,0 +1,122 @@
+
+2021/08/09 设想的语言：
+
+下面是描述的脚本，描述语句本身是没有运行的顺序，
+只有逻辑条件下的先后成立关系：只有当a如何，那么b如何。
+
+规定: 小写的是实例
+      大写的是类型(某种类型)
+    r/s/t 一般是关系的实例，R是关系的类型。
+    a/b/c 一般是对象的实例，O是关系的类型。
+
+1. 简单的语句
+(x, y, z, ...) = r(a, b, c, ...)        # 关系设置方法
+a.r = (x, y, z, ...)                    # 属性设置方法
+
+Date birthday = String("2021/1/2")
+
+2. OR-Net
+(x1, y1, z1, ...) = r1(a1, b1, c1, ...)
+(x2, y2, z2, ...) = r2(a2, b2, c2, ...)
+(x3, y3, z3, ...) = r3(a3, b3, c3, ...)
+
+3. Type = Factory
+# 当做一个对象，可以有自己的属性。
+Object Person (String name, Int age, Date birthday, Float height, Float weight)
+{
+    ._name = name
+    ._age = age
+    ._birthday = birthday
+    ._height = height
+    ._weight = weight
+}
+# 其实就是通过工厂模式，给自己这个对象加入特定的属性。
+Person p1("luocl", 32, "1988/8/8", 170, 80)
+
+# 当做一个新的关系，内部隐藏了复杂的关系说明。
+# c^2 = a ^ 2 + b ^2;
+Relation S(Float a, Float b) as (Float c)
+{
+    d = sum(a^2, b^2)
+    c = sqrt(d)
+}
+# 其实就是通过工厂模式，本关系内部的关系设置。
+# TODO: 普通语言中，也没有function的具体实例，而是只有一个类型，内含一个实例。
+# s.from = a&b, s.to = c
+c = S(a, b)
+
+3.1 一些对象
+
+Value 有值。
+Value a = 3
+
+Math 可以计算值的数学公式
+c^2 = a^2 + b^2
+
+Container 包含若干对象，可以是有序或无序的。
+x = {a, b, c}
+
+Dict 关键字值的映射集合。
+x = {
+    a : 1,
+    b : a + 1,
+    c : a + b,
+}
+
+Transfer 将一个OR-Net传递给另外一个对象中。
+b = Transfer(a)
+
+4. Check
+# 根据type来判断对象是否符合要求。
+true == Check(b, B) # 检查b的内部属性，是否符合B的要求。
+true == Check(S, (a,b), (c)) # 检查s的相关a、b、c之间的关系是否符合s的要求。
+
+5. Condition（条件），也是推理。
+
+# 当符合条件时，就设定某些规则。
+on Check(b, B) && Check(a, A) {
+    c = S(a, b)
+}
+
+6. 映射(Map)
+
+# 含有条件的映射表。
+# 应该是一个relation.
+Relation P (from, to) {
+    on type = relation {
+        "edge" -> type,
+        name -> title,
+    }
+    on type = object {
+        "node" -> type,
+        name -> title,
+    }
+}
+
+# Map 是说 to 可以获取 from 的数据。?
+display = Transfer(P(o1))
+
+7. 运转
+
+Performer 是一种运转器，
+TODO：Perform负责将OR-Net交给一个运转器来运转。这个需要吗？转一下不就行了吗？
+Performer = Perform(OR-Net)
+
+Performer = Map(OR-Net, dict)
+
+
+-----------------------------------------------------------
+
+20. 指令(Intructation)
+
+循环：
+on i=1, N {
+    c[i] = S(a[i], b)
+}
+
+21. 改变关系
+    delete a # 不要某个对象，那么和这个对象相关的所有关系都不成立。
+    delete a = b    #  删除关联关系
+    delete Equal(a, b) # 或者这种写法。
+
+
