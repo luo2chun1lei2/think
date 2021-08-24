@@ -22,7 +22,7 @@ TEST_CASE("test object", "[core]") {
         REQUIRE(!obj2.get_id().empty());
         REQUIRE(obj2.get_id() == "obj2");
     }
-#if 0
+
     SECTION("Add a relation.") {
     	// rlt2 -> obj1 -> rlt1
         Object obj1("obj1");
@@ -34,15 +34,15 @@ TEST_CASE("test object", "[core]") {
         obj1.add_from_rlt(&rlt1);
         REQUIRE(obj1.get_count_of_from_rlts() == 1);
         prlt = obj1.get_from_rlt(0);
-        REQUIRE(prlt->get_name() == "rlt1");
+        REQUIRE(prlt->get_id() == "rlt1");
 
         REQUIRE(obj1.get_count_of_to_rlts() == 0);
         obj1.add_to_rlt(&rlt2);
         REQUIRE(obj1.get_count_of_to_rlts() == 1);
         prlt = obj1.get_to_rlt(0);
-        REQUIRE(prlt->get_name() == "rlt2");
+        REQUIRE(prlt->get_id() == "rlt2");
     }
-
+#if 0
     SECTION("Get property by relation.") {
         Object obj1("obj1");
         Object obj2("obj2");

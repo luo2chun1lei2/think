@@ -17,7 +17,7 @@ TEST_CASE("test relation", "[core]") {
         REQUIRE(rlt1.get_id() == "rlt1");
         REQUIRE(rlt2.get_id() == "rlt2");
     }
-#if 0
+
     SECTION("Create a relation, and add object to it.") {
         Object *obj1 = new Object("obj1");
         Object *obj2 = new Object("obj2");
@@ -42,5 +42,5 @@ TEST_CASE("test relation", "[core]") {
         delete obj2;
         delete rlt1;
     }
-#endif
+
 }
