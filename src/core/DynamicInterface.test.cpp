@@ -11,66 +11,44 @@ using namespace std;
 
 TEST_CASE("DynamicInterface", "[core]") {
 
-    class Interface {};
-
-    class Interfaces;
-
-    
-
-    class Interfaces {
+    class InterfaceName: public Interface {
     public:
-        Interfaces(DynamicInterface * dynamic)
-        {
-            _dynamic = dynamic;
-        }
-
-        void add_impl(std::string id) { // TODO need ?
-        }
-
-        bool has_impl(std::string id) {
-            _dynamic->on_di_query_name();
-        }
-
-    private:
-        DynamicInterface * _dynamic;
-    };
-
-    class DynamicInterface {
-    public:
-        DynamicInterface() {
-            _interfaces = new Interfaces(this);
-        }
-        virtual ~DynamicInterface() {
-        }
-
-        Interfaces *interfaces() {
-            return this->_interfaces;
-        }
-    
-        bool on_di_query_name()
-        {
-            return true;
-        }
-
-    protected:
-        Interfaces * _interfaces;
-
-    private:
+        virtual std::string get_name() = 0;
+        virtual void set_name(std::string name) = 0;
     };
 
     class One : public DynamicInterface {
     public:
-        const std::string get_name() {
-            return "xiao ming";
+
+        class InnerName : public InterfaceName {
+        public:
+            InnerName(One *one) {
+                _one = one;
+            }
+            virtual std::string get_name() {
+                return _one->_name;
+            }
+            virtual void set_name(std::string name) {
+                _one->_name  = name;
+            }
+
+            One *_one;
+        };
+
+        One(const std::string name) {
+            _name = name;
+
+            _interfaces->add_impl("IName", new InnerName(this));
         }
 
     protected:
-    private:
         std::string _name;
+    private:
+        
     };
 
     SECTION("define a dynamic class and add interface.") {
-        One one;
+        One one("one");
 
         // 添加了一个实现
         //one.interfaces().add_impl("IName", Interface("IName"));
@@ -80,13 +58,16 @@ TEST_CASE("DynamicInterface", "[core]") {
         REQUIRE(one.interfaces()->has_impl("IName"));
         REQUIRE(one.interfaces()->has_impl("IValue") == false);
 
-        Interface *intf = dynamic_cast<Interface *> one.interfaces().get_impl("IName");
+        InterfaceName *intf = dynamic_cast<InterfaceName *> (one.interfaces()->get_impl("IName"));
         REQUIRE(intf != NULL);
-        REQUIRE(intf.get_name() == "xiao ming");
+
+        REQUIRE(intf->get_name() == "one");
+        intf->set_name("xiao ming");
+        REQUIRE(intf->get_name() == "xiao ming");
     }
 
     class Value : public DynamicInterface {};
 
-    SECTION("define a dynamic class and add interface.") {
+    SECTION("Interface is set/get value.") {
     }
 }
