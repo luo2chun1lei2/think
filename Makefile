@@ -27,8 +27,7 @@ TARGET_PATH := ${OUT}/${TARGET}
 TEST_TARGET := ${TARGET}.test
 TEST_TARGET_PATH := ${OUT}/${TEST_TARGET}
 
-#SUB_DIRS = $(shell find ${SRC_ROOT_DIR} -type d)
-SUB_DIRS = ./src/misc ./src/core ./src/test
+SUB_DIRS = $(shell find ${SRC_ROOT_DIR} -type d)
 
 MAIN_OBJ := ${MAIN}.o
 TEST_SRC := $(foreach dir, $(SUB_DIRS), $(wildcard $(dir)/*.test.cpp))

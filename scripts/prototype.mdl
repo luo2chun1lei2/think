@@ -1,5 +1,6 @@
-
 2021/08/09 设想的语言：
+
+【这个语言是作为未来Think语言的原型，然后不断的精炼后达到最终的语言。】
 
 下面是描述的脚本，描述语句本身是没有运行的顺序，
 只有逻辑条件下的先后成立关系：只有当a如何，那么b如何。
@@ -98,12 +99,13 @@ display = Transfer(P(o1))
 
 7. 运转
 
-Performer 是一种运转器，
-TODO：Perform负责将OR-Net交给一个运转器来运转。这个需要吗？转一下不就行了吗？
-Performer = Perform(OR-Net)
+Performer 是运转器，一种特殊的对象。
+    真实的编程环境中，实现的方案是有多种的，所以Performer也会有多种，这个需要注意。
+【TODO：Perform负责将OR-Net交给一个运转器来运转。这个需要吗？转一下不就行了吗？】
 
 Performer = Map(OR-Net, dict)
 
+比如 GraphvizPerform = Map(OR-Net, dict)，他需要一个OR-Net就可以了。
 
 -----------------------------------------------------------
 
