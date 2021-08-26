@@ -4,6 +4,8 @@
 #include <string>
 #include <vector>
 
+#include <core/DynamicInterface.hpp>
+
 /**
  * 因为下面的Object要用到Relation的指针，所以这里必须预先声明。
  */
@@ -21,7 +23,7 @@ class Relation;
  * * 内部动态接口：
  *   可以动态指定一个对象实现了某些接口，不是给外部用的。
  */
-class Object {
+class Object : public DynamicInterface {
 public:
     Object(const std::string id);
     virtual ~Object() {
@@ -65,9 +67,9 @@ public:
     //virtual void set_property(const std::string rlt_id, const std::string obj_name, const Object *obj);
 
     // get object by relation name and object name.
-    //virtual Object *get_property(const std::string rlt_id, const std::string obj_id) const;
+    virtual Object *get_property(const std::string rlt_id, const std::string obj_id) const;
     // get objects by relation name.
-    //virtual std::vector<Object *> get_property(const std::string rlt_name) const;
+    virtual std::vector<Object *> get_property(const std::string rlt_id) const;
 
     ///////////////////////////////////////////////////////
     // Perform

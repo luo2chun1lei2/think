@@ -6,10 +6,6 @@
 /**
  * 实现动态接口，就是对于一个对象来说，可以动态的添加这个对象实现的接口。
  */
-
-/**
-
- */
 class Interface {
 public:
     Interface() {
@@ -17,6 +13,8 @@ public:
     virtual ~Interface() {
     }
 };
+
+#define Intf(Interface, name, instance)  dynamic_cast<Interface *>((instance).interfaces()->get_impl(name))
 
 class DynamicInterface;
 

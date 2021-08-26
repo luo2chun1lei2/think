@@ -102,12 +102,12 @@ void Object::add_property(const std::string rlt_name, const std::string obj_name
 
 	rlt->relate({this}, {to});
 }
-
-Object *Object::get_property(const std::string rlt_name, const std::string obj_name) const {
+*/
+Object *Object::get_property(const std::string rlt_id, const std::string obj_id) const {
     for (auto r : this->_from_rlts) {
-        if (r->get_name() == rlt_name) {
+        if (r->get_id() == rlt_id) {
             for (auto o : r->get_to_objs()) {
-                if (o != this && o->get_name() == obj_name) {
+                if (o != this && o->get_id() == obj_id) {
                     return o;
                 }
             }
@@ -117,10 +117,10 @@ Object *Object::get_property(const std::string rlt_name, const std::string obj_n
     return nullptr;
 }
 
-std::vector<Object *> Object::get_property(const std::string rlt_name) const {
+std::vector<Object *> Object::get_property(const std::string rlt_id) const {
     vector<Object *> results;
     for (auto r : this->_from_rlts) {
-        if (r->get_name() == rlt_name) {
+        if (r->get_id() == rlt_id) {
             for (auto o : r->get_to_objs()) {
                 if (o != this) {
                     results.push_back(o);
@@ -131,7 +131,7 @@ std::vector<Object *> Object::get_property(const std::string rlt_name) const {
 
     return results;
 }
-
+/*
 void Object::set_property(const std::string rlt_name, const std::string obj_name, const Value value)
 {
 	Object * found_obj = get_property(rlt_name, obj_name);
