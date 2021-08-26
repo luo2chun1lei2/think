@@ -9,7 +9,7 @@ public:
     virtual void set_value(Value value) = 0;
 };
 
-#define AsValue(instance)  dynamic_cast<InterfaceValue *>((instance).interfaces()->get_impl("IValue"))
+#define AsValue(instance)  dynamic_cast<InterfaceValue *>((instance)->interfaces()->get_impl("IValue"))
 
 /**
  * 带有值的对象。

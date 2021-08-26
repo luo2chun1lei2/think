@@ -10,7 +10,7 @@ TEST_CASE("object value", "[ext]") {
     SECTION("crash") {
         ObjValue var1("var1");
 
-        InterfaceValue *ivalue1 = AsValue(var1);
+        InterfaceValue *ivalue1 = AsValue(&var1);
 
         REQUIRE(ivalue1 != NULL);
         ivalue1->set_value(Value(1));
@@ -22,16 +22,16 @@ TEST_CASE("object value", "[ext]") {
 
         ObjValue var1("var1");
 
-        v = AsValue(var1)->get_value();
+        v = AsValue(&var1)->get_value();
         REQUIRE(v.get_type() == Value::TYPE_NONE);
 
-        AsValue(var1)->set_value(Value(1));
-        v = AsValue(var1)->get_value();
+        AsValue(&var1)->set_value(Value(1));
+        v = AsValue(&var1)->get_value();
         REQUIRE(v.get_type() == Value::TYPE_INT);
         REQUIRE(v.get_int() == 1);
 
-        AsValue(var1)->set_value(Value("hello"));
-        v = AsValue(var1)->get_value();
+        AsValue(&var1)->set_value(Value("hello"));
+        v = AsValue(&var1)->get_value();
         REQUIRE(v.get_type() == Value::TYPE_STR);
         REQUIRE(v.get_str() == "hello");
     }
@@ -51,9 +51,9 @@ TEST_CASE("object value", "[ext]") {
 
         // - 关系建立后，根据实际情况设置值！
         // - 实际情况是，
-        AsValue(obj2)->set_value(18);
+        AsValue(&obj2)->set_value(18);
         ObjValue *v = dynamic_cast<ObjValue *>(found[0]);
-        REQUIRE(AsValue(*v)->get_value().get_int() == 18);
+        REQUIRE(AsValue(v)->get_value().get_int() == 18);
     }
 
     SECTION("Create a OR-Net.") {
@@ -66,7 +66,7 @@ TEST_CASE("object value", "[ext]") {
         Object quotient("quotient");
         Object c("c");
 
-        AsValue(v_2)->set_value(Value(2));
+        AsValue(&v_2)->set_value(Value(2));
 
         Relation plus("+");
         Relation devide("/");
